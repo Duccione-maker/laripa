@@ -275,28 +275,20 @@ export const en = {
   },
   apartmentDescriptions: {
     "1": {
-      name: "Deluxe Sea View Suite",
-      description: "Luxurious suite with panoramic sea views, modern amenities, and a private balcony."
+      name: "Padronale",
+      description: "Main apartment with panoramic sea views, generous spaces and luxury comforts."
     },
     "2": {
-      name: "Premium Family Apartment",
-      description: "Spacious apartment ideal for families, with full kitchen and stunning coastal views."
+      name: "Ghiri",
+      description: "Characteristic apartment with welcoming atmosphere and charming views of the surroundings."
     },
     "3": {
-      name: "Executive Beach Studio",
-      description: "Elegant studio with direct beach access, modern design, and premium finishes."
+      name: "Fienile",
+      description: "Apartment with modern rustic charm, perfect for those seeking authenticity and comfort."
     },
     "4": {
-      name: "Luxury Penthouse Suite",
-      description: "Exclusive top-floor suite with expansive terrace and panoramic sea views."
-    },
-    "5": {
-      name: "Classic Double Room",
-      description: "Comfortable hotel room with modern amenities and partial sea views."
-    },
-    "6": {
-      name: "Garden View Apartment",
-      description: "Peaceful apartment surrounded by lush gardens, just a short walk from the beach."
+      name: "Nidi",
+      description: "Intimate and cozy apartment, ideal for couples seeking romance and tranquility."
     }
   },
   amenitiesPage: {

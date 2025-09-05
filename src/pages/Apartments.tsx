@@ -13,74 +13,52 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Sample apartments data (will use translations from context)
+// Apartments data
 const allApartments: ApartmentProps[] = [
   {
     id: "1",
-    name: "Deluxe Sea View Suite",
-    description: "Luxurious suite with panoramic sea views, modern amenities, and a private balcony.",
-    price: 180,
-    capacity: 2,
-    size: 45,
+    name: "Padronale",
+    description: "Main apartment with panoramic sea views, generous spaces and luxury comforts.",
+    price: 280,
+    capacity: 6,
+    size: 120,
     image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop",
-    location: "Beachfront",
-    features: ["Wi-Fi", "Kitchen", "Bathroom", "Air Conditioning", "TV", "Balcony"]
+    location: "Primo piano",
+    features: ["Wi-Fi", "Cucina completa", "2 Bagni", "Aria condizionata", "TV", "Terrazza vista mare", "Jacuzzi", "Soggiorno"]
   },
   {
-    id: "2",
-    name: "Premium Family Apartment",
-    description: "Spacious apartment ideal for families, with full kitchen and stunning coastal views.",
-    price: 250,
+    id: "2", 
+    name: "Ghiri",
+    description: "Characteristic apartment with welcoming atmosphere and charming views of the surroundings.",
+    price: 220,
     capacity: 4,
-    size: 75,
+    size: 85,
     image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop",
-    location: "Second row",
-    features: ["Wi-Fi", "Kitchen", "Bathroom", "Air Conditioning", "TV", "Washing Machine"]
+    location: "Piano terra",
+    features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Giardino privato", "Patio"]
   },
   {
     id: "3",
-    name: "Executive Beach Studio",
-    description: "Elegant studio with direct beach access, modern design, and premium finishes.",
-    price: 150,
-    capacity: 2,
-    size: 35,
+    name: "Fienile", 
+    description: "Apartment with modern rustic charm, perfect for those seeking authenticity and comfort.",
+    price: 190,
+    capacity: 4,
+    size: 70,
     image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=800&h=600&fit=crop",
-    location: "Beachfront",
-    features: ["Wi-Fi", "Kitchenette", "Bathroom", "Air Conditioning", "TV"]
+    location: "Dependance",
+    features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Camino", "Terrazza"]
   },
   {
     id: "4",
-    name: "Luxury Penthouse Suite",
-    description: "Exclusive top-floor suite with expansive terrace and panoramic sea views.",
-    price: 350,
-    capacity: 4,
-    size: 90,
-    image: "https://images.unsplash.com/photo-1562438668-bcf0ca6578f0?w=800&h=600&fit=crop",
-    location: "Beachfront",
-    features: ["Wi-Fi", "Full Kitchen", "2 Bathrooms", "Air Conditioning", "TV", "Terrace", "Jacuzzi"]
-  },
-  {
-    id: "5",
-    name: "Classic Double Room",
-    description: "Comfortable hotel room with modern amenities and partial sea views.",
-    price: 120,
-    capacity: 2,
-    size: 28,
-    image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&h=600&fit=crop",
-    location: "Hotel building",
-    features: ["Wi-Fi", "Bathroom", "Air Conditioning", "TV", "Mini Fridge"]
-  },
-  {
-    id: "6",
-    name: "Garden View Apartment",
-    description: "Peaceful apartment surrounded by lush gardens, just a short walk from the beach.",
+    name: "Nidi",
+    description: "Intimate and cozy apartment, ideal for couples seeking romance and tranquility.",
     price: 160,
-    capacity: 3,
-    size: 55,
-    image: "https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&h=600&fit=crop",
-    location: "Garden area",
-    features: ["Wi-Fi", "Kitchen", "Bathroom", "Air Conditioning", "TV", "Terrace"]
-  },
+    capacity: 2,
+    size: 45,
+    image: "https://images.unsplash.com/photo-1562438668-bcf0ca6578f0?w=800&h=600&fit=crop",
+    location: "Mansarda",
+    features: ["Wi-Fi", "Angolo cottura", "Bagno", "Aria condizionata", "TV", "Vista panoramica"]
+  }
 ];
 
 export default function Apartments() {
@@ -88,7 +66,7 @@ export default function Apartments() {
   const [filteredApartments, setFilteredApartments] = useState<ApartmentProps[]>(allApartments);
   const [capacityFilter, setCapacityFilter] = useState<string>("all");
   const [locationFilter, setLocationFilter] = useState<string>("all");
-  const [priceRange, setPriceRange] = useState<number[]>([100, 350]);
+  const [priceRange, setPriceRange] = useState<number[]>([160, 280]);
   
   useEffect(() => {
     // Scroll to top when component mounts
@@ -125,126 +103,160 @@ export default function Apartments() {
       
       <main className="flex-1 pt-20">
         {/* Header Section */}
-        <section className="relative py-20 bg-gradient-to-r from-sea-light to-white dark:from-sea-dark dark:to-background overflow-hidden">
+        <section className="relative py-24 bg-gradient-to-br from-primary/5 via-background to-secondary/5 overflow-hidden">
           <div className="container relative z-10">
-            <div className="max-w-3xl mx-auto text-center animate-fade-in">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            <div className="max-w-4xl mx-auto text-center animate-fade-in">
+              <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full text-primary font-medium mb-6">
+                <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                I Nostri Appartamenti
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                 {t.apartments.title}
               </h1>
-              <p className="text-muted-foreground text-lg mb-6">
+              <p className="text-muted-foreground text-xl leading-relaxed max-w-2xl mx-auto">
                 {t.apartments.subtitle}
               </p>
             </div>
           </div>
           
           {/* Decorative elements */}
-          <div className="absolute bottom-0 right-0 w-1/2 h-1/2 opacity-10">
-            <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-primary/50 blur-3xl" />
-            <div className="absolute top-10 right-40 w-48 h-48 rounded-full bg-sea-light blur-3xl" />
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-gradient-to-r from-primary/10 to-secondary/10 blur-3xl" />
+            <div className="absolute bottom-20 left-10 w-64 h-64 rounded-full bg-gradient-to-r from-accent/10 to-primary/10 blur-3xl" />
           </div>
         </section>
         
         {/* Filter Section */}
-        <section className="py-8 border-b">
+        <section className="py-12 bg-card/30 border-y border-border/50">
           <div className="container">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in">
-              {/* Capacity Filter */}
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  {t.apartments.filters.guests}
-                </label>
-                <Select value={capacityFilter} onValueChange={setCapacityFilter}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={t.apartments.filters.guests} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">{t.apartments.filters.anyGuests}</SelectItem>
-                    <SelectItem value="1">{t.apartments.filters.onePlus}</SelectItem>
-                    <SelectItem value="2">{t.apartments.filters.twoPlus}</SelectItem>
-                    <SelectItem value="3">{t.apartments.filters.threePlus}</SelectItem>
-                    <SelectItem value="4">{t.apartments.filters.fourPlus}</SelectItem>
-                  </SelectContent>
-                </Select>
+            <div className="bg-card/60 backdrop-blur-sm rounded-2xl p-8 border border-border/50 shadow-lg animate-fade-in">
+              <h2 className="text-xl font-semibold mb-6 text-center">Filtra gli Appartamenti</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Capacity Filter */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <span className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                      <span className="w-2 h-2 rounded-full bg-primary"></span>
+                    </span>
+                    {t.apartments.filters.guests}
+                  </label>
+                  <Select value={capacityFilter} onValueChange={setCapacityFilter}>
+                    <SelectTrigger className="w-full bg-background/80 border-border/50 hover:border-primary/50 transition-colors">
+                      <SelectValue placeholder={t.apartments.filters.guests} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t.apartments.filters.anyGuests}</SelectItem>
+                      <SelectItem value="1">{t.apartments.filters.onePlus}</SelectItem>
+                      <SelectItem value="2">{t.apartments.filters.twoPlus}</SelectItem>
+                      <SelectItem value="3">{t.apartments.filters.threePlus}</SelectItem>
+                      <SelectItem value="4">{t.apartments.filters.fourPlus}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Location Filter */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <span className="w-4 h-4 rounded-full bg-secondary/20 flex items-center justify-center">
+                      <span className="w-2 h-2 rounded-full bg-secondary"></span>
+                    </span>
+                    {t.apartments.filters.location}
+                  </label>
+                  <Select value={locationFilter} onValueChange={setLocationFilter}>
+                    <SelectTrigger className="w-full bg-background/80 border-border/50 hover:border-primary/50 transition-colors">
+                      <SelectValue placeholder={t.apartments.filters.location} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t.apartments.filters.allLocations}</SelectItem>
+                      {locations.filter(loc => loc !== "all").map(location => (
+                        <SelectItem key={location} value={location}>{location}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Price Range Filter */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                    <span className="w-4 h-4 rounded-full bg-accent/20 flex items-center justify-center">
+                      <span className="w-2 h-2 rounded-full bg-accent"></span>
+                    </span>
+                    {t.apartments.filters.priceRange}: €{priceRange[0]} - €{priceRange[1]}
+                  </label>
+                  <Slider
+                    defaultValue={[160, 280]}
+                    min={160}
+                    max={280}
+                    step={10}
+                    value={priceRange}
+                    onValueChange={setPriceRange}
+                    className="my-4"
+                  />
+                </div>
               </div>
               
-              {/* Location Filter */}
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  {t.apartments.filters.location}
-                </label>
-                <Select value={locationFilter} onValueChange={setLocationFilter}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder={t.apartments.filters.location} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">{t.apartments.filters.allLocations}</SelectItem>
-                    {locations.filter(loc => loc !== "all").map(location => (
-                      <SelectItem key={location} value={location}>{location}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="flex flex-col sm:flex-row justify-between items-center mt-8 pt-6 border-t border-border/50 gap-4 animate-fade-in [animation-delay:200ms]">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span className="text-primary font-semibold text-sm">{filteredApartments.length}</span>
+                  </div>
+                  <p className="text-muted-foreground">
+                    {t.apartments.filters.showing} {filteredApartments.length} {t.apartments.filters.of} {allApartments.length} {t.apartments.filters.accommodations}
+                  </p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  className="hover:bg-primary/5 transition-colors"
+                  onClick={() => {
+                    setCapacityFilter("all");
+                    setLocationFilter("all");
+                    setPriceRange([160, 280]);
+                  }}
+                >
+                  {t.apartments.filters.resetFilters}
+                </Button>
               </div>
-              
-              {/* Price Range Filter */}
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  {t.apartments.filters.priceRange}: ${priceRange[0]} - ${priceRange[1]}
-                </label>
-                <Slider
-                  defaultValue={[100, 350]}
-                  min={100}
-                  max={350}
-                  step={10}
-                  value={priceRange}
-                  onValueChange={setPriceRange}
-                  className="my-4"
-                />
-              </div>
-            </div>
-            
-            <div className="flex justify-between items-center mt-6 animate-fade-in [animation-delay:200ms]">
-              <p className="text-muted-foreground">
-                {t.apartments.filters.showing} {filteredApartments.length} {t.apartments.filters.of} {allApartments.length} {t.apartments.filters.accommodations}
-              </p>
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  setCapacityFilter("all");
-                  setLocationFilter("all");
-                  setPriceRange([100, 350]);
-                }}
-              >
-                {t.apartments.filters.resetFilters}
-              </Button>
             </div>
           </div>
         </section>
         
         {/* Apartments Grid */}
-        <section className="section">
+        <section className="py-20">
           <div className="container">
             {filteredApartments.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 {filteredApartments.map((apartment, index) => (
-                  <div key={apartment.id} className="animate-fade-in" style={{ animationDelay: `${(index + 1) * 100}ms` }}>
-                    <ApartmentCard apartment={apartment} />
+                  <div 
+                    key={apartment.id} 
+                    className="animate-fade-in hover-scale group" 
+                    style={{ animationDelay: `${(index + 1) * 150}ms` }}
+                  >
+                    <div className="bg-card/40 backdrop-blur-sm rounded-3xl p-1 border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 group-hover:border-primary/30">
+                      <ApartmentCard apartment={apartment} />
+                    </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 animate-fade-in">
-                <h3 className="text-xl font-semibold mb-2">{t.apartments.filters.noMatch}</h3>
-                <p className="text-muted-foreground mb-6">{t.apartments.filters.adjustFilters}</p>
-                <Button 
-                  variant="outline" 
-                  onClick={() => {
-                    setCapacityFilter("all");
-                    setLocationFilter("all");
-                    setPriceRange([100, 350]);
-                  }}
-                >
-                  {t.apartments.filters.resetFilters}
-                </Button>
+              <div className="text-center py-20 animate-fade-in">
+                <div className="max-w-md mx-auto bg-card/40 backdrop-blur-sm rounded-2xl p-8 border border-border/50">
+                  <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl">🏖️</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">{t.apartments.filters.noMatch}</h3>
+                  <p className="text-muted-foreground mb-6">{t.apartments.filters.adjustFilters}</p>
+                  <Button 
+                    variant="outline" 
+                    className="hover:bg-primary/5 transition-colors"
+                    onClick={() => {
+                      setCapacityFilter("all");
+                      setLocationFilter("all");
+                      setPriceRange([160, 280]);
+                    }}
+                  >
+                    {t.apartments.filters.resetFilters}
+                  </Button>
+                </div>
               </div>
             )}
           </div>

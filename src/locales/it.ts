@@ -370,28 +370,20 @@ export const it = {
   },
   apartmentDescriptions: {
     "1": {
-      name: "Suite Vista Mare Deluxe",
-      description: "Suite lussuosa con vista panoramica sul mare, comfort moderni e balcone privato."
+      name: "Padronale",
+      description: "Appartamento principale con vista panoramica sul mare, spazi generosi e comfort di lusso."
     },
     "2": {
-      name: "Appartamento Premium per Famiglie",
-      description: "Appartamento spazioso ideale per famiglie, con cucina completa e splendide viste costiere."
+      name: "Ghiri",
+      description: "Appartamento caratteristico con atmosfera accogliente e vista suggestiva sui dintorni."
     },
     "3": {
-      name: "Studio Esecutivo sulla Spiaggia",
-      description: "Elegante studio con accesso diretto alla spiaggia, design moderno e finiture di pregio."
+      name: "Fienile",
+      description: "Appartamento dal fascino rustico moderno, perfetto per chi cerca autenticità e comfort."
     },
     "4": {
-      name: "Suite Attico di Lusso",
-      description: "Esclusiva suite all'ultimo piano con ampia terrazza e vista panoramica sul mare."
-    },
-    "5": {
-      name: "Camera Doppia Classica",
-      description: "Confortevole camera d'albergo con comfort moderni e vista parziale sul mare."
-    },
-    "6": {
-      name: "Appartamento Vista Giardino",
-      description: "Appartamento tranquillo circondato da rigogliosi giardini, a breve distanza dalla spiaggia."
+      name: "Nidi",
+      description: "Appartamento intimo e raccolto, ideale per coppie in cerca di romanticismo e tranquillità."
     }
   }
 };
