@@ -36,7 +36,7 @@ export default function Amenities() {
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=800&fit=crop&crop=center')`
+              backgroundImage: `url('https://images.unsplash.com/photo-1523906921802-b5d2d899e93b?w=1920&h=800&fit=crop&crop=center')`
             }}
           />
           
