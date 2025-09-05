@@ -2,7 +2,7 @@ export const en = {
   nav: {
     home: "Home",
     apartments: "Apartments",
-    amenities: "Amenities",
+    amenities: "Things to Know",
     gallery: "Gallery",
     contact: "Contact",
     bookNow: "Book Now"
@@ -292,8 +292,8 @@ export const en = {
     }
   },
   amenitiesPage: {
-    title: "Our Amenities",
-    subtitle: "Discover the luxury amenities and services that make your stay unforgettable.",
+    title: "Things to Know",
+    subtitle: "Everything you need to know for a perfect stay.",
     description: "At MareSereno, we are dedicated to providing a comprehensive and luxurious stay experience. From our beachfront services to wellness facilities, every detail has been curated to ensure maximum comfort and pleasure.",
     categories: {
       wellness: {
