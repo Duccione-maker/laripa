@@ -8,9 +8,9 @@ export const it = {
     bookNow: "Prenota Ora"
   },
   hero: {
-    subtitle: "ALLOGGI DI LUSSO SUL MARE",
-    title: "Vivi la Tranquillità del Mare",
-    description: "Scopri la nostra esclusiva collezione di appartamenti di lusso e camere d'albergo sul mare, che offrono comfort impareggiabile e viste mozzafiato sul mare.",
+    subtitle: "LA RIPA DI SAN GIMIGNANO",
+    title: "Soggiorna nella Magia della Toscana",
+    description: "Scopri La Ripa di San Gimignano, un'oasi di pace e comfort immersa nelle colline toscane con vista mozzafiato su San Gimignano e i suoi iconici torri medievali.",
     bookStay: "Prenota il tuo Soggiorno",
     exploreApartments: "Esplora gli Appartamenti",
     scrollDown: "Scorri Giù"

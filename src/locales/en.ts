@@ -8,9 +8,9 @@ export const en = {
     bookNow: "Book Now"
   },
   hero: {
-    subtitle: "BEACHFRONT LUXURY ACCOMMODATION",
-    title: "Experience Seaside Tranquility",
-    description: "Discover our exclusive collection of luxury beachfront apartments and hotel rooms, offering unparalleled comfort and breathtaking sea views.",
+    subtitle: "LA RIPA DI SAN GIMIGNANO",
+    title: "Stay in the Magic of Tuscany",
+    description: "Discover La Ripa di San Gimignano, an oasis of peace and comfort nestled in the Tuscan hills with breathtaking views of San Gimignano and its iconic medieval towers.",
     bookStay: "Book Your Stay",
     exploreApartments: "Explore Apartments",
     scrollDown: "Scroll Down"
