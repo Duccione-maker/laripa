@@ -273,7 +273,7 @@ export default function Index() {
           {/* Decorative hills */}
           <div className="absolute bottom-0 left-0 right-0 h-32 overflow-hidden">
             <svg 
-              className="absolute bottom-0 w-full h-32 fill-olive/20"
+              className="absolute bottom-0 w-full h-32 fill-olive/30"
               preserveAspectRatio="none"
               viewBox="0 0 1440 120"
               xmlns="http://www.w3.org/2000/svg"
@@ -284,7 +284,7 @@ export default function Index() {
               />
             </svg>
             <svg 
-              className="absolute bottom-0 w-full h-32 fill-tuscany/30"
+              className="absolute bottom-0 w-full h-32 fill-olive/50"
               preserveAspectRatio="none"
               viewBox="0 0 1440 120"
               xmlns="http://www.w3.org/2000/svg"
