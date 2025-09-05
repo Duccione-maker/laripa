@@ -32,7 +32,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [scrolled]);
   
-  return <header className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300", scrolled ? "bg-white/80 dark:bg-card/80 backdrop-blur-lg py-3 shadow-md" : "bg-transparent py-5")}>
+  return <header className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300", scrolled ? "bg-white/80 dark:bg-card/80 backdrop-blur-lg py-3 shadow-md" : "bg-transparent py-5 text-white")}>
       <nav className="container flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <LanguageSelector />
@@ -41,7 +41,7 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <ul className="hidden md:flex space-x-8">
           {navLinks.map(link => <li key={link.name} className="relative">
-              <Link to={link.path} className="font-medium transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full">
+              <Link to={link.path} className={cn("font-medium transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full", !scrolled && "text-white hover:text-white/80")}>
                 {link.name}
               </Link>
             </li>)}
@@ -57,7 +57,7 @@ export default function Navbar() {
         {/* Mobile Navigation */}
         <div className="md:hidden flex items-center space-x-2">
           <ThemeToggle />
-          <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="rounded-full">
+          <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={cn("rounded-full", !scrolled && "text-white hover:text-white/80 hover:bg-white/10")}>
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
