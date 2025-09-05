@@ -100,35 +100,6 @@ export default function Amenities() {
             </section>
           );
         })}
-        
-        {/* Gallery Section */}
-        <section className="py-16">
-          <div className="container">
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-3xl font-bold mb-4">
-                {t.gallery.title}
-              </h2>
-              <p className="text-muted-foreground">
-                {t.gallery.subtitle}
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {Array.from({ length: 8 }).map((_, index) => (
-                <div 
-                  key={index} 
-                  className="aspect-square rounded-lg overflow-hidden shadow-md transition-transform hover:scale-105"
-                >
-                  <img 
-                    src={`https://images.unsplash.com/photo-${1550000000000 + index * 100000}?w=400&h=400&fit=crop`}
-                    alt={`Amenity ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
       </main>
       
       <Footer />
