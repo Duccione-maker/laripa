@@ -29,37 +29,48 @@ import { ApartmentProps } from "@/components/ApartmentCard";
 const apartmentsData: ApartmentProps[] = [
   {
     id: "1",
-    name: "Deluxe Sea View Suite",
-    description: "Luxurious suite with panoramic sea views, modern amenities, and a private balcony.",
-    price: 180,
-    capacity: 2,
-    size: 45,
+    name: "Padronale",
+    description: "Appartamento principale con vista panoramica, spazi generosi e comfort di lusso.",
+    price: 220,
+    capacity: 6,
+    size: 120,
     image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop",
-    location: "Beachfront",
-    features: ["Wi-Fi", "Kitchen", "Bathroom", "Air Conditioning", "TV", "Balcony"]
+    location: "Vista panoramica",
+    features: ["Wi-Fi", "Cucina completa", "2 Bagni", "Aria condizionata", "TV", "Terrazza", "Parcheggio"]
   },
   {
     id: "2",
-    name: "Premium Family Apartment",
-    description: "Spacious apartment ideal for families, with full kitchen and stunning coastal views.",
-    price: 250,
+    name: "Ghiri",
+    description: "Appartamento caratteristico con atmosfera accogliente e vista suggestiva sui dintorni.",
+    price: 180,
     capacity: 4,
-    size: 75,
+    size: 85,
     image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop",
-    location: "Second row",
-    features: ["Wi-Fi", "Kitchen", "Bathroom", "Air Conditioning", "TV", "Washing Machine"]
+    location: "Vista sui dintorni",
+    features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Balcone"]
   },
   {
     id: "3",
-    name: "Executive Beach Studio",
-    description: "Elegant studio with direct beach access, modern design, and premium finishes.",
-    price: 150,
-    capacity: 2,
-    size: 35,
+    name: "Fienile",
+    description: "Appartamento dal fascino rustico moderno, perfetto per chi cerca autenticità e comfort.",
+    price: 160,
+    capacity: 3,
+    size: 65,
     image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=800&h=600&fit=crop",
-    location: "Beachfront",
-    features: ["Wi-Fi", "Kitchenette", "Bathroom", "Air Conditioning", "TV"]
+    location: "Stile rustico",
+    features: ["Wi-Fi", "Angolo cottura", "Bagno", "Aria condizionata", "TV", "Giardino"]
   },
+  {
+    id: "4",
+    name: "Nidi",
+    description: "Appartamento intimo e raccolto, ideale per coppie in cerca di romanticismo e tranquillità.",
+    price: 140,
+    capacity: 2,
+    size: 45,
+    image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=600&fit=crop",
+    location: "Romantico",
+    features: ["Wi-Fi", "Angolo cottura", "Bagno", "Aria condizionata", "TV", "Vista giardino"]
+  }
 ];
 
 export default function BookingPage() {
