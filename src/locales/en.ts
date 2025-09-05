@@ -39,7 +39,7 @@ export const en = {
   },
   testimonials: {
     title: "What Our Guests Say",
-    description: "Discover why our guests keep coming back to MareSereno for their seaside getaways."
+    description: "Discover why our guests keep coming back to La Ripa di San Gimignano for their Tuscan getaways."
   },
   notFound: {
     title: "Page Not Found",

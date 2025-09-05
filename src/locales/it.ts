@@ -39,7 +39,7 @@ export const it = {
   },
   testimonials: {
     title: "Cosa Dicono i Nostri Ospiti",
-    description: "Scopri perché i nostri ospiti continuano a tornare a MareSereno per le loro fughe al mare."
+    description: "Scopri perché i nostri ospiti continuano a tornare a La Ripa di San Gimignano per le loro fughe toscane."
   },
   notFound: {
     title: "Pagina Non Trovata",
