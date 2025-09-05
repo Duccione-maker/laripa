@@ -121,7 +121,7 @@ export default function Apartments() {
   const locations = ["all", ...new Set(allApartments.map(apt => apt.location))];
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20">
       <Navbar />
       
       <main className="flex-1 pt-20">
