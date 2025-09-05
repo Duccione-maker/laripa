@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Heart, Dumbbell, Waves, Activity, Utensils, Wine, Coffee, Clock, Car, Plane, Car as CarIcon, MapPin, Users, Music, BookOpen } from "lucide-react";
+import { MapPin, Key, Trash2, Home, Car, Bus, Navigation, Clock, HelpCircle, Phone, Cigarette, Users } from "lucide-react";
 
 export default function Amenities() {
   const { t } = useLanguage();
@@ -13,16 +13,16 @@ export default function Amenities() {
     window.scrollTo(0, 0);
   }, []);
   
-  // Helper function to get the appropriate icon for each amenity
+  // Helper function to get the appropriate icon for each section
   const getIcon = (categoryName: string, index: number) => {
     const icons = {
-      wellness: [<Heart key={0} />, <Dumbbell key={1} />, <Waves key={2} />, <Activity key={3} />],
-      dining: [<Utensils key={0} />, <Coffee key={1} />, <Wine key={2} />, <Clock key={3} />],
-      services: [<Clock key={0} />, <Plane key={1} />, <CarIcon key={2} />, <MapPin key={3} />],
-      entertainment: [<Waves key={0} />, <Users key={1} />, <Music key={2} />, <BookOpen key={3} />]
+      arrival: [<Car key={0} />, <MapPin key={1} />, <Bus key={2} />, <Navigation key={3} />],
+      checkin: [<Clock key={0} />, <Key key={1} />, <HelpCircle key={2} />, <Phone key={3} />],
+      waste: [<Trash2 key={0} />, <Trash2 key={1} />, <Trash2 key={2} />, <Trash2 key={3} />],
+      rules: [<Clock key={0} />, <Users key={1} />, <Cigarette key={2} />, <Home key={3} />]
     };
     
-    return icons[categoryName as keyof typeof icons]?.[index] || <Coffee />;
+    return icons[categoryName as keyof typeof icons]?.[index] || <HelpCircle />;
   };
   
   return (

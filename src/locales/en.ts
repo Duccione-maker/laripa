@@ -294,93 +294,93 @@ export const en = {
   amenitiesPage: {
     title: "Things to Know",
     subtitle: "Everything you need to know for a perfect stay.",
-    description: "At MareSereno, we are dedicated to providing a comprehensive and luxurious stay experience. From our beachfront services to wellness facilities, every detail has been curated to ensure maximum comfort and pleasure.",
+    description: "Essential information to make your stay as pleasant as possible.",
     categories: {
-      wellness: {
-        title: "Wellness & Relaxation",
-        description: "Treat yourself with our range of wellness services designed to rejuvenate body and mind.",
+      arrival: {
+        title: "How to Reach Us",
+        description: "Detailed directions to reach our apartments.",
         items: [
           {
-            title: "Luxury Spa",
-            description: "Our spa offers a full range of treatments, from traditional therapies to the most modern beauty treatments."
+            title: "By Car",
+            description: "From Florence: Take the Florence-Siena highway, exit San Gimignano. Follow signs to La Ripa."
           },
           {
-            title: "Fitness Center",
-            description: "Maintain your fitness routine with our state-of-the-art gym featuring panoramic sea views."
+            title: "From Parking",
+            description: "Park in public parking P1 (paid) and reach the apartment on foot in 3 minutes."
           },
           {
-            title: "Infinity Pool",
-            description: "Immerse yourself in our infinity pool while admiring the endless horizon of the sea."
+            title: "Public Transport",
+            description: "Bus from Poggibonsi station. San Gimignano center stop, then 5 minutes walk."
           },
           {
-            title: "Beach Yoga",
-            description: "Join our morning yoga sessions on the beach for a revitalizing awakening."
+            title: "GPS Coordinates",
+            description: "Latitude: 43.4674, Longitude: 11.0432. Search for 'La Ripa di San Gimignano'."
           }
         ]
       },
-      dining: {
-        title: "Dining",
-        description: "Discover the best of local and international cuisine at our restaurants and bars.",
+      checkin: {
+        title: "Self Check-in",
+        description: "Simple procedure for your autonomous arrival.",
         items: [
           {
-            title: "Gourmet Restaurant",
-            description: "Savor fine dishes prepared by our chefs with fresh local ingredients."
+            title: "Arrival Time",
+            description: "Check-in is possible from 3:00 PM to 8:00 PM. Late arrivals upon request."
           },
           {
-            title: "Beach Bar",
-            description: "Enjoy refreshing cocktails and light snacks with your feet in the sand."
+            title: "Keys",
+            description: "Keys are in the safety box next to the main door. We'll send you the code via SMS."
           },
           {
-            title: "Lounge Bar",
-            description: "Relax with a selection of fine wines and spirits in an elegant atmosphere."
+            title: "Instructions",
+            description: "You'll find detailed apartment instructions on the entrance table along with Wi-Fi keys."
           },
           {
-            title: "Room Service",
-            description: "Enjoy gourmet meals in the privacy of your apartment, available 24 hours a day."
+            title: "Assistance",
+            description: "For any problem during check-in, call us at +39 333 123 4567."
           }
         ]
       },
-      services: {
-        title: "Extra Services",
-        description: "Take advantage of our additional services for a hassle-free stay.",
+      waste: {
+        title: "Waste Sorting",
+        description: "How to properly dispose of waste during your stay.",
         items: [
           {
-            title: "24/7 Concierge",
-            description: "Our concierge team is available at any time to assist you with any request."
+            title: "Organic",
+            description: "Brown bin under the sink. Empty in containers outside the main door."
           },
           {
-            title: "Airport Transfers",
-            description: "Travel comfortably to and from the airport with our private transfer service."
+            title: "Plastic and Cans",
+            description: "Yellow bin in kitchen. Collection: Tuesday and Friday morning before 8:00 AM."
           },
           {
-            title: "Car Rental",
-            description: "Explore the area with our fleet of premium vehicles available for rent."
+            title: "Paper and Cardboard",
+            description: "Blue container next to the door. Collection: Monday morning before 8:00 AM."
           },
           {
-            title: "Guided Excursions",
-            description: "Discover local attractions with our personalized expert-guided tours."
+            title: "General Waste",
+            description: "Gray bin. Collection: Wednesday and Saturday morning before 8:00 AM."
           }
         ]
       },
-      entertainment: {
-        title: "Entertainment",
-        description: "Enjoy a variety of recreational activities designed for all tastes.",
+      rules: {
+        title: "House Rules",
+        description: "A few simple rules for a peaceful stay for everyone.",
         items: [
           {
-            title: "Water Sports",
-            description: "Try a wide range of water sports, from paddleboarding to jet skiing."
+            title: "Quiet Hours",
+            description: "Respect quiet time from 10:00 PM to 8:00 AM out of respect for neighbors."
           },
           {
-            title: "Kids Play Area",
-            description: "Little ones can have fun in our safe and supervised play area."
+            title: "Guests",
+            description: "Maximum number of guests as per booking. Additional guests must be communicated."
           },
           {
-            title: "Themed Evenings",
-            description: "Join our weekly themed evenings with live music and entertainment."
+            title: "No Smoking",
+            description: "Smoking is prohibited inside apartments. Smoking area available in garden."
           },
           {
-            title: "Library & Game Room",
-            description: "Relax with a good book or enjoy board games in our common room."
+            title: "Check-out",
+            description: "Leave the apartment by 11:00 AM. Deposit keys in the safety box."
           }
         ]
       }

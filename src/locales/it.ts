@@ -278,91 +278,91 @@ export const it = {
     subtitle: "Tutto ciò che devi sapere per rendere il tuo soggiorno perfetto.",
     description: "A MareSereno, ci dedichiamo a fornire un'esperienza di soggiorno completa e lussuosa. Dai nostri servizi sulla spiaggia alle strutture di benessere, ogni dettaglio è stato curato per garantire il massimo comfort e piacere.",
     categories: {
-      wellness: {
-        title: "Benessere e Relax",
-        description: "Trattati con la nostra gamma di servizi benessere progettati per ringiovanire corpo e mente.",
+      arrival: {
+        title: "Come Raggiungerci",
+        description: "Indicazioni dettagliate per arrivare ai nostri appartamenti.",
         items: [
           {
-            title: "Spa di Lusso",
-            description: "La nostra spa offre una gamma completa di trattamenti, dalle terapie tradizionali ai trattamenti di bellezza più moderni."
+            title: "In Auto",
+            description: "Da Firenze: Prendi la superstrada Firenze-Siena, uscita San Gimignano. Seguire le indicazioni per La Ripa."
           },
           {
-            title: "Centro Fitness",
-            description: "Mantieni la tua routine di fitness con la nostra palestra all'avanguardia con vista panoramica sul mare."
+            title: "Dal Parcheggio",
+            description: "Parcheggia nel parcheggio pubblico P1 (a pagamento) e raggiungi l'appartamento a piedi in 3 minuti."
           },
           {
-            title: "Piscina Infinity",
-            description: "Immergiti nella nostra piscina a sfioro mentre ammiri l'orizzonte infinito del mare."
+            title: "Trasporti Pubblici",
+            description: "Autobus dalla stazione di Poggibonsi. Fermata San Gimignano centro, poi 5 minuti a piedi."
           },
           {
-            title: "Yoga sulla Spiaggia",
-            description: "Partecipa alle nostre sessioni di yoga mattutine sulla spiaggia per un risveglio rivitalizzante."
+            title: "GPS Coordinate",
+            description: "Latitudine: 43.4674, Longitudine: 11.0432. Cerca 'La Ripa di San Gimignano'."
           }
         ]
       },
-      dining: {
-        title: "Ristorazione",
-        description: "Scopri il meglio della cucina locale e internazionale nei nostri ristoranti e bar.",
+      checkin: {
+        title: "Self Check-in",
+        description: "Procedura semplice per il tuo arrivo autonomo.",
         items: [
           {
-            title: "Ristorante Gourmet",
-            description: "Assapora piatti raffinati preparati dai nostri chef con ingredienti locali freschi."
+            title: "Orario di Arrivo",
+            description: "Il check-in è possibile dalle 15:00 alle 20:00. Arrivi tardivi su richiesta."
           },
           {
-            title: "Bar sulla Spiaggia",
-            description: "Goditi cocktail rinfrescanti e snack leggeri con i piedi nella sabbia."
+            title: "Chiavi",
+            description: "Le chiavi si trovano nella cassetta di sicurezza accanto alla porta principale. Ti invieremo il codice via SMS."
           },
           {
-            title: "Lounge Bar",
-            description: "Rilassati con una selezione di vini pregiati e liquori in un'atmosfera elegante."
+            title: "Istruzioni",
+            description: "Troverai le istruzioni dettagliate dell'appartamento sul tavolo d'ingresso insieme alle chiavi Wi-Fi."
           },
           {
-            title: "Servizio in Camera",
-            description: "Goditi pasti gourmet nella privacy del tuo appartamento, disponibile 24 ore su 24."
+            title: "Assistenza",
+            description: "Per qualsiasi problema durante il check-in, chiamaci al +39 333 123 4567."
           }
         ]
       },
-      services: {
-        title: "Servizi Extra",
-        description: "Approfitta dei nostri servizi aggiuntivi per un soggiorno senza problemi.",
+      waste: {
+        title: "Raccolta Differenziata",
+        description: "Come smaltire correttamente i rifiuti durante il soggiorno.",
         items: [
           {
-            title: "Concierge 24/7",
-            description: "Il nostro team di concierge è disponibile in qualsiasi momento per assisterti con qualsiasi richiesta."
+            title: "Organico",
+            description: "Bidone marrone sotto il lavello. Svuotare nei contenitori fuori dalla porta principale."
           },
           {
-            title: "Trasferimenti Aeroportuali",
-            description: "Viaggia comodamente da e per l'aeroporto con il nostro servizio di trasferimento privato."
+            title: "Plastica e Lattine",
+            description: "Bidone giallo in cucina. Conferimento: martedì e venerdì mattina prima delle 8:00."
           },
           {
-            title: "Noleggio Auto",
-            description: "Esplora la zona con la nostra flotta di veicoli premium disponibili per il noleggio."
+            title: "Carta e Cartone",
+            description: "Contenitore blu accanto alla porta. Conferimento: lunedì mattina prima delle 8:00."
           },
           {
-            title: "Escursioni Guidate",
-            description: "Scopri le attrazioni locali con le nostre escursioni personalizzate guidate da esperti."
+            title: "Indifferenziato",
+            description: "Bidone grigio. Conferimento: mercoledì e sabato mattina prima delle 8:00."
           }
         ]
       },
-      entertainment: {
-        title: "Intrattenimento",
-        description: "Goditi una varietà di attività ricreative pensate per tutti i gusti.",
+      rules: {
+        title: "Regole della Casa",
+        description: "Poche semplici regole per un soggiorno sereno per tutti.",
         items: [
           {
-            title: "Sport Acquatici",
-            description: "Prova una vasta gamma di sport acquatici, dal paddleboarding al jet skiing."
+            title: "Silenzio Notturno",
+            description: "Rispettare il silenzio dalle 22:00 alle 8:00 per il rispetto dei vicini."
           },
           {
-            title: "Area Giochi per Bambini",
-            description: "I più piccoli possono divertirsi nella nostra area giochi sicura e supervisionata."
+            title: "Ospiti",
+            description: "Massimo numero di ospiti come da prenotazione. Ospiti aggiuntivi devono essere comunicati."
           },
           {
-            title: "Serate a Tema",
-            description: "Partecipa alle nostre serate a tema settimanali con musica dal vivo e intrattenimento."
+            title: "Divieto di Fumo",
+            description: "È vietato fumare all'interno degli appartamenti. Area fumatori disponibile in giardino."
           },
           {
-            title: "Biblioteca & Sala Giochi",
-            description: "Rilassati con un buon libro o goditi i giochi da tavolo nella nostra sala comune."
+            title: "Check-out",
+            description: "Lasciare l'appartamento entro le 11:00. Depositare le chiavi nella cassetta di sicurezza."
           }
         ]
       }
