@@ -53,15 +53,15 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sea: {
-					light: '#E0F2F7',
-					DEFAULT: '#1E88E5',
-					dark: '#0D47A1'
+				tuscany: {
+					light: '#F4E4BC',
+					DEFAULT: '#D2691E',
+					dark: '#8B4513'
 				},
-				sand: {
-					light: '#F5F5DC',
-					DEFAULT: '#E6D2B5',
-					dark: '#D2B48C'
+				olive: {
+					light: '#E8F5E8',
+					DEFAULT: '#6B8E23',
+					dark: '#556B2F'
 				}
 			},
 			borderRadius: {
