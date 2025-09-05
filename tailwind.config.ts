@@ -54,13 +54,13 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				tuscany: {
-					light: '#F4E4BC',
-					DEFAULT: '#D2691E',
-					dark: '#8B4513'
+					light: '#F9F1C4',
+					DEFAULT: '#DAA520',
+					dark: '#B8860B'
 				},
 				olive: {
-					light: '#E8F5E8',
-					DEFAULT: '#6B8E23',
+					light: '#F0F4E8',
+					DEFAULT: '#808000',
 					dark: '#556B2F'
 				}
 			},
