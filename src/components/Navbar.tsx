@@ -1,15 +1,24 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSelector from "./LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
   const { t } = useLanguage();
+  const { user, signOut } = useAuth();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -53,9 +62,39 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center space-x-2">
           <ThemeToggle />
-          <Button asChild className="btn-primary">
-            <Link to="/booking">{t.nav.bookNow}</Link>
-          </Button>
+          {user ? (
+            <>
+              <Button asChild className="btn-primary">
+                <Link to="/booking">{t.nav.bookNow}</Link>
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem disabled className="text-sm">
+                    {user.email}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOut} className="text-destructive">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Disconnetti
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="ghost">
+                <Link to="/auth">Accedi</Link>
+              </Button>
+              <Button asChild className="btn-primary">
+                <Link to="/booking">{t.nav.bookNow}</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile Navigation */}
@@ -87,11 +126,44 @@ export default function Navbar() {
               </ul>
             </div>
             
-            <Button asChild className="w-full btn-primary mt-6">
-              <Link to="/booking" onClick={() => setMobileMenuOpen(false)}>
-                {t.nav.bookNow}
-              </Link>
-            </Button>
+            <div className="space-y-4">
+              {user ? (
+                <>
+                  <Button asChild className="w-full btn-primary">
+                    <Link to="/booking" onClick={() => setMobileMenuOpen(false)}>
+                      {t.nav.bookNow}
+                    </Link>
+                  </Button>
+                  <div className="border-t pt-4">
+                    <p className="text-sm text-muted-foreground mb-2">{user.email}</p>
+                    <Button 
+                      onClick={() => {
+                        signOut();
+                        setMobileMenuOpen(false);
+                      }}
+                      variant="destructive" 
+                      className="w-full"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Disconnetti
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Button asChild variant="outline" className="w-full">
+                    <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                      Accedi
+                    </Link>
+                  </Button>
+                  <Button asChild className="w-full btn-primary">
+                    <Link to="/booking" onClick={() => setMobileMenuOpen(false)}>
+                      {t.nav.bookNow}
+                    </Link>
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
