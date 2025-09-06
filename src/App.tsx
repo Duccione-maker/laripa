@@ -13,6 +13,10 @@ import Amenities from "./pages/Amenities";
 import NotFound from "./pages/NotFound";
 import MyBookings from "./pages/MyBookings";
 import AdminDashboard from "./pages/AdminDashboard";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import BlogAdmin from "./pages/BlogAdmin";
+import BlogEditor from "./pages/BlogEditor";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import Auth from "./pages/Auth";
@@ -36,8 +40,13 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/amenities" element={<Amenities />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/my-bookings" element={<MyBookings />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/blog/admin" element={<BlogAdmin />} />
+        <Route path="/blog/admin/new" element={<BlogEditor />} />
+        <Route path="/blog/admin/edit/:id" element={<BlogEditor />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

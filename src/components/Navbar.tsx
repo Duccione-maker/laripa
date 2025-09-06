@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, User, LogOut, Calendar, Settings } from "lucide-react";
+import { Menu, X, User, LogOut, Calendar, Settings, FileText as FileTextIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSelector from "./LanguageSelector";
@@ -31,6 +31,7 @@ export default function Navbar() {
     { name: t.nav.apartments, path: "/apartments" },
     { name: t.nav.amenities, path: "/amenities" },
     { name: t.nav.gallery, path: "/gallery" },
+    { name: "Blog", path: "/blog" },
     { name: t.nav.contact, path: "/contact" }
   ];
 
@@ -82,6 +83,12 @@ export default function Navbar() {
                     <Link to="/my-bookings" className="w-full">
                       <Calendar className="h-4 w-4 mr-2" />
                       Le mie prenotazioni
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/blog/admin" className="w-full">
+                      <FileTextIcon className="h-4 w-4 mr-2" />
+                      Gestione Blog
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
@@ -153,6 +160,12 @@ export default function Navbar() {
                       <Link to="/my-bookings" onClick={() => setMobileMenuOpen(false)}>
                         <Calendar className="h-4 w-4 mr-2" />
                         Le mie prenotazioni
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full justify-start">
+                      <Link to="/blog/admin" onClick={() => setMobileMenuOpen(false)}>
+                        <FileTextIcon className="h-4 w-4 mr-2" />
+                        Gestione Blog
                       </Link>
                     </Button>
                     <Button asChild variant="outline" className="w-full justify-start">
