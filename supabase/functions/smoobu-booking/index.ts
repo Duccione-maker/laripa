@@ -43,83 +43,108 @@ serve(async (req) => {
     
     // Handle sync request (no auth required)
     if (requestData.action === 'sync') {
-      console.log('Syncing calendar data with Smoobu...')
+      console.log('Syncing calendar data from iCal feeds...')
       
       let syncedCount = 0;
       
-      // Fetch apartments
-      try {
-        const apartmentsResponse = await fetch('https://login.smoobu.com/api/apartments', {
-          method: 'GET',
-          headers: {
-            'Api-Key': smoobuApiKey,
-            'Content-Type': 'application/json',
-          },
-        })
+      // Get iCal URLs from environment
+      const icalUrls = {
+        '192379': Deno.env.get('SMOOBU_ICAL_PADRONALE'),
+        '195814': Deno.env.get('SMOOBU_ICAL_GHIRI'),
+        '195816': Deno.env.get('SMOOBU_ICAL_FIENILE'),
+        '195815': Deno.env.get('SMOOBU_ICAL_NIDI'),
+      };
 
-        if (apartmentsResponse.ok) {
-          const apartmentsData = await apartmentsResponse.json()
-          if (apartmentsData.apartments && Array.isArray(apartmentsData.apartments)) {
-            for (const apartment of apartmentsData.apartments) {
-              await supabaseClient
-                .from('apartments')
-                .upsert({
-                  id: apartment.id.toString(),
-                  name: apartment.name || 'Unnamed Apartment',
-                  description: apartment.description || '',
-                  max_guests: apartment.max_guests || 2,
-                  price_per_night: apartment.default_price || 0,
-                  currency: apartment.currency || 'EUR',
-                  amenities: apartment.amenities || [],
-                  images: apartment.images || [],
-                })
-            }
+      // Function to parse iCal data
+      const parseICalEvent = (eventText: string, apartmentId: string) => {
+        const lines = eventText.split('\n');
+        const event: any = {};
+        
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          if (trimmedLine.startsWith('DTSTART:')) {
+            const dateStr = trimmedLine.replace('DTSTART:', '');
+            event.start = new Date(dateStr.substring(0, 4) + '-' + dateStr.substring(4, 6) + '-' + dateStr.substring(6, 8));
+          } else if (trimmedLine.startsWith('DTEND:')) {
+            const dateStr = trimmedLine.replace('DTEND:', '');
+            event.end = new Date(dateStr.substring(0, 4) + '-' + dateStr.substring(4, 6) + '-' + dateStr.substring(6, 8));
+          } else if (trimmedLine.startsWith('SUMMARY:')) {
+            event.summary = trimmedLine.replace('SUMMARY:', '');
+          } else if (trimmedLine.startsWith('UID:')) {
+            event.uid = trimmedLine.replace('UID:', '');
           }
         }
-      } catch (error) {
-        console.error('Error fetching apartments:', error)
-      }
-      
-      // Fetch reservations
-      try {
-        const reservationsResponse = await fetch('https://login.smoobu.com/api/reservations', {
-          method: 'GET',
-          headers: {
-            'Api-Key': smoobuApiKey,
-            'Content-Type': 'application/json',
-          },
-        })
+        
+        return event;
+      };
 
-        if (reservationsResponse.ok) {
-          const reservationsData = await reservationsResponse.json()
-          console.log('Smoobu reservations synced:', reservationsData)
-
-          if (reservationsData.reservations && Array.isArray(reservationsData.reservations)) {
-            for (const reservation of reservationsData.reservations) {
-              await supabaseClient
-                .from('bookings')
-                .upsert({
-                  smoobu_booking_id: reservation.id.toString(),
-                  apartment_id: reservation.apartment?.id?.toString() || '',
-                  guest_name: `${reservation.guests?.[0]?.firstname || ''} ${reservation.guests?.[0]?.lastname || ''}`.trim() || 'Guest',
-                  guest_email: reservation.guests?.[0]?.email || '',
-                  guest_phone: reservation.guests?.[0]?.phone || '',
-                  check_in: reservation.arrival,
-                  check_out: reservation.departure,
-                  adults: reservation.adults || 1,
-                  children: reservation.children || 0,
-                  total_price: reservation.price?.total,
-                  currency: reservation.price?.currency || 'EUR',
-                  status: reservation.status || 'confirmed',
-                  notes: reservation.notice || '',
-                  user_id: '00000000-0000-0000-0000-000000000000',
-                }, { onConflict: 'smoobu_booking_id' })
-            }
-            syncedCount = reservationsData.reservations.length;
-          }
+      // Sync each apartment's iCal feed
+      for (const [apartmentId, icalUrl] of Object.entries(icalUrls)) {
+        if (!icalUrl) {
+          console.log(`No iCal URL configured for apartment ${apartmentId}`);
+          continue;
         }
-      } catch (error) {
-        console.error('Error fetching reservations:', error)
+
+        try {
+          console.log(`Fetching iCal data for apartment ${apartmentId} from ${icalUrl}`);
+          const icalResponse = await fetch(icalUrl);
+          
+          if (!icalResponse.ok) {
+            console.error(`Failed to fetch iCal for apartment ${apartmentId}: ${icalResponse.status}`);
+            continue;
+          }
+
+          const icalData = await icalResponse.text();
+          console.log(`iCal data fetched for apartment ${apartmentId}, length: ${icalData.length}`);
+
+          // Parse iCal events
+          const events = icalData.split('BEGIN:VEVENT').slice(1);
+          
+          for (const eventData of events) {
+            try {
+              const event = parseICalEvent('BEGIN:VEVENT\n' + eventData, apartmentId);
+              
+              if (event.start && event.end && event.uid) {
+                // Check if booking already exists
+                const { data: existingBooking } = await supabaseClient
+                  .from('bookings')
+                  .select('id')
+                  .eq('smoobu_booking_id', event.uid)
+                  .maybeSingle();
+
+                if (!existingBooking) {
+                  await supabaseClient
+                    .from('bookings')
+                    .insert({
+                      smoobu_booking_id: event.uid,
+                      apartment_id: apartmentId,
+                      guest_name: event.summary || 'Booking',
+                      guest_email: '',
+                      guest_phone: '',
+                      check_in: event.start.toISOString().split('T')[0],
+                      check_out: event.end.toISOString().split('T')[0],
+                      adults: 1,
+                      children: 0,
+                      total_price: null,
+                      currency: 'EUR',
+                      status: 'confirmed',
+                      notes: `Synced from iCal: ${event.summary}`,
+                      user_id: '00000000-0000-0000-0000-000000000000',
+                    });
+                  
+                  syncedCount++;
+                  console.log(`Created booking for apartment ${apartmentId}: ${event.summary}`);
+                } else {
+                  console.log(`Booking already exists: ${event.uid}`);
+                }
+              }
+            } catch (eventError) {
+              console.error('Error parsing event:', eventError);
+            }
+          }
+        } catch (error) {
+          console.error(`Error fetching iCal for apartment ${apartmentId}:`, error);
+        }
       }
 
       return new Response(JSON.stringify({ 
