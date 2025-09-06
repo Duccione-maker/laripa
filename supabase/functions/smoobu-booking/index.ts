@@ -47,6 +47,12 @@ serve(async (req) => {
       
       let syncedCount = 0;
       
+      console.log('Environment variables check:');
+      console.log('SMOOBU_ICAL_PADRONALE:', Deno.env.get('SMOOBU_ICAL_PADRONALE') ? 'SET' : 'NOT SET');
+      console.log('SMOOBU_ICAL_GHIRI:', Deno.env.get('SMOOBU_ICAL_GHIRI') ? 'SET' : 'NOT SET');
+      console.log('SMOOBU_ICAL_FIENILE:', Deno.env.get('SMOOBU_ICAL_FIENILE') ? 'SET' : 'NOT SET');
+      console.log('SMOOBU_ICAL_NIDI:', Deno.env.get('SMOOBU_ICAL_NIDI') ? 'SET' : 'NOT SET');
+      
       // Get iCal URLs from environment
       const icalUrls = {
         '192379': Deno.env.get('SMOOBU_ICAL_PADRONALE'),
