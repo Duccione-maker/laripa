@@ -86,6 +86,8 @@ serve(async (req) => {
 
       // Sync each apartment's iCal feed
       for (const [apartmentId, icalUrl] of Object.entries(icalUrls)) {
+        console.log(`Processing apartment ${apartmentId} with URL: ${icalUrl}`);
+        
         if (!icalUrl) {
           console.log(`No iCal URL configured for apartment ${apartmentId}`);
           continue;
@@ -96,15 +98,17 @@ serve(async (req) => {
           const icalResponse = await fetch(icalUrl);
           
           if (!icalResponse.ok) {
-            console.error(`Failed to fetch iCal for apartment ${apartmentId}: ${icalResponse.status}`);
+            console.error(`Failed to fetch iCal for apartment ${apartmentId}: ${icalResponse.status} ${icalResponse.statusText}`);
             continue;
           }
 
           const icalData = await icalResponse.text();
           console.log(`iCal data fetched for apartment ${apartmentId}, length: ${icalData.length}`);
+          console.log(`First 500 chars: ${icalData.substring(0, 500)}`);
 
           // Parse iCal events
           const events = icalData.split('BEGIN:VEVENT').slice(1);
+          console.log(`Found ${events.length} events in iCal for apartment ${apartmentId}`);
           
           for (const eventData of events) {
             try {
