@@ -41,30 +41,56 @@ serve(async (req) => {
 
     const requestData = await req.json().catch(() => ({}))
     
-    // Handle sync request (no auth required) - Updated
+    // Handle sync request (no auth required) - DEBUG MODE
     if (requestData.action === 'sync') {
-      console.log('Syncing calendar data from iCal feeds - Starting sync process...')
+      console.log('=== SYNC STARTED ===')
       
-      let syncedCount = 0;
+      // First, test basic functionality
+      try {
+        console.log('Testing basic HTTP fetch...')
+        const testResponse = await fetch('https://httpbin.org/get')
+        console.log('Test fetch successful:', testResponse.ok)
+        
+        console.log('Testing environment variables...')
+        const padronaleUrl = Deno.env.get('SMOOBU_ICAL_PADRONALE')
+        console.log('PADRONALE URL exists:', !!padronaleUrl)
+        console.log('PADRONALE URL length:', padronaleUrl?.length || 0)
+        
+        if (padronaleUrl) {
+          console.log('Testing iCal fetch for Padronale...')
+          const icalResponse = await fetch(padronaleUrl)
+          console.log('iCal fetch status:', icalResponse.status)
+          console.log('iCal fetch ok:', icalResponse.ok)
+          
+          if (icalResponse.ok) {
+            const icalText = await icalResponse.text()
+            console.log('iCal content length:', icalText.length)
+            console.log('iCal first 200 chars:', icalText.substring(0, 200))
+            
+            // Test if we can find VEVENT
+            const events = icalText.split('BEGIN:VEVENT')
+            console.log('Found VEVENT sections:', events.length - 1)
+          } else {
+            console.log('iCal fetch failed with status:', icalResponse.status)
+          }
+        } else {
+          console.log('No PADRONALE URL found in environment')
+        }
+        
+      } catch (error) {
+        console.error('Error in sync test:', error.message)
+      }
       
-      // Test if we can access environment variables
-      console.log('Testing environment access...');
-      console.log('SUPABASE_URL:', Deno.env.get('SUPABASE_URL') ? 'SET' : 'NOT SET');
-      console.log('SUPABASE_SERVICE_ROLE_KEY:', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ? 'SET' : 'NOT SET');
+      console.log('=== SYNC ENDED ===')
       
-      console.log('Environment variables check:');
-      console.log('SMOOBU_ICAL_PADRONALE:', Deno.env.get('SMOOBU_ICAL_PADRONALE') ? 'SET' : 'NOT SET');
-      console.log('SMOOBU_ICAL_GHIRI:', Deno.env.get('SMOOBU_ICAL_GHIRI') ? 'SET' : 'NOT SET');
-      console.log('SMOOBU_ICAL_FIENILE:', Deno.env.get('SMOOBU_ICAL_FIENILE') ? 'SET' : 'NOT SET');
-      console.log('SMOOBU_ICAL_NIDI:', Deno.env.get('SMOOBU_ICAL_NIDI') ? 'SET' : 'NOT SET');
-      
-      // Get iCal URLs from environment
-      const icalUrls = {
-        '192379': Deno.env.get('SMOOBU_ICAL_PADRONALE'),
-        '195814': Deno.env.get('SMOOBU_ICAL_GHIRI'),
-        '195816': Deno.env.get('SMOOBU_ICAL_FIENILE'),
-        '195815': Deno.env.get('SMOOBU_ICAL_NIDI'),
-      };
+      return new Response(JSON.stringify({ 
+        message: 'Sync test completed',
+        synced: 0,
+        timestamp: new Date().toISOString()
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
 
       // Function to parse iCal data
       const parseICalEvent = (eventText: string, apartmentId: string) => {
