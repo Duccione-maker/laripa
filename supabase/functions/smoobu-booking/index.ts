@@ -41,9 +41,9 @@ serve(async (req) => {
 
     const requestData = await req.json().catch(() => ({}))
     
-    // Handle sync request (no auth required)
+    // Handle sync request (no auth required) - Updated
     if (requestData.action === 'sync') {
-      console.log('Syncing calendar data from iCal feeds...')
+      console.log('Syncing calendar data from iCal feeds - Starting sync process...')
       
       let syncedCount = 0;
       
