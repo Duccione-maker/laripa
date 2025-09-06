@@ -47,6 +47,11 @@ serve(async (req) => {
       
       let syncedCount = 0;
       
+      // Test if we can access environment variables
+      console.log('Testing environment access...');
+      console.log('SUPABASE_URL:', Deno.env.get('SUPABASE_URL') ? 'SET' : 'NOT SET');
+      console.log('SUPABASE_SERVICE_ROLE_KEY:', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ? 'SET' : 'NOT SET');
+      
       console.log('Environment variables check:');
       console.log('SMOOBU_ICAL_PADRONALE:', Deno.env.get('SMOOBU_ICAL_PADRONALE') ? 'SET' : 'NOT SET');
       console.log('SMOOBU_ICAL_GHIRI:', Deno.env.get('SMOOBU_ICAL_GHIRI') ? 'SET' : 'NOT SET');
