@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, User, LogOut } from "lucide-react";
+import { Menu, X, User, LogOut, Calendar, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSelector from "./LanguageSelector";
@@ -78,6 +78,19 @@ export default function Navbar() {
                     {user.email}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/my-bookings" className="w-full">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      Le mie prenotazioni
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin/dashboard" className="w-full">
+                      <Settings className="h-4 w-4 mr-2" />
+                      Dashboard Admin
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={signOut} className="text-destructive">
                     <LogOut className="h-4 w-4 mr-2" />
                     Disconnetti
@@ -134,8 +147,20 @@ export default function Navbar() {
                       {t.nav.bookNow}
                     </Link>
                   </Button>
-                  <div className="border-t pt-4">
+                  <div className="border-t pt-4 space-y-3">
                     <p className="text-sm text-muted-foreground mb-2">{user.email}</p>
+                    <Button asChild variant="outline" className="w-full justify-start">
+                      <Link to="/my-bookings" onClick={() => setMobileMenuOpen(false)}>
+                        <Calendar className="h-4 w-4 mr-2" />
+                        Le mie prenotazioni
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full justify-start">
+                      <Link to="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                        <Settings className="h-4 w-4 mr-2" />
+                        Dashboard Admin
+                      </Link>
+                    </Button>
                     <Button 
                       onClick={() => {
                         signOut();
