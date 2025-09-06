@@ -107,16 +107,14 @@ serve(async (req) => {
                 notes: reservation.notice || '',
                 user_id: '00000000-0000-0000-0000-000000000000',
               }, { onConflict: 'smoobu_booking_id' })
-          }
         }
-      }
-
-      return new Response(JSON.stringify({ 
-        message: 'Calendar sync completed',
-        synced: reservationsData?.reservations?.length || 0
-      }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
+        
+        return new Response(JSON.stringify({ 
+          message: 'Calendar sync completed',
+          synced: reservationsData.reservations?.length || 0
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
     }
 
     // For booking operations, require authentication
