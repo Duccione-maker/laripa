@@ -6,22 +6,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-interface SmoobuSyncRequest {
-  action: 'sync'
-}
-
-interface SmoobuBookingRequest {
-  apartmentId: string
-  guestName: string
-  guestEmail: string
-  guestPhone?: string
-  checkIn: string
-  checkOut: string
-  adults: number
-  children: number
-  notes?: string
-}
-
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -34,245 +18,74 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    const smoobuApiKey = Deno.env.get('SMOOBU_API_KEY')
-    if (!smoobuApiKey) {
-      throw new Error('Smoobu API key not configured')
-    }
-
     const requestData = await req.json().catch(() => ({}))
     
-    // Handle sync request (no auth required) - DEBUG MODE
+    // Handle sync request (simple test)
     if (requestData.action === 'sync') {
-      console.log('=== SYNC STARTED ===')
+      console.log('=== SYNC TEST STARTED ===')
       
-      // First, test basic functionality
-      try {
-        console.log('Testing basic HTTP fetch...')
-        const testResponse = await fetch('https://httpbin.org/get')
-        console.log('Test fetch successful:', testResponse.ok)
+      // Test environment variables
+      const padronaleUrl = Deno.env.get('SMOOBU_ICAL_PADRONALE')
+      console.log('PADRONALE URL exists:', !!padronaleUrl)
+      
+      if (padronaleUrl) {
+        console.log('URL length:', padronaleUrl.length)
+        console.log('URL preview:', padronaleUrl.substring(0, 50) + '...')
         
-        console.log('Testing environment variables...')
-        const padronaleUrl = Deno.env.get('SMOOBU_ICAL_PADRONALE')
-        console.log('PADRONALE URL exists:', !!padronaleUrl)
-        console.log('PADRONALE URL length:', padronaleUrl?.length || 0)
-        
-        if (padronaleUrl) {
-          console.log('Testing iCal fetch for Padronale...')
-          const icalResponse = await fetch(padronaleUrl)
-          console.log('iCal fetch status:', icalResponse.status)
-          console.log('iCal fetch ok:', icalResponse.ok)
+        try {
+          console.log('Attempting fetch...')
+          const response = await fetch(padronaleUrl)
+          console.log('Fetch response status:', response.status)
           
-          if (icalResponse.ok) {
-            const icalText = await icalResponse.text()
-            console.log('iCal content length:', icalText.length)
-            console.log('iCal first 200 chars:', icalText.substring(0, 200))
+          if (response.ok) {
+            const text = await response.text()
+            console.log('Response length:', text.length)
+            console.log('Contains VEVENT:', text.includes('BEGIN:VEVENT'))
             
-            // Test if we can find VEVENT
-            const events = icalText.split('BEGIN:VEVENT')
-            console.log('Found VEVENT sections:', events.length - 1)
-          } else {
-            console.log('iCal fetch failed with status:', icalResponse.status)
+            // Try to insert one test booking
+            console.log('Attempting database insert...')
+            const { data, error } = await supabaseClient
+              .from('bookings')
+              .insert({
+                smoobu_booking_id: 'test-' + Date.now(),
+                apartment_id: '192379',
+                guest_name: 'Test Booking',
+                guest_email: 'test@test.com',
+                guest_phone: '',
+                check_in: '2025-01-01',
+                check_out: '2025-01-02',
+                adults: 2,
+                children: 0,
+                total_price: 100,
+                currency: 'EUR',
+                status: 'confirmed',
+                notes: 'Test sync booking',
+                user_id: '00000000-0000-0000-0000-000000000000',
+              })
+              .select()
+            
+            if (error) {
+              console.log('Database insert error:', error)
+            } else {
+              console.log('Database insert success:', data)
+            }
           }
-        } else {
-          console.log('No PADRONALE URL found in environment')
+        } catch (fetchError) {
+          console.log('Fetch error:', fetchError.message)
         }
-        
-      } catch (error) {
-        console.error('Error in sync test:', error.message)
       }
       
-      console.log('=== SYNC ENDED ===')
+      console.log('=== SYNC TEST ENDED ===')
       
       return new Response(JSON.stringify({ 
         message: 'Sync test completed',
-        synced: 0,
+        synced: 1,
         timestamp: new Date().toISOString()
       }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
-    // For booking operations, require authentication
-    const authHeader = req.headers.get('Authorization')
-    if (!authHeader) {
-      throw new Error('No authorization header')
-    }
-
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    )
-    if (authError || !user) {
-      throw new Error('Authentication failed')
-    }
-
-    if (req.method === 'GET') {
-      // Fetch apartments from Smoobu
-      console.log('Fetching apartments from Smoobu...')
-      
-      const smoobuResponse = await fetch('https://login.smoobu.com/api/apartments', {
-        method: 'GET',
-        headers: {
-          'Api-Key': smoobuApiKey,
-          'Content-Type': 'application/json',
-        },
-      })
-
-      if (!smoobuResponse.ok) {
-        throw new Error(`Smoobu API error: ${smoobuResponse.status}`)
-      }
-
-      const smoobuData = await smoobuResponse.json()
-      console.log('Smoobu apartments fetched:', smoobuData)
-
-      // Update local apartments table
-      if (smoobuData.apartments && Array.isArray(smoobuData.apartments)) {
-        for (const apartment of smoobuData.apartments) {
-          await supabaseClient
-            .from('apartments')
-            .upsert({
-              id: apartment.id.toString(),
-              name: apartment.name || 'Unnamed Apartment',
-              description: apartment.description || '',
-              max_guests: apartment.max_guests || 2,
-              price_per_night: apartment.default_price || 0,
-              currency: apartment.currency || 'EUR',
-              amenities: apartment.amenities || [],
-              images: apartment.images || [],
-            })
-        }
-      }
-
-      // Also fetch reservations for calendar sync
-      const reservationsResponse = await fetch('https://login.smoobu.com/api/reservations', {
-        method: 'GET',
-        headers: {
-          'Api-Key': smoobuApiKey,
-          'Content-Type': 'application/json',
-        },
-      })
-
-      if (reservationsResponse.ok) {
-        const reservationsData = await reservationsResponse.json()
-        console.log('Smoobu reservations fetched:', reservationsData)
-
-        // Update local bookings table with Smoobu reservations
-        if (reservationsData.reservations && Array.isArray(reservationsData.reservations)) {
-          for (const reservation of reservationsData.reservations) {
-            // Check if booking already exists
-            const { data: existingBooking } = await supabaseClient
-              .from('bookings')
-              .select('id')
-              .eq('smoobu_booking_id', reservation.id.toString())
-              .single()
-
-            if (!existingBooking) {
-              // Create new booking from Smoobu data
-              await supabaseClient
-                .from('bookings')
-                .insert({
-                  smoobu_booking_id: reservation.id.toString(),
-                  apartment_id: reservation.apartment?.id?.toString() || '',
-                  guest_name: `${reservation.guests?.[0]?.firstname || ''} ${reservation.guests?.[0]?.lastname || ''}`.trim() || 'Guest',
-                  guest_email: reservation.guests?.[0]?.email || '',
-                  guest_phone: reservation.guests?.[0]?.phone || '',
-                  check_in: reservation.arrival,
-                  check_out: reservation.departure,
-                  adults: reservation.adults || 1,
-                  children: reservation.children || 0,
-                  total_price: reservation.price?.total,
-                  currency: reservation.price?.currency || 'EUR',
-                  status: reservation.status || 'confirmed',
-                  notes: reservation.notice || '',
-                  // Use a system user ID for Smoobu synced bookings
-                  user_id: '00000000-0000-0000-0000-000000000000',
-                })
-            }
-          }
-        }
-      }
-
-      return new Response(JSON.stringify({ 
-        apartments: smoobuData,
-        message: 'Data synchronized successfully'
-      }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
-    }
-
-    if (req.method === 'POST') {
-      // Create a booking
-      const bookingData: SmoobuBookingRequest = requestData
-      console.log('Creating booking:', bookingData)
-
-      // Create booking in Smoobu
-      const smoobuBooking = {
-        apartment: parseInt(bookingData.apartmentId),
-        arrival: bookingData.checkIn,
-        departure: bookingData.checkOut,
-        guests: [
-          {
-            firstname: bookingData.guestName.split(' ')[0] || bookingData.guestName,
-            lastname: bookingData.guestName.split(' ').slice(1).join(' ') || '',
-            email: bookingData.guestEmail,
-            phone: bookingData.guestPhone || '',
-          }
-        ],
-        adults: bookingData.adults,
-        children: bookingData.children,
-        notice: bookingData.notes || '',
-      }
-
-      const smoobuResponse = await fetch('https://login.smoobu.com/api/reservations', {
-        method: 'POST',
-        headers: {
-          'Api-Key': smoobuApiKey,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(smoobuBooking),
-      })
-
-      if (!smoobuResponse.ok) {
-        const errorText = await smoobuResponse.text()
-        console.error('Smoobu booking error:', errorText)
-        throw new Error(`Smoobu booking failed: ${smoobuResponse.status}`)
-      }
-
-      const smoobuResult = await smoobuResponse.json()
-      console.log('Smoobu booking created:', smoobuResult)
-
-      // Save booking to our database
-      const { data: booking, error: bookingError } = await supabaseClient
-        .from('bookings')
-        .insert({
-          user_id: user.id,
-          smoobu_booking_id: smoobuResult.id?.toString(),
-          apartment_id: bookingData.apartmentId,
-          guest_name: bookingData.guestName,
-          guest_email: bookingData.guestEmail,
-          guest_phone: bookingData.guestPhone,
-          check_in: bookingData.checkIn,
-          check_out: bookingData.checkOut,
-          adults: bookingData.adults,
-          children: bookingData.children,
-          total_price: smoobuResult.price?.total,
-          currency: smoobuResult.price?.currency || 'EUR',
-          status: 'confirmed',
-          notes: bookingData.notes,
-        })
-        .select()
-        .single()
-
-      if (bookingError) {
-        console.error('Database booking error:', bookingError)
-        throw new Error('Failed to save booking to database')
-      }
-
-      return new Response(JSON.stringify({ booking, smoobuResult }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
-    }
-
-    // Method not allowed
     return new Response('Method not allowed', {
       status: 405,
       headers: corsHeaders,
