@@ -1,10 +1,13 @@
 
 import { useEffect, useState } from "react";
 import { format, addDays, differenceInDays } from "date-fns";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CalendarIcon, Users, CreditCard, Check, ChevronRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -74,12 +77,16 @@ const apartmentsData: ApartmentProps[] = [
 ];
 
 export default function BookingPage() {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
   const [endDate, setEndDate] = useState<Date | undefined>(addDays(new Date(), 7));
   const [adults, setAdults] = useState("2");
   const [children, setChildren] = useState("0");
   const [selectedApartment, setSelectedApartment] = useState<ApartmentProps | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -119,46 +126,99 @@ export default function BookingPage() {
   };
   
   // Submit booking
-  const handleSubmitBooking = (e: React.FormEvent) => {
+  const handleSubmitBooking = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // In a real app, this would send the booking data to a server
-    console.log("Booking submitted:", {
-      apartment: selectedApartment,
-      dates: { startDate, endDate },
-      guests: { adults, children },
-      customerInfo: formData
-    });
-    
-    // Show confirmation
-    setIsBookingConfirmed(true);
-    
-    // Reset form after booking is confirmed
-    setTimeout(() => {
-      setCurrentStep(1);
-      setSelectedApartment(null);
-      setStartDate(new Date());
-      setEndDate(addDays(new Date(), 7));
-      setAdults("2");
-      setChildren("0");
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        address: "",
-        city: "",
-        zipCode: "",
-        country: "",
-        paymentMethod: "credit-card",
-        cardName: "",
-        cardNumber: "",
-        cardExpiry: "",
-        cardCvc: "",
-        specialRequests: ""
+    if (!user) {
+      toast({
+        title: "Accesso richiesto",
+        description: "Devi essere loggato per prenotare. Ti reindirizziamo alla pagina di login.",
+        variant: "destructive",
       });
-      setIsBookingConfirmed(false);
-    }, 5000);
+      navigate('/auth');
+      return;
+    }
+
+    if (!startDate || !endDate || !selectedApartment) {
+      toast({
+        title: "Errore",
+        description: "Seleziona tutte le informazioni richieste per la prenotazione.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .insert({
+          user_id: user.id,
+          apartment_id: selectedApartment.id,
+          check_in: format(startDate, 'yyyy-MM-dd'),
+          check_out: format(endDate, 'yyyy-MM-dd'),
+          adults: parseInt(adults),
+          children: parseInt(children),
+          guest_name: `${formData.firstName} ${formData.lastName}`,
+          guest_email: formData.email || user.email,
+          guest_phone: formData.phone,
+          total_price: totalPrice,
+          currency: 'EUR',
+          status: 'pending',
+          notes: formData.specialRequests || null
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Prenotazione creata!",
+        description: "La tua prenotazione è stata inviata con successo. Riceverai una conferma via email.",
+      });
+
+      // Show confirmation
+      setIsBookingConfirmed(true);
+      
+      // Reset form after booking is confirmed
+      setTimeout(() => {
+        setCurrentStep(1);
+        setSelectedApartment(null);
+        setStartDate(new Date());
+        setEndDate(addDays(new Date(), 7));
+        setAdults("2");
+        setChildren("0");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          address: "",
+          city: "",
+          zipCode: "",
+          country: "",
+          paymentMethod: "credit-card",
+          cardName: "",
+          cardNumber: "",
+          cardExpiry: "",
+          cardCvc: "",
+          specialRequests: ""
+        });
+        setIsBookingConfirmed(false);
+        navigate('/my-bookings');
+      }, 3000);
+
+    } catch (error) {
+      console.error('Error creating booking:', error);
+      toast({
+        title: "Errore",
+        description: "Si è verificato un errore durante la creazione della prenotazione. Riprova.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
   
   return (
@@ -830,8 +890,9 @@ export default function BookingPage() {
                       <Button 
                         className="btn-primary"
                         onClick={handleSubmitBooking}
+                        disabled={loading}
                       >
-                        Confirm Booking <Check className="ml-2 h-4 w-4" />
+                        {loading ? 'Creazione prenotazione...' : 'Conferma Prenotazione'} <Check className="ml-2 h-4 w-4" />
                       </Button>
                     </div>
                   </>
