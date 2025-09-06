@@ -14,7 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      apartments: {
+        Row: {
+          amenities: string[] | null
+          created_at: string
+          currency: string | null
+          description: string | null
+          id: string
+          images: string[] | null
+          max_guests: number
+          name: string
+          price_per_night: number | null
+          updated_at: string
+        }
+        Insert: {
+          amenities?: string[] | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          id: string
+          images?: string[] | null
+          max_guests?: number
+          name: string
+          price_per_night?: number | null
+          updated_at?: string
+        }
+        Update: {
+          amenities?: string[] | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          id?: string
+          images?: string[] | null
+          max_guests?: number
+          name?: string
+          price_per_night?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      bookings: {
+        Row: {
+          adults: number
+          apartment_id: string
+          check_in: string
+          check_out: string
+          children: number
+          created_at: string
+          currency: string | null
+          guest_email: string
+          guest_name: string
+          guest_phone: string | null
+          id: string
+          notes: string | null
+          smoobu_booking_id: string | null
+          status: string | null
+          total_price: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          adults?: number
+          apartment_id: string
+          check_in: string
+          check_out: string
+          children?: number
+          created_at?: string
+          currency?: string | null
+          guest_email: string
+          guest_name: string
+          guest_phone?: string | null
+          id?: string
+          notes?: string | null
+          smoobu_booking_id?: string | null
+          status?: string | null
+          total_price?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          adults?: number
+          apartment_id?: string
+          check_in?: string
+          check_out?: string
+          children?: number
+          created_at?: string
+          currency?: string | null
+          guest_email?: string
+          guest_name?: string
+          guest_phone?: string | null
+          id?: string
+          notes?: string | null
+          smoobu_booking_id?: string | null
+          status?: string | null
+          total_price?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
