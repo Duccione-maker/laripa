@@ -8,6 +8,7 @@ import LanguageSelector from "./LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRole } from "@/hooks/useUserRole";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +20,7 @@ import {
 export default function Navbar() {
   const { t } = useLanguage();
   const { user, signOut } = useAuth();
+  const { isAdmin } = useUserRole();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -85,12 +87,14 @@ export default function Navbar() {
                       Le mie prenotazioni
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link to="/blog/admin" className="w-full">
-                      <FileTextIcon className="h-4 w-4 mr-2" />
-                      Gestione Blog
-                    </Link>
-                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem asChild>
+                      <Link to="/blog/admin" className="w-full">
+                        <FileTextIcon className="h-4 w-4 mr-2" />
+                        Gestione Blog
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem asChild>
                     <Link to="/admin/dashboard" className="w-full">
                       <Settings className="h-4 w-4 mr-2" />
@@ -162,12 +166,14 @@ export default function Navbar() {
                         Le mie prenotazioni
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link to="/blog/admin" onClick={() => setMobileMenuOpen(false)}>
-                        <FileTextIcon className="h-4 w-4 mr-2" />
-                        Gestione Blog
-                      </Link>
-                    </Button>
+                    {isAdmin && (
+                      <Button asChild variant="outline" className="w-full justify-start">
+                        <Link to="/blog/admin" onClick={() => setMobileMenuOpen(false)}>
+                          <FileTextIcon className="h-4 w-4 mr-2" />
+                          Gestione Blog
+                        </Link>
+                      </Button>
+                    )}
                     <Button asChild variant="outline" className="w-full justify-start">
                       <Link to="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>
                         <Settings className="h-4 w-4 mr-2" />

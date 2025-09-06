@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRole } from "@/hooks/useUserRole";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,6 +42,7 @@ interface BlogPost {
 
 export default function BlogAdmin() {
   const { user } = useAuth();
+  const { isAdmin, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -51,15 +53,20 @@ export default function BlogAdmin() {
       navigate('/auth');
       return;
     }
-    fetchPosts();
-  }, [user, navigate]);
+    if (!roleLoading && !isAdmin) {
+      navigate('/');
+      return;
+    }
+    if (isAdmin) {
+      fetchPosts();
+    }
+  }, [user, isAdmin, roleLoading, navigate]);
 
   const fetchPosts = async () => {
     try {
       const { data, error } = await supabase
         .from('blog_posts')
         .select('id, title, slug, excerpt, published, published_at, created_at, updated_at')
-        .eq('author_id', user?.id)
         .order('updated_at', { ascending: false });
 
       if (error) throw error;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRole } from "@/hooks/useUserRole";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,6 +26,7 @@ interface BlogPostForm {
 
 export default function BlogEditor() {
   const { user } = useAuth();
+  const { isAdmin, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
@@ -48,11 +50,15 @@ export default function BlogEditor() {
       navigate('/auth');
       return;
     }
+    if (!roleLoading && !isAdmin) {
+      navigate('/');
+      return;
+    }
 
-    if (isEdit) {
+    if (isEdit && isAdmin) {
       fetchPost();
     }
-  }, [user, navigate, id]);
+  }, [user, isAdmin, roleLoading, navigate, id]);
 
   const fetchPost = async () => {
     if (!id) return;
@@ -62,7 +68,6 @@ export default function BlogEditor() {
         .from('blog_posts')
         .select('*')
         .eq('id', id)
-        .eq('author_id', user?.id)
         .single();
 
       if (error) throw error;
