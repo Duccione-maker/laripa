@@ -1,4 +1,4 @@
 project_id = "dsylclbnkddaghmsptax"
 
 [functions.smoobu-booking]
-verify_jwt = true
+verify_jwt = false

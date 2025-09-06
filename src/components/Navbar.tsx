@@ -32,6 +32,7 @@ export default function Navbar() {
     { name: t.nav.home, path: "/" },
     { name: t.nav.apartments, path: "/apartments" },
     { name: t.nav.amenities, path: "/amenities" },
+    { name: "Calendario", path: "/calendar" },
     { name: t.nav.gallery, path: "/gallery" },
     { name: "Blog", path: "/blog" },
     { name: t.nav.contact, path: "/contact" }

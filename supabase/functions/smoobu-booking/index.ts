@@ -6,6 +6,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+interface SmoobuSyncRequest {
+  action: 'sync'
+}
+
 interface SmoobuBookingRequest {
   apartmentId: string
   guestName: string
@@ -27,24 +31,105 @@ serve(async (req) => {
   try {
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    // Get user from auth token
+    const smoobuApiKey = Deno.env.get('SMOOBU_API_KEY')
+    if (!smoobuApiKey) {
+      throw new Error('Smoobu API key not configured')
+    }
+
+    const requestData = await req.json().catch(() => ({}))
+    
+    // Handle sync request (no auth required)
+    if (requestData.action === 'sync') {
+      console.log('Syncing calendar data with Smoobu...')
+      
+      // Fetch apartments
+      const apartmentsResponse = await fetch('https://login.smoobu.com/api/apartments', {
+        method: 'GET',
+        headers: {
+          'Api-Key': smoobuApiKey,
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (apartmentsResponse.ok) {
+        const apartmentsData = await apartmentsResponse.json()
+        if (apartmentsData.apartments && Array.isArray(apartmentsData.apartments)) {
+          for (const apartment of apartmentsData.apartments) {
+            await supabaseClient
+              .from('apartments')
+              .upsert({
+                id: apartment.id.toString(),
+                name: apartment.name || 'Unnamed Apartment',
+                description: apartment.description || '',
+                max_guests: apartment.max_guests || 2,
+                price_per_night: apartment.default_price || 0,
+                currency: apartment.currency || 'EUR',
+                amenities: apartment.amenities || [],
+                images: apartment.images || [],
+              })
+          }
+        }
+      }
+      
+      // Fetch reservations
+      const reservationsResponse = await fetch('https://login.smoobu.com/api/reservations', {
+        method: 'GET',
+        headers: {
+          'Api-Key': smoobuApiKey,
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (reservationsResponse.ok) {
+        const reservationsData = await reservationsResponse.json()
+        console.log('Smoobu reservations synced:', reservationsData)
+
+        if (reservationsData.reservations && Array.isArray(reservationsData.reservations)) {
+          for (const reservation of reservationsData.reservations) {
+            await supabaseClient
+              .from('bookings')
+              .upsert({
+                smoobu_booking_id: reservation.id.toString(),
+                apartment_id: reservation.apartment?.id?.toString() || '',
+                guest_name: `${reservation.guests?.[0]?.firstname || ''} ${reservation.guests?.[0]?.lastname || ''}`.trim() || 'Guest',
+                guest_email: reservation.guests?.[0]?.email || '',
+                guest_phone: reservation.guests?.[0]?.phone || '',
+                check_in: reservation.arrival,
+                check_out: reservation.departure,
+                adults: reservation.adults || 1,
+                children: reservation.children || 0,
+                total_price: reservation.price?.total,
+                currency: reservation.price?.currency || 'EUR',
+                status: reservation.status || 'confirmed',
+                notes: reservation.notice || '',
+                user_id: '00000000-0000-0000-0000-000000000000',
+              }, { onConflict: 'smoobu_booking_id' })
+          }
+        }
+      }
+
+      return new Response(JSON.stringify({ 
+        message: 'Calendar sync completed',
+        synced: reservationsData?.reservations?.length || 0
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    // For booking operations, require authentication
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) {
       throw new Error('No authorization header')
     }
 
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser()
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(
+      authHeader.replace('Bearer ', '')
+    )
     if (authError || !user) {
       throw new Error('Authentication failed')
-    }
-
-    const smoobuApiKey = Deno.env.get('SMOOBU_API_KEY')
-    if (!smoobuApiKey) {
-      throw new Error('Smoobu API key not configured')
     }
 
     if (req.method === 'GET') {
@@ -84,14 +169,120 @@ serve(async (req) => {
         }
       }
 
-      return new Response(JSON.stringify(smoobuData), {
+      // Also fetch reservations for calendar sync
+      const reservationsResponse = await fetch('https://login.smoobu.com/api/reservations', {
+        method: 'GET',
+        headers: {
+          'Api-Key': smoobuApiKey,
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (reservationsResponse.ok) {
+        const reservationsData = await reservationsResponse.json()
+        console.log('Smoobu reservations fetched:', reservationsData)
+
+        // Update local bookings table with Smoobu reservations
+        if (reservationsData.reservations && Array.isArray(reservationsData.reservations)) {
+          for (const reservation of reservationsData.reservations) {
+            // Check if booking already exists
+            const { data: existingBooking } = await supabaseClient
+              .from('bookings')
+              .select('id')
+              .eq('smoobu_booking_id', reservation.id.toString())
+              .single()
+
+            if (!existingBooking) {
+              // Create new booking from Smoobu data
+              await supabaseClient
+                .from('bookings')
+                .insert({
+                  smoobu_booking_id: reservation.id.toString(),
+                  apartment_id: reservation.apartment?.id?.toString() || '',
+                  guest_name: `${reservation.guests?.[0]?.firstname || ''} ${reservation.guests?.[0]?.lastname || ''}`.trim() || 'Guest',
+                  guest_email: reservation.guests?.[0]?.email || '',
+                  guest_phone: reservation.guests?.[0]?.phone || '',
+                  check_in: reservation.arrival,
+                  check_out: reservation.departure,
+                  adults: reservation.adults || 1,
+                  children: reservation.children || 0,
+                  total_price: reservation.price?.total,
+                  currency: reservation.price?.currency || 'EUR',
+                  status: reservation.status || 'confirmed',
+                  notes: reservation.notice || '',
+                  // Use a system user ID for Smoobu synced bookings
+                  user_id: '00000000-0000-0000-0000-000000000000',
+                })
+            }
+          }
+        }
+      }
+
+      return new Response(JSON.stringify({ 
+        apartments: smoobuData,
+        message: 'Data synchronized successfully'
+      }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
     if (req.method === 'POST') {
+      const requestData = await req.json()
+      
+      // Handle sync request from calendar
+      if (requestData.action === 'sync') {
+        console.log('Syncing calendar data with Smoobu...')
+        
+        // Fetch and sync reservations
+        const reservationsResponse = await fetch('https://login.smoobu.com/api/reservations', {
+          method: 'GET',
+          headers: {
+            'Api-Key': smoobuApiKey,
+            'Content-Type': 'application/json',
+          },
+        })
+
+        if (!reservationsResponse.ok) {
+          throw new Error(`Smoobu reservations API error: ${reservationsResponse.status}`)
+        }
+
+        const reservationsData = await reservationsResponse.json()
+        console.log('Smoobu reservations synced:', reservationsData)
+
+        // Update local bookings
+        if (reservationsData.reservations && Array.isArray(reservationsData.reservations)) {
+          for (const reservation of reservationsData.reservations) {
+            await supabaseClient
+              .from('bookings')
+              .upsert({
+                smoobu_booking_id: reservation.id.toString(),
+                apartment_id: reservation.apartment?.id?.toString() || '',
+                guest_name: `${reservation.guests?.[0]?.firstname || ''} ${reservation.guests?.[0]?.lastname || ''}`.trim() || 'Guest',
+                guest_email: reservation.guests?.[0]?.email || '',
+                guest_phone: reservation.guests?.[0]?.phone || '',
+                check_in: reservation.arrival,
+                check_out: reservation.departure,
+                adults: reservation.adults || 1,
+                children: reservation.children || 0,
+                total_price: reservation.price?.total,
+                currency: reservation.price?.currency || 'EUR',
+                status: reservation.status || 'confirmed',
+                notes: reservation.notice || '',
+                user_id: '00000000-0000-0000-0000-000000000000',
+              }, { onConflict: 'smoobu_booking_id' })
+          }
+        }
+
+        return new Response(JSON.stringify({ 
+          message: 'Calendar sync completed',
+          synced: reservationsData.reservations?.length || 0
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+      
       // Create a booking
-      const bookingData: SmoobuBookingRequest = await req.json()
+      const bookingData: SmoobuBookingRequest = requestData
       console.log('Creating booking:', bookingData)
 
       // Create booking in Smoobu
