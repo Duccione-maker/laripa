@@ -113,17 +113,26 @@ serve(async (req) => {
           for (const eventData of events) {
             try {
               const event = parseICalEvent('BEGIN:VEVENT\n' + eventData, apartmentId);
+              console.log(`Parsed event for apartment ${apartmentId}:`, JSON.stringify(event));
               
               if (event.start && event.end && event.uid) {
+                console.log(`Valid event found: ${event.uid} from ${event.start} to ${event.end}`);
+                
                 // Check if booking already exists
-                const { data: existingBooking } = await supabaseClient
+                const { data: existingBooking, error: checkError } = await supabaseClient
                   .from('bookings')
                   .select('id')
                   .eq('smoobu_booking_id', event.uid)
                   .maybeSingle();
 
+                if (checkError) {
+                  console.error('Error checking existing booking:', checkError);
+                  continue;
+                }
+
                 if (!existingBooking) {
-                  await supabaseClient
+                  console.log(`Creating new booking for ${event.uid}`);
+                  const { data: newBooking, error: insertError } = await supabaseClient
                     .from('bookings')
                     .insert({
                       smoobu_booking_id: event.uid,
@@ -140,13 +149,20 @@ serve(async (req) => {
                       status: 'confirmed',
                       notes: `Synced from iCal: ${event.summary}`,
                       user_id: '00000000-0000-0000-0000-000000000000',
-                    });
+                    })
+                    .select();
                   
-                  syncedCount++;
-                  console.log(`Created booking for apartment ${apartmentId}: ${event.summary}`);
+                  if (insertError) {
+                    console.error('Error inserting booking:', insertError);
+                  } else {
+                    syncedCount++;
+                    console.log(`Successfully created booking for apartment ${apartmentId}: ${event.summary}`, newBooking);
+                  }
                 } else {
                   console.log(`Booking already exists: ${event.uid}`);
                 }
+              } else {
+                console.log(`Invalid event data for apartment ${apartmentId}:`, JSON.stringify(event));
               }
             } catch (eventError) {
               console.error('Error parsing event:', eventError);
