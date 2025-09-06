@@ -153,9 +153,12 @@ serve(async (req) => {
         }
       }
 
+      console.log(`Total events synced: ${syncedCount}`);
+      
       return new Response(JSON.stringify({ 
         message: 'Calendar sync completed',
-        synced: syncedCount
+        synced: syncedCount,
+        timestamp: new Date().toISOString()
       }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
