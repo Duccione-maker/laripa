@@ -57,6 +57,20 @@ serve(async (req) => {
         const errorText = await response.text();
         console.log(`Rates API error: ${response.status} - ${errorText}`);
         console.log(`Failed URL: https://login.smoobu.com/api/rates?apartments[]=${smoobuApartmentId}&start_date=${today}&end_date=${tomorrow}`);
+        
+        // Let's also try a simpler test to see if API key works
+        const testResponse = await fetch(`https://login.smoobu.com/api/apartments`, {
+          headers: {
+            'Api-Key': smoobuApiKey,
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log(`Test apartments API status: ${testResponse.status}`);
+        if (testResponse.ok) {
+          const testData = await testResponse.json();
+          console.log(`Apartments API works, found ${testData?.apartments?.length || 0} apartments`);
+        }
+        
         // Fallback to static prices if rates API fails
         const fallbackPrices: Record<string, number> = {
           '1': 139, // Prezzo più realistico basato su quello che mi hai detto
