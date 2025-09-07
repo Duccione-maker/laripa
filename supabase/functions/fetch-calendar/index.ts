@@ -83,8 +83,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const url = new URL(req.url);
-    const apartmentId = url.searchParams.get('apartment');
+    const { apartment: apartmentId } = await req.json();
     
     if (!apartmentId) {
       return new Response(
