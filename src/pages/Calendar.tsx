@@ -136,6 +136,25 @@ export default function CalendarPage() {
           padding: 16px !important;
           text-align: center !important;
         }
+        /* Mobile responsive - show only one month */
+        @media (max-width: 768px) {
+          .calendarWidget .calendar-table-container {
+            display: flex !important;
+            overflow-x: auto !important;
+          }
+          .calendarWidget .calendar-table-container > div:not(:first-child) {
+            display: none !important;
+          }
+          .calendarWidget table + table {
+            display: none !important;
+          }
+          .calendarWidget .calendar-month:not(:first-child) {
+            display: none !important;
+          }
+          .calendarWidget > div > div:not(:first-child) {
+            display: none !important;
+          }
+        }
         /* Hide Smoobu branding */
         .calendarWidget [style*="Powered by"] {
           display: none !important;
