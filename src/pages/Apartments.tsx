@@ -36,7 +36,7 @@ const allApartments: ApartmentProps[] = [
     images: [
       "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png", // Giardino (principale)
       "/lovable-uploads/524138e8-c9d1-41e9-8867-3632efb248fc.png", // Cucina
-      "/lovable-uploads/d9903d8f-4c21-4d24-a672-25f1b3bc74ac.png", // Camera da letto
+      "/lovable-uploads/a0bd4059-64fa-4bd7-a506-cd13d8fd18e5.png", // Camera matrimoniale
       "/lovable-uploads/d9b7a116-e425-4b55-85d0-4bdffcf35f92.png", // Camera singola
       "/lovable-uploads/163f6f54-8b1e-483a-82a8-c3077685d7c2.png", // Bagno
       "/lovable-uploads/151c50a6-cce6-4b3c-b93e-cf9e0a2b078b.png"  // Esterno
