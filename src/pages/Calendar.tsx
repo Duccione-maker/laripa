@@ -121,7 +121,9 @@ export default function CalendarPage() {
       if (booking.apartment_id !== apartmentId) return false;
       const checkIn = parseISO(booking.check_in);
       const checkOut = parseISO(booking.check_out);
-      return date >= startOfDay(checkIn) && date <= endOfDay(checkOut);
+      // Fix date comparison to work correctly with different years
+      const targetDate = startOfDay(date);
+      return targetDate >= startOfDay(checkIn) && targetDate < startOfDay(checkOut);
     });
   };
 
@@ -144,15 +146,16 @@ export default function CalendarPage() {
     
     return (
       <div className="relative w-full h-full flex items-center justify-center">
-        <span className={cn(
-          hasBookings && isOccupied && "text-white"
-        )}>{date.getDate()}</span>
         {hasBookings && (
           <div className={cn(
-            "absolute inset-0 rounded-sm border-2",
-            isOccupied ? "bg-destructive border-destructive" : "bg-yellow-500 border-yellow-500"
+            "absolute inset-0 rounded-sm -z-10",
+            isOccupied ? "bg-destructive/20 border border-destructive" : "bg-yellow-500/20 border border-yellow-500"
           )}></div>
         )}
+        <span className={cn(
+          "relative z-10 font-medium",
+          hasBookings && isOccupied ? "text-destructive" : hasBookings ? "text-yellow-600" : "text-foreground"
+        )}>{date.getDate()}</span>
       </div>
     );
   };
