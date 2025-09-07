@@ -143,18 +143,33 @@ export default function CalendarPage() {
     const dayBookings = getBookingsForApartmentAndDate(apartmentId, date);
     const hasBookings = dayBookings.length > 0;
     const isOccupied = dayBookings.some(b => b.status === 'confirmed');
+    const isPending = dayBookings.some(b => b.status === 'pending');
+    
+    if (!hasBookings) {
+      return (
+        <div className="relative w-full h-full flex items-center justify-center">
+          <span className="text-foreground font-medium">{date.getDate()}</span>
+        </div>
+      );
+    }
     
     return (
       <div className="relative w-full h-full flex items-center justify-center">
-        {hasBookings && (
-          <div className={cn(
-            "absolute inset-0 rounded-sm -z-10",
-            isOccupied ? "bg-destructive/20 border border-destructive" : "bg-yellow-500/20 border border-yellow-500"
-          )}></div>
-        )}
+        <div className={cn(
+          "absolute inset-0 rounded-sm",
+          isOccupied 
+            ? "bg-red-500/30 border border-red-500" 
+            : isPending 
+            ? "bg-yellow-500/30 border border-yellow-500"
+            : "bg-gray-500/20 border border-gray-500"
+        )}></div>
         <span className={cn(
-          "relative z-10 font-medium",
-          hasBookings && isOccupied ? "text-destructive" : hasBookings ? "text-yellow-600" : "text-foreground"
+          "relative z-10 font-bold",
+          isOccupied 
+            ? "text-red-700 dark:text-red-300" 
+            : isPending 
+            ? "text-yellow-700 dark:text-yellow-300"
+            : "text-foreground"
         )}>{date.getDate()}</span>
       </div>
     );
