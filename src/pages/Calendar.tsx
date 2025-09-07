@@ -43,6 +43,43 @@ export default function CalendarPage() {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
+  const hideDuplicateMonthsOnMobile = (container: HTMLElement) => {
+    // Find all month containers and hide all except the first one
+    const monthElements = container.querySelectorAll('table, .month, .calendar-month, [class*="month"]');
+    monthElements.forEach((element, index) => {
+      if (index > 0) {
+        (element as HTMLElement).style.display = 'none';
+      }
+    });
+
+    // Also try to find and hide elements based on month names
+    const textElements = container.querySelectorAll('*');
+    let foundFirstMonth = false;
+    textElements.forEach(element => {
+      const text = element.textContent?.toLowerCase() || '';
+      if (text.includes('september') || text.includes('october') || text.includes('november') || text.includes('december') ||
+          text.includes('gennaio') || text.includes('febbraio') || text.includes('marzo') || text.includes('aprile') ||
+          text.includes('maggio') || text.includes('giugno') || text.includes('luglio') || text.includes('agosto') ||
+          text.includes('settembre') || text.includes('ottobre') || text.includes('novembre') || text.includes('dicembre')) {
+        
+        if (!foundFirstMonth) {
+          foundFirstMonth = true;
+        } else {
+          // Hide subsequent month containers
+          let parent = element.parentElement;
+          while (parent && parent !== container) {
+            if (parent.tagName === 'TABLE' || parent.classList.contains('month') || 
+                parent.classList.contains('calendar-month')) {
+              (parent as HTMLElement).style.display = 'none';
+              break;
+            }
+            parent = parent.parentElement;
+          }
+        }
+      }
+    });
+  };
+
   useEffect(() => {
     fetchApartments();
   }, []);
@@ -53,6 +90,19 @@ export default function CalendarPage() {
       loadSmoobuCalendar();
     }
   }, [selectedApartment]);
+
+  useEffect(() => {
+    // Handle resize events for mobile responsiveness
+    const handleResize = () => {
+      const calendarContainer = document.getElementById('smoobu-calendar-container');
+      if (calendarContainer && window.innerWidth < 768) {
+        setTimeout(() => hideDuplicateMonthsOnMobile(calendarContainer), 500);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const fetchApartments = async () => {
     try {
@@ -136,22 +186,11 @@ export default function CalendarPage() {
           padding: 16px !important;
           text-align: center !important;
         }
-        /* Mobile responsive - show only one month */
+        /* Mobile responsive styling */
         @media (max-width: 768px) {
           .calendarWidget {
             max-width: 100% !important;
             overflow-x: hidden !important;
-          }
-          /* Hide second month on mobile */
-          .calendarWidget .calendar-month:nth-child(2),
-          .calendarWidget .calendar-month:nth-child(n+2),
-          .calendarWidget table:nth-child(2),
-          .calendarWidget table:nth-child(n+2),
-          .calendarWidget > div > div:nth-child(2),
-          .calendarWidget > div > div:nth-child(n+2),
-          .calendarWidget .month:nth-child(2),
-          .calendarWidget .month:nth-child(n+2) {
-            display: none !important;
           }
           .calendarWidget table {
             min-width: 100% !important;
@@ -163,7 +202,6 @@ export default function CalendarPage() {
             padding: 4px 2px !important;
             font-size: 11px !important;
           }
-          /* Ensure container doesn't allow horizontal scroll */
           .calendarContent {
             overflow-x: hidden !important;
           }
@@ -192,7 +230,7 @@ export default function CalendarPage() {
     script.src = 'https://login.smoobu.com/js/Apartment/CalendarWidget.js';
     script.onload = () => {
       console.log('Smoobu calendar script loaded and should initialize automatically');
-      // Apply additional styling after load
+      // Apply additional styling after load and remove extra months on mobile
       setTimeout(() => {
         const calendarElements = calendarContainer.querySelectorAll('.calendarWidget *');
         calendarElements.forEach(el => {
@@ -200,8 +238,14 @@ export default function CalendarPage() {
             (el as HTMLElement).style.display = 'none';
           }
         });
+
+        // Mobile-specific: hide extra months
+        if (window.innerWidth < 768) {
+          hideDuplicateMonthsOnMobile(calendarContainer);
+        }
       }, 1000);
-    };
+  };
+
     script.onerror = () => {
       console.error('Failed to load Smoobu calendar script');
     };
