@@ -32,49 +32,27 @@ serve(async (req) => {
       throw new Error('Apartment not found');
     }
 
-    // If no dates provided, get base price
+    // If no dates provided, get today's price using rates API
     if (!checkIn || !checkOut) {
-      // Fetch base pricing from Smoobu apartments endpoint
-      const response = await fetch(`https://login.smoobu.com/api/apartments`, {
-        headers: {
-          'Api-Key': smoobuApiKey,
-          'Content-Type': 'application/json',
-        },
-      });
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      
+      console.log(`Fetching today's rate for apartment ${smoobuApartmentId} on ${today}`);
+      
+      // Use rates API to get today's actual price
+      const response = await fetch(
+        `https://login.smoobu.com/api/rates?apartments[]=${smoobuApartmentId}&start_date=${today}&end_date=${tomorrow}`,
+        {
+          headers: {
+            'Api-Key': smoobuApiKey,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
       if (!response.ok) {
-        throw new Error(`Smoobu API error: ${response.status}`);
-      }
-
-      const apartmentsData = await response.json();
-      console.log('Smoobu apartments response:', JSON.stringify(apartmentsData, null, 2));
-
-      // Handle different response formats
-      let apartments = apartmentsData;
-      if (apartmentsData.data) {
-        apartments = apartmentsData.data;
-      }
-      if (apartmentsData.apartments) {
-        apartments = apartmentsData.apartments;
-      }
-
-      // Ensure apartments is an array
-      if (!Array.isArray(apartments)) {
-        console.log('Apartments data is not an array:', typeof apartments);
-        throw new Error('Invalid apartments data format from Smoobu');
-      }
-
-      const apartment = apartments.find((apt: any) => {
-        const aptName = apt.name?.toLowerCase() || '';
-        const aptId = apt.id?.toString() || '';
-        return aptName.includes(smoobuApartmentId.toLowerCase()) || aptId === smoobuApartmentId;
-      });
-
-      console.log('Found apartment:', apartment);
-
-      if (!apartment) {
-        console.log(`Apartment ${smoobuApartmentId} not found in Smoobu data`);
-        // Fallback to static prices if apartment not found
+        console.log(`Rates API error: ${response.status}, falling back to static prices`);
+        // Fallback to static prices if rates API fails
         const fallbackPrices: Record<string, number> = {
           '1': 280,
           '2': 220, 
@@ -87,7 +65,7 @@ serve(async (req) => {
             price: fallbackPrices[apartmentId] || 200,
             currency: 'EUR',
             source: 'fallback',
-            reason: 'apartment_not_found_in_smoobu'
+            reason: 'rates_api_error'
           }),
           {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -96,23 +74,52 @@ serve(async (req) => {
         );
       }
 
-      // Try different property names for price
-      const price = apartment.defaultPrice || apartment.price || apartment.basePrice || apartment.rate || 200;
-      console.log(`Price found for apartment ${apartment.name}:`, price, 'Properties available:', Object.keys(apartment));
+      const ratesData = await response.json();
+      console.log('Today rates response:', JSON.stringify(ratesData, null, 2));
 
-      return new Response(
-        JSON.stringify({
-          price: price,
-          currency: 'EUR',
-          source: 'smoobu',
-          apartmentData: apartment,
-          priceSource: price === 200 ? 'fallback' : 'smoobu_property'
-        }),
-        {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 200,
-        }
-      );
+      // Get today's price from rates data
+      if (ratesData.data && ratesData.data.length > 0) {
+        const todayRate = ratesData.data[0];
+        const price = todayRate.price || todayRate.rate || 200;
+        
+        console.log(`Found today's price: ${price} for apartment ${smoobuApartmentId}`);
+        
+        return new Response(
+          JSON.stringify({
+            price: price,
+            currency: 'EUR',
+            source: 'smoobu',
+            date: today,
+            rateData: todayRate
+          }),
+          {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 200,
+          }
+        );
+      } else {
+        console.log('No rate data found for today, using fallback');
+        // Fallback if no rate data found
+        const fallbackPrices: Record<string, number> = {
+          '1': 280,
+          '2': 220,
+          '3': 190,
+          '4': 160
+        };
+
+        return new Response(
+          JSON.stringify({
+            price: fallbackPrices[apartmentId] || 200,
+            currency: 'EUR',
+            source: 'fallback',
+            reason: 'no_rate_data_today'
+          }),
+          {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 200,
+          }
+        );
+      }
     }
 
     // For date-specific pricing, get rates for the period
