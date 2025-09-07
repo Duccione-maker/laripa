@@ -58,9 +58,11 @@ const allApartments: ApartmentProps[] = [
     price: 190,
     capacity: 4,
     size: 70,
-    image: "/lovable-uploads/1186d9ca-0c44-4a10-8518-69b07a812b81.png", // Giardino con gazebo (principale)
+    image: "/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png", // Soggiorno con camino (principale)
     images: [
-      "/lovable-uploads/1186d9ca-0c44-4a10-8518-69b07a812b81.png", // Giardino con gazebo (principale)
+      "/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png", // Soggiorno con camino (principale)
+      "/lovable-uploads/b4b7072e-42c3-4d8f-80b8-3d2ab767fbd7.png", // Vista panoramica giardino
+      "/lovable-uploads/1186d9ca-0c44-4a10-8518-69b07a812b81.png", // Giardino con gazebo
       "/lovable-uploads/0a4860b0-b18d-4f60-b004-c0a8cfeec2c5.png", // Cucina
       "/lovable-uploads/3f1ae5ae-fa9f-4be5-b0b9-a48c88c8e1ee.png", // Camera matrimoniale con baldacchino
       "/lovable-uploads/ebf36a44-3fca-4c29-99ec-56ff07963d02.png", // Camera con due letti singoli
