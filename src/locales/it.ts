@@ -375,7 +375,7 @@ export const it = {
     },
     "2": {
       name: "Ghiri",
-      description: "Appartamento caratteristico con vista mozzafiato su San Gimignano, atmosfera accogliente e dintorni suggestivi. Il più amato sui portali di prenotazione."
+      description: "Appartamento caratteristico 4+2 con vista mozzafiato su San Gimignano, letto giapponese e bagnetto di servizio al piano terra. Atmosfera accogliente e dintorni suggestivi. Il più amato sui portali di prenotazione."
     },
     "3": {
       name: "Fienile",
