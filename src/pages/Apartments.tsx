@@ -12,7 +12,7 @@ const allApartments: ApartmentProps[] = [
     description: "Main apartment with panoramic sea views, generous spaces and luxury comforts.",
     price: 280,
     capacity: 6,
-    size: 120,
+    size: 146,
     image: "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png",
     images: [
       "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png", // Cucina (principale)
@@ -23,7 +23,7 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/698d71b3-1f38-4d4e-a8f2-6f31e882cd08.png"  // Soggiorno
     ],
     location: "Primo piano",
-    features: ["Wi-Fi", "Cucina completa", "2 Bagni", "Aria condizionata", "TV", "Terrazza vista mare", "Jacuzzi", "Soggiorno"]
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a legna per pizza", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Veranda"]
   },
   {
     id: "2", 
