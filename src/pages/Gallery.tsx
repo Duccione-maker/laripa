@@ -12,73 +12,61 @@ const galleryImages = [
     id: 1,
     src: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop",
     alt: "Beachfront view",
-    category: "exterior"
+    category: "apartments"
   },
   {
     id: 2,
     src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop",
     alt: "Luxury suite interior",
-    category: "rooms"
+    category: "apartments"
   },
   {
     id: 3,
     src: "https://images.unsplash.com/photo-1584132905271-512c958d674a?w=800&h=600&fit=crop",
     alt: "Swimming pool",
-    category: "amenities"
+    category: "pool"
   },
   {
     id: 4,
     src: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=800&h=600&fit=crop",
     alt: "Premium apartment",
-    category: "rooms"
+    category: "apartments"
   },
   {
     id: 5,
     src: "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800&h=600&fit=crop",
     alt: "Beach sunset",
-    category: "exterior"
+    category: "apartments"
   },
   {
     id: 6,
     src: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&h=600&fit=crop",
     alt: "Dining area",
-    category: "amenities"
+    category: "apartments"
   },
   {
     id: 7,
     src: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&h=600&fit=crop",
     alt: "Bathroom",
-    category: "rooms"
+    category: "apartments"
   },
   {
     id: 8,
     src: "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&h=600&fit=crop",
     alt: "Beach pathway",
-    category: "exterior"
-  },
-  {
-    id: 9,
-    src: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800&h=600&fit=crop",
-    alt: "Restaurant",
-    category: "amenities"
+    category: "pool"
   },
   {
     id: 10,
     src: "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=800&h=600&fit=crop",
     alt: "Bedroom",
-    category: "rooms"
+    category: "apartments"
   },
   {
     id: 11,
     src: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=600&fit=crop",
     alt: "Beach umbrellas",
-    category: "exterior"
-  },
-  {
-    id: 12,
-    src: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&h=600&fit=crop",
-    alt: "Spa",
-    category: "amenities"
+    category: "pool"
   },
 ];
 
@@ -167,7 +155,7 @@ export default function Gallery() {
         <section className="py-8">
           <div className="container">
             <div className="flex flex-wrap justify-center gap-2 mb-8 animate-fade-in">
-              {["all", "exterior", "rooms", "amenities"].map((category) => (
+              {["all", "pool", "apartments"].map((category) => (
                 <button
                   key={category}
                   onClick={() => filterGallery(category)}
@@ -180,11 +168,9 @@ export default function Gallery() {
                 >
                   {category === "all" 
                     ? t.gallery.filters.all 
-                    : category === "exterior" 
-                      ? t.gallery.filters.exterior 
-                      : category === "rooms" 
-                        ? t.gallery.filters.rooms 
-                        : t.gallery.filters.amenities}
+                    : category === "pool" 
+                      ? "Piscina" 
+                      : "Appartamenti"}
                 </button>
               ))}
             </div>
