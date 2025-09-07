@@ -48,9 +48,9 @@ export const en = {
   },
   home: {
     welcome: {
-      subtitle: "Welcome to La Ripa di San Gimignano",
+      subtitle: "Welcome to La Ripa",
       title: "Luxury Tuscan Accommodations",
-      description1: "Nestled in the heart of Tuscany's stunning countryside, La Ripa di San Gimignano offers an exquisite collection of luxury apartments and accommodations. Our historic property combines elegant design with modern comfort, creating the perfect setting for an unforgettable Tuscan getaway.",
+      description1: "Nestled in the heart of Tuscany's stunning countryside, La Ripa offers an exquisite collection of luxury apartments and accommodations. Our historic property combines elegant design with modern comfort, creating the perfect setting for an unforgettable Tuscan getaway.",
       description2: "Whether you're seeking a romantic escape, a family vacation, or a peaceful retreat, our diverse range of accommodations caters to every preference and need. Each space is thoughtfully designed to provide panoramic views of the Tuscan hills and vineyards.",
       learnMore: "Learn More"
     },

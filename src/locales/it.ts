@@ -218,9 +218,9 @@ export const it = {
   },
   home: {
     welcome: {
-      subtitle: "Benvenuti a La Ripa di San Gimignano",
+      subtitle: "Benvenuti a La Ripa",
       title: "Alloggi di Lusso in Toscana",
-      description1: "Situata nel cuore della splendida campagna toscana, La Ripa di San Gimignano offre una squisita collezione di appartamenti e alloggi di lusso. La nostra proprietà storica combina un design elegante con comfort moderni, creando l'ambientazione perfetta per una indimenticabile fuga toscana.",
+      description1: "Situata nel cuore della splendida campagna toscana, La Ripa offre una squisita collezione di appartamenti e alloggi di lusso. La nostra proprietà storica combina un design elegante con comfort moderni, creando l'ambientazione perfetta per una indimenticabile fuga toscana.",
       description2: "Che tu stia cercando una fuga romantica, una vacanza in famiglia o un ritiro tranquillo, la nostra vasta gamma di alloggi si adatta a ogni preferenza ed esigenza. Ogni spazio è progettato con cura per fornire viste panoramiche sulle colline toscane e sui vigneti.",
       learnMore: "Scopri di Più"
     },
@@ -276,7 +276,7 @@ export const it = {
   amenitiesPage: {
     title: "Cose da Sapere",
     subtitle: "Tutto ciò che devi sapere per rendere il tuo soggiorno perfetto.",
-    description: "A La Ripa di San Gimignano, ci dedichiamo a fornire un'esperienza di soggiorno completa e lussuosa. Dai nostri servizi nella proprietà alle strutture di benessere, ogni dettaglio è stato curato per garantire il massimo comfort e piacere.",
+    description: "A La Ripa, ci dedichiamo a fornire un'esperienza di soggiorno completa e lussuosa. Dai nostri servizi nella proprietà alle strutture di benessere, ogni dettaglio è stato curato per garantire il massimo comfort e piacere.",
     categories: {
       arrival: {
         title: "Come Raggiungerci",

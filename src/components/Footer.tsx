@@ -100,7 +100,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-border pt-8 mt-8 text-center text-muted-foreground">
-          <p>&copy; {currentYear} La Ripa di San Gimignano. {t.footer.allRights}</p>
+          <p>&copy; {currentYear} La Ripa. {t.footer.allRights}</p>
         </div>
       </div>
     </footer>
