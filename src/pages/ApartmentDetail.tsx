@@ -39,14 +39,14 @@ const allApartments: ApartmentProps[] = [
     price: 220,
     capacity: 4,
     size: 85,
-    image: "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png",
+    image: "/lovable-uploads/1186d9ca-0c44-4a10-8518-69b07a812b81.png", // Giardino con gazebo (principale)
     images: [
-      "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png", // Giardino (principale)
-      "/lovable-uploads/524138e8-c9d1-41e9-8867-3632efb248fc.png", // Cucina
-      "/lovable-uploads/a0bd4059-64fa-4bd7-a506-cd13d8fd18e5.png", // Camera matrimoniale
-      "/lovable-uploads/d9b7a116-e425-4b55-85d0-4bdffcf35f92.png", // Camera singola
-      "/lovable-uploads/163f6f54-8b1e-483a-82a8-c3077685d7c2.png", // Bagno
-      "/lovable-uploads/151c50a6-cce6-4b3c-b93e-cf9e0a2b078b.png"  // Esterno
+      "/lovable-uploads/1186d9ca-0c44-4a10-8518-69b07a812b81.png", // Giardino con gazebo (principale)
+      "/lovable-uploads/0a4860b0-b18d-4f60-b004-c0a8cfeec2c5.png", // Cucina
+      "/lovable-uploads/3f1ae5ae-fa9f-4be5-b0b9-a48c88c8e1ee.png", // Camera matrimoniale con baldacchino
+      "/lovable-uploads/ebf36a44-3fca-4c29-99ec-56ff07963d02.png", // Camera con due letti singoli
+      "/lovable-uploads/25f155d7-09a3-46bd-ae61-f458cd3727c8.png", // Bagno con doccia
+      "/lovable-uploads/6a850667-528d-4af4-ae56-7af124b28b97.png"  // Bagno con vasca
     ],
     location: "Piano terra",
     features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Giardino privato", "Patio"]
