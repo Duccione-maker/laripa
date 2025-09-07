@@ -140,16 +140,32 @@ export default function CalendarPage() {
         @media (max-width: 768px) {
           .calendarWidget {
             max-width: 100% !important;
-            overflow-x: auto !important;
+            overflow-x: hidden !important;
+          }
+          /* Hide second month on mobile */
+          .calendarWidget .calendar-month:nth-child(2),
+          .calendarWidget .calendar-month:nth-child(n+2),
+          .calendarWidget table:nth-child(2),
+          .calendarWidget table:nth-child(n+2),
+          .calendarWidget > div > div:nth-child(2),
+          .calendarWidget > div > div:nth-child(n+2),
+          .calendarWidget .month:nth-child(2),
+          .calendarWidget .month:nth-child(n+2) {
+            display: none !important;
           }
           .calendarWidget table {
-            min-width: 280px !important;
+            min-width: 100% !important;
             font-size: 12px !important;
+            width: 100% !important;
           }
           .calendarWidget th,
           .calendarWidget td {
             padding: 4px 2px !important;
             font-size: 11px !important;
+          }
+          /* Ensure container doesn't allow horizontal scroll */
+          .calendarContent {
+            overflow-x: hidden !important;
           }
         }
         /* Hide Smoobu branding */
