@@ -97,6 +97,11 @@ Deno.serve(async (req) => {
 
     // Map apartment IDs to iCal secret names
     const icalSecretMap: Record<string, string> = {
+      '1': 'SMOOBU_ICAL_PADRONALE',
+      '2': 'SMOOBU_ICAL_FIENILE',
+      '3': 'SMOOBU_ICAL_GHIRI', 
+      '4': 'SMOOBU_ICAL_NIDI',
+      // Legacy support for old naming
       'fienile': 'SMOOBU_ICAL_FIENILE',
       'ghiri': 'SMOOBU_ICAL_GHIRI', 
       'nidi': 'SMOOBU_ICAL_NIDI',
