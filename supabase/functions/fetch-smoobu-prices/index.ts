@@ -23,10 +23,10 @@ serve(async (req) => {
 
     // Map apartment IDs to Smoobu apartment IDs
     const apartmentMapping: Record<string, string> = {
-      '1': 'padronale', // You'll need to replace with actual Smoobu apartment IDs
-      '2': 'ghiri',
-      '3': 'fienile', 
-      '4': 'nidi'
+      '1': '192379', // Padronale
+      '2': '195814', // Ghiri
+      '3': '195816', // Fienile
+      '4': '195815'  // Nidi
     };
 
     const smoobuApartmentId = apartmentMapping[apartmentId];
