@@ -6,68 +6,80 @@ import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Sample gallery images
+// Sample gallery images - pronte per le tue foto reali
 const galleryImages = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop",
-    alt: "Beachfront view",
+    src: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    alt: "Vista generale La Ripa",
     category: "apartments"
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop",
-    alt: "Luxury suite interior",
-    category: "apartments"
+    src: "/lovable-uploads/gallery-exterior-1.jpg",
+    alt: "Esterno La Ripa",
+    category: "exterior"
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1584132905271-512c958d674a?w=800&h=600&fit=crop",
-    alt: "Swimming pool",
+    src: "/lovable-uploads/gallery-pool-1.jpg", 
+    alt: "Area piscina",
     category: "pool"
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=800&h=600&fit=crop",
-    alt: "Premium apartment",
+    src: "/lovable-uploads/gallery-padronale-1.jpg",
+    alt: "Appartamento Padronale",
     category: "apartments"
   },
   {
     id: 5,
-    src: "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800&h=600&fit=crop",
-    alt: "Beach sunset",
+    src: "/lovable-uploads/gallery-ghiri-1.jpg",
+    alt: "Appartamento Ghiri",
     category: "apartments"
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&h=600&fit=crop",
-    alt: "Dining area",
+    src: "/lovable-uploads/gallery-fienile-1.jpg",
+    alt: "Appartamento Fienile", 
     category: "apartments"
   },
   {
     id: 7,
-    src: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&h=600&fit=crop",
-    alt: "Bathroom",
+    src: "/lovable-uploads/gallery-nidi-1.jpg",
+    alt: "Appartamento Nidi",
     category: "apartments"
   },
   {
     id: 8,
-    src: "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&h=600&fit=crop",
-    alt: "Beach pathway",
+    src: "/lovable-uploads/gallery-amenities-1.jpg",
+    alt: "Servizi e comfort",
+    category: "amenities"
+  },
+  {
+    id: 9,
+    src: "/lovable-uploads/gallery-pool-2.jpg",
+    alt: "Vista piscina panoramica",
     category: "pool"
   },
   {
     id: 10,
-    src: "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=800&h=600&fit=crop",
-    alt: "Bedroom",
-    category: "apartments"
+    src: "/lovable-uploads/gallery-exterior-2.jpg", 
+    alt: "Giardini La Ripa",
+    category: "exterior"
   },
   {
     id: 11,
-    src: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=600&fit=crop",
-    alt: "Beach umbrellas",
-    category: "pool"
+    src: "/lovable-uploads/gallery-amenities-2.jpg",
+    alt: "Area comune",
+    category: "amenities"
   },
+  {
+    id: 12,
+    src: "/lovable-uploads/gallery-view-1.jpg",
+    alt: "Vista panoramica",
+    category: "exterior"
+  }
 ];
 
 export default function Gallery() {
@@ -155,7 +167,7 @@ export default function Gallery() {
         <section className="py-8">
           <div className="container">
             <div className="flex flex-wrap justify-center gap-2 mb-8 animate-fade-in">
-              {["all", "pool", "apartments"].map((category) => (
+              {["all", "apartments", "pool", "exterior", "amenities"].map((category) => (
                 <button
                   key={category}
                   onClick={() => filterGallery(category)}
@@ -168,9 +180,13 @@ export default function Gallery() {
                 >
                   {category === "all" 
                     ? t.gallery.filters.all 
+                    : category === "apartments"
+                      ? "Appartamenti"
                     : category === "pool" 
-                      ? "Piscina" 
-                      : "Appartamenti"}
+                      ? "Piscina"
+                    : category === "exterior"
+                      ? "Esterni"
+                      : "Servizi"}
                 </button>
               ))}
             </div>

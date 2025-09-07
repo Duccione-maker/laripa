@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Users, Maximize, MapPin, Bath, Coffee, Wifi, Calendar, Phone, Mail } from "lucide-react";
+import { ArrowLeft, Users, Maximize, MapPin, Bath, Coffee, Wifi, Calendar, Phone, Mail, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,47 +15,70 @@ import { ApartmentProps } from "@/components/ApartmentCard";
 const allApartments: ApartmentProps[] = [
   {
     id: "1",
-    name: "Deluxe Apartment with Sea View",
-    description: "Luxurious apartment with stunning sea views. Perfect for couples seeking a romantic getaway.",
+    name: "Padronale",
+    description: "Main apartment with panoramic sea views, generous spaces and luxury comforts.",
     price: 280,
-    capacity: 2,
-    size: 45,
-    image: "/public/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
-    location: "Seafront, Monterosso",
-    features: ["Sea View", "Balcony", "Kitchen", "Bathroom", "Wi-Fi", "Air Conditioning"]
+    capacity: 6,
+    size: 120,
+    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    images: [
+      "/lovable-uploads/padronale-1.jpg",
+      "/lovable-uploads/padronale-2.jpg", 
+      "/lovable-uploads/padronale-3.jpg",
+      "/lovable-uploads/padronale-4.jpg"
+    ],
+    location: "Primo piano",
+    features: ["Wi-Fi", "Cucina completa", "2 Bagni", "Aria condizionata", "TV", "Terrazza vista mare", "Jacuzzi", "Soggiorno"]
   },
   {
     id: "2", 
-    name: "Classic Two-Bedroom Apartment",
-    description: "Spacious apartment in the heart of the old town. Ideal for families or groups of friends.",
+    name: "Ghiri",
+    description: "Characteristic apartment with welcoming atmosphere and charming views of the surroundings.",
     price: 220,
     capacity: 4,
-    size: 65,
-    image: "/public/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
-    location: "Old Town Center",
-    features: ["Two Bedrooms", "Living Room", "Kitchen", "Bathroom", "Wi-Fi", "Washing Machine"]
+    size: 85,
+    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    images: [
+      "/lovable-uploads/ghiri-1.jpg",
+      "/lovable-uploads/ghiri-2.jpg",
+      "/lovable-uploads/ghiri-3.jpg",
+      "/lovable-uploads/ghiri-4.jpg"
+    ],
+    location: "Piano terra",
+    features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Giardino privato", "Patio"]
   },
   {
     id: "3",
-    name: "Cozy Studio near Train Station", 
-    description: "Perfect for budget travelers. Close to the train station with easy access to other Cinque Terre villages.",
+    name: "Fienile", 
+    description: "Apartment with modern rustic charm, perfect for those seeking authenticity and comfort.",
     price: 190,
-    capacity: 2,
-    size: 35,
-    image: "/public/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
-    location: "Near Train Station",
-    features: ["Studio", "Kitchenette", "Bathroom", "Wi-Fi", "Close to Transport"]
+    capacity: 4,
+    size: 70,
+    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    images: [
+      "/lovable-uploads/fienile-1.jpg",
+      "/lovable-uploads/fienile-2.jpg",
+      "/lovable-uploads/fienile-3.jpg",
+      "/lovable-uploads/fienile-4.jpg"
+    ],
+    location: "Dependance",
+    features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Camino", "Terrazza"]
   },
   {
     id: "4",
-    name: "Family Apartment with Garden",
-    description: "Large apartment with private garden. Perfect for families with children.",
+    name: "Nidi",
+    description: "Intimate and cozy apartment, ideal for couples seeking romance and tranquility.",
     price: 160,
-    capacity: 6,
-    size: 80,
-    image: "/public/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
-    location: "Residential Area",
-    features: ["Three Bedrooms", "Private Garden", "Kitchen", "Two Bathrooms", "Wi-Fi", "Parking"]
+    capacity: 2,
+    size: 45,
+    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    images: [
+      "/lovable-uploads/nidi-1.jpg",
+      "/lovable-uploads/nidi-2.jpg",
+      "/lovable-uploads/nidi-3.jpg"
+    ],
+    location: "Mansarda",
+    features: ["Wi-Fi", "Angolo cottura", "Bagno", "Aria condizionata", "TV", "Vista panoramica"]
   }
 ];
 
@@ -64,6 +87,7 @@ export default function ApartmentDetail() {
   const navigate = useNavigate();
   const { t, language } = useLanguage();
   const [apartment, setApartment] = useState<ApartmentProps | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { pricing, loading } = useSmoobuPricing(id || "");
 
   useEffect(() => {
@@ -110,6 +134,17 @@ export default function ApartmentDetail() {
     return null;
   };
 
+  // Get all images for gallery (main image + additional images)
+  const allImages = apartment ? [apartment.image, ...(apartment.images || [])] : [];
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -128,13 +163,62 @@ export default function ApartmentDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Hero Image */}
-            <div className="relative overflow-hidden rounded-xl h-96">
-              <img 
-                src={apartment.image} 
-                alt={translatedName}
-                className="w-full h-full object-cover"
-              />
+            {/* Image Gallery */}
+            <div className="space-y-4">
+              {/* Main Image */}
+              <div className="relative overflow-hidden rounded-xl h-96 group">
+                <img 
+                  src={allImages[currentImageIndex]} 
+                  alt={`${translatedName} - Image ${currentImageIndex + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                
+                {/* Navigation arrows - only show if multiple images */}
+                {allImages.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevImage}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={nextImage}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
+                    
+                    {/* Image counter */}
+                    <div className="absolute bottom-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                      {currentImageIndex + 1} / {allImages.length}
+                    </div>
+                  </>
+                )}
+              </div>
+              
+              {/* Thumbnail Navigation */}
+              {allImages.length > 1 && (
+                <div className="flex gap-2 overflow-x-auto pb-2">
+                  {allImages.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={`flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                        currentImageIndex === index 
+                          ? 'border-primary shadow-lg' 
+                          : 'border-muted hover:border-primary/50'
+                      }`}
+                    >
+                      <img 
+                        src={image} 
+                        alt={`${translatedName} thumbnail ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Apartment Info */}

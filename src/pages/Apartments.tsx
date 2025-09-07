@@ -13,7 +13,13 @@ const allApartments: ApartmentProps[] = [
     price: 280,
     capacity: 6,
     size: 120,
-    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop",
+    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    images: [
+      "/lovable-uploads/padronale-1.jpg",
+      "/lovable-uploads/padronale-2.jpg", 
+      "/lovable-uploads/padronale-3.jpg",
+      "/lovable-uploads/padronale-4.jpg"
+    ],
     location: "Primo piano",
     features: ["Wi-Fi", "Cucina completa", "2 Bagni", "Aria condizionata", "TV", "Terrazza vista mare", "Jacuzzi", "Soggiorno"]
   },
@@ -24,7 +30,13 @@ const allApartments: ApartmentProps[] = [
     price: 220,
     capacity: 4,
     size: 85,
-    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop",
+    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    images: [
+      "/lovable-uploads/ghiri-1.jpg",
+      "/lovable-uploads/ghiri-2.jpg",
+      "/lovable-uploads/ghiri-3.jpg",
+      "/lovable-uploads/ghiri-4.jpg"
+    ],
     location: "Piano terra",
     features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Giardino privato", "Patio"]
   },
@@ -35,7 +47,13 @@ const allApartments: ApartmentProps[] = [
     price: 190,
     capacity: 4,
     size: 70,
-    image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=800&h=600&fit=crop",
+    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    images: [
+      "/lovable-uploads/fienile-1.jpg",
+      "/lovable-uploads/fienile-2.jpg",
+      "/lovable-uploads/fienile-3.jpg",
+      "/lovable-uploads/fienile-4.jpg"
+    ],
     location: "Dependance",
     features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Camino", "Terrazza"]
   },
@@ -46,7 +64,12 @@ const allApartments: ApartmentProps[] = [
     price: 160,
     capacity: 2,
     size: 45,
-    image: "https://images.unsplash.com/photo-1562438668-bcf0ca6578f0?w=800&h=600&fit=crop",
+    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    images: [
+      "/lovable-uploads/nidi-1.jpg",
+      "/lovable-uploads/nidi-2.jpg",
+      "/lovable-uploads/nidi-3.jpg"
+    ],
     location: "Mansarda",
     features: ["Wi-Fi", "Angolo cottura", "Bagno", "Aria condizionata", "TV", "Vista panoramica"]
   }

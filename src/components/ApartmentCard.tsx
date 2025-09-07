@@ -15,6 +15,7 @@ export interface ApartmentProps {
   capacity: number;
   size: number;
   image: string;
+  images?: string[]; // Additional images for gallery
   location: string;
   features: string[];
 }
