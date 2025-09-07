@@ -97,29 +97,26 @@ export default function CalendarPage() {
     // Clear previous calendar
     calendarContainer.innerHTML = '';
 
-    // Create calendar div
-    const calendarDiv = document.createElement('div');
-    calendarDiv.innerHTML = smoobuData.widget;
-    calendarContainer.appendChild(calendarDiv);
+    // Insert the widget HTML directly
+    calendarContainer.innerHTML = smoobuData.widget;
 
-    // Load Smoobu script if not already loaded
-    if (!document.querySelector('script[src*="CalendarWidget.js"]')) {
-      const script = document.createElement('script');
-      script.src = 'https://login.smoobu.com/js/Apartment/CalendarWidget.js';
-      script.onload = () => {
-        // Script loaded, calendar should initialize automatically
-        console.log('Smoobu calendar script loaded');
-      };
-      document.head.appendChild(script);
-    } else {
-      // Script already exists, try to reinitialize
-      setTimeout(() => {
-        if (window.CalendarWidget) {
-          // Reinitialize if the global is available
-          window.CalendarWidget.init();
-        }
-      }, 100);
+    // Force reload of the script to initialize the widget
+    const existingScript = document.querySelector('script[src*="CalendarWidget.js"]');
+    if (existingScript) {
+      existingScript.remove();
     }
+
+    // Create and load the script
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://login.smoobu.com/js/Apartment/CalendarWidget.js';
+    script.onload = () => {
+      console.log('Smoobu calendar script loaded and should initialize automatically');
+    };
+    script.onerror = () => {
+      console.error('Failed to load Smoobu calendar script');
+    };
+    document.head.appendChild(script);
   };
 
   const getApartmentName = (apartmentKey: string) => {
@@ -154,10 +151,10 @@ export default function CalendarPage() {
               <div>
                 <h1 className="text-4xl font-bold mb-2">
                   <CalendarIcon className="inline-block mr-3 h-8 w-8" />
-                  Calendario Prenotazioni Smoobu
+                  Calendario Prenotazioni
                 </h1>
                 <p className="text-lg text-muted-foreground">
-                  Visualizza disponibilità e prenotazioni sincronizzate con Smoobu
+                  Visualizza disponibilità e gestisci prenotazioni
                 </p>
               </div>
             </div>
@@ -184,17 +181,13 @@ export default function CalendarPage() {
           <Card className="glass-card">
             <CardHeader>
               <CardTitle className="text-2xl">
-                {getApartmentName(selectedApartment)} - Calendario Smoobu
+                {getApartmentName(selectedApartment)}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div 
                 id="smoobu-calendar-container" 
-                className="min-h-[600px] w-full"
-                style={{ 
-                  background: 'transparent',
-                  border: 'none'
-                }}
+                className="min-h-[600px] w-full bg-white rounded-lg"
               />
             </CardContent>
           </Card>
@@ -204,10 +197,10 @@ export default function CalendarPage() {
             <CardContent className="pt-6">
               <div className="text-center text-muted-foreground">
                 <p className="mb-2">
-                  📅 Calendario sincronizzato in tempo reale con Smoobu
+                  📅 Calendario sincronizzato in tempo reale
                 </p>
                 <p>
-                  ✅ Tutte le prenotazioni, blocchi e disponibilità sono aggiornate automaticamente
+                  ✅ Prenotazioni e disponibilità aggiornate automaticamente
                 </p>
               </div>
             </CardContent>
