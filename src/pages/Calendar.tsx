@@ -100,6 +100,54 @@ export default function CalendarPage() {
     // Insert the widget HTML directly
     calendarContainer.innerHTML = smoobuData.widget;
 
+    // Add custom styling to improve appearance
+    const customStyles = `
+      <style>
+        .calendarWidget {
+          border: none !important;
+          background: transparent !important;
+          font-family: inherit !important;
+        }
+        .calendarContent {
+          border-radius: 12px !important;
+          overflow: hidden !important;
+          box-shadow: none !important;
+          border: none !important;
+        }
+        .calendarWidget table {
+          border-radius: 8px !important;
+          overflow: hidden !important;
+          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+        }
+        .calendarWidget th {
+          background: hsl(var(--primary)) !important;
+          color: hsl(var(--primary-foreground)) !important;
+          font-weight: 600 !important;
+          padding: 12px 8px !important;
+        }
+        .calendarWidget td {
+          border: 1px solid hsl(var(--border)) !important;
+          padding: 8px !important;
+        }
+        .calendarWidget .calendar-month-header {
+          background: hsl(var(--muted)) !important;
+          color: hsl(var(--foreground)) !important;
+          font-weight: 600 !important;
+          padding: 16px !important;
+          text-align: center !important;
+        }
+        /* Hide Smoobu branding */
+        .calendarWidget [style*="Powered by"] {
+          display: none !important;
+        }
+        .calendarWidget a[href*="smoobu"] {
+          display: none !important;
+        }
+      </style>
+    `;
+    
+    calendarContainer.insertAdjacentHTML('afterbegin', customStyles);
+
     // Force reload of the script to initialize the widget
     const existingScript = document.querySelector('script[src*="CalendarWidget.js"]');
     if (existingScript) {
@@ -112,6 +160,15 @@ export default function CalendarPage() {
     script.src = 'https://login.smoobu.com/js/Apartment/CalendarWidget.js';
     script.onload = () => {
       console.log('Smoobu calendar script loaded and should initialize automatically');
+      // Apply additional styling after load
+      setTimeout(() => {
+        const calendarElements = calendarContainer.querySelectorAll('.calendarWidget *');
+        calendarElements.forEach(el => {
+          if (el.textContent?.includes('Powered by Smoobu') || el.textContent?.includes('Smoobu')) {
+            (el as HTMLElement).style.display = 'none';
+          }
+        });
+      }, 1000);
     };
     script.onerror = () => {
       console.error('Failed to load Smoobu calendar script');
@@ -187,7 +244,7 @@ export default function CalendarPage() {
             <CardContent className="p-2 md:p-6">
               <div 
                 id="smoobu-calendar-container" 
-                className="min-h-[400px] md:min-h-[600px] w-full bg-white rounded-lg overflow-hidden"
+                className="min-h-[400px] md:min-h-[600px] w-full bg-gradient-to-br from-background to-muted/20 rounded-lg overflow-hidden border"
                 style={{
                   maxWidth: '100%',
                   overflow: 'auto'
