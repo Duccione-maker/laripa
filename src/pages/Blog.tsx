@@ -7,6 +7,8 @@ import { CalendarIcon, UserIcon, ArrowRightIcon } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import { useToast } from "@/hooks/use-toast";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 interface BlogPost {
   id: string;
@@ -64,23 +66,29 @@ export default function Blog() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/50">
-        <div className="container mx-auto px-4 py-16">
-          <div className="animate-pulse space-y-8">
-            <div className="h-12 bg-muted rounded w-1/3"></div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="h-80 bg-muted rounded-lg"></div>
-              ))}
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <div className="flex-1 bg-gradient-to-br from-background via-background/95 to-muted/50 pt-20">
+          <div className="container mx-auto px-4 py-16">
+            <div className="animate-pulse space-y-8">
+              <div className="h-12 bg-muted rounded w-1/3"></div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <div key={i} className="h-80 bg-muted rounded-lg"></div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/50">
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <div className="flex-1 bg-gradient-to-br from-background via-background/95 to-muted/50 pt-20">
       <div className="container mx-auto px-4 py-16">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
@@ -146,6 +154,8 @@ export default function Blog() {
           </div>
         )}
       </div>
+      </div>
+      <Footer />
     </div>
   );
 }
