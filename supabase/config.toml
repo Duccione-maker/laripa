@@ -2,3 +2,6 @@ project_id = "dsylclbnkddaghmsptax"
 
 [functions.smoobu-booking]
 verify_jwt = false
+
+[functions.fetch-smoobu-prices]
+verify_jwt = false

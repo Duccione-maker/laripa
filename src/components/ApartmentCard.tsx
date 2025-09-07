@@ -5,6 +5,7 @@ import { Users, Maximize, MapPin, Bath, Coffee, Wifi } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSmoobuPricing } from "@/hooks/useSmoobuPricing";
 
 export interface ApartmentProps {
   id: string;
@@ -21,6 +22,7 @@ export interface ApartmentProps {
 export default function ApartmentCard({ apartment }: { apartment: ApartmentProps }) {
   const { t, language } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
+  const { pricing, loading } = useSmoobuPricing(apartment.id);
   
   // Use translated name and description if available
   const translatedName = language !== 'en' && t.apartmentDescriptions[apartment.id]?.name 
@@ -30,6 +32,10 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
   const translatedDescription = language !== 'en' && t.apartmentDescriptions[apartment.id]?.description 
     ? t.apartmentDescriptions[apartment.id].description 
     : apartment.description;
+
+  // Use dynamic pricing if available, otherwise fallback to static price
+  const displayPrice = pricing?.price || apartment.price;
+  const currency = pricing?.currency === 'EUR' ? '€' : '$';
   
   return (
     <div 
@@ -92,8 +98,20 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
         
         <div className="flex items-end justify-between pt-2">
           <div>
-            <span className="text-xl font-bold">${apartment.price}</span>
-            <span className="text-muted-foreground text-sm"> / {t.booking.summary.night}</span>
+            {loading ? (
+              <div className="animate-pulse">
+                <div className="h-6 bg-muted rounded w-16 mb-1"></div>
+                <div className="h-4 bg-muted rounded w-12"></div>
+              </div>
+            ) : (
+              <>
+                <span className="text-xl font-bold">{currency}{displayPrice}</span>
+                <span className="text-muted-foreground text-sm"> / {t.booking.summary.night}</span>
+                {pricing?.source === 'smoobu' && (
+                  <div className="text-xs text-green-600 mt-1">Prezzo in tempo reale</div>
+                )}
+              </>
+            )}
           </div>
           <Button asChild className="btn-primary">
             <Link to={`/apartments/${apartment.id}`}>{t.apartments.filters.viewDetails}</Link>
