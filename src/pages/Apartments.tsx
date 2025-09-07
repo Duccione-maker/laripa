@@ -13,7 +13,7 @@ const allApartments: ApartmentProps[] = [
     price: 280,
     capacity: 6,
     size: 120,
-    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    image: "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png",
     images: [
       "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png", // Cucina (principale)
       "/lovable-uploads/204d40d3-9d9a-411a-9f06-34ee9648960f.png", // Bagno
