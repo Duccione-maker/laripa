@@ -48,7 +48,7 @@ export const it = {
   },
   apartments: {
     title: "I Nostri Appartamenti e Camere",
-    subtitle: "Scopri la nostra selezione di alloggi premium, dalle accoglienti mansarde ai lussuosi attici.",
+    subtitle: "Scopri la nostra selezione di alloggi premium, perfetti per ogni tipo di soggiorno.",
     filters: {
       guests: "Ospiti",
       anyGuests: "Qualsiasi numero di ospiti",
