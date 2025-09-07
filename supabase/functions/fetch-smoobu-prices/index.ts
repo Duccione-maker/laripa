@@ -16,8 +16,10 @@ serve(async (req) => {
     
     const smoobuApiKey = Deno.env.get('SMOOBU_API_KEY');
     if (!smoobuApiKey) {
+      console.error('SMOOBU_API_KEY not configured');
       throw new Error('SMOOBU_API_KEY not configured');
     }
+    console.log('API Key configured, proceeding with Smoobu API call');
 
     // Map apartment IDs to Smoobu apartment IDs
     const apartmentMapping: Record<string, string> = {
