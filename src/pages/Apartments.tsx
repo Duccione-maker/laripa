@@ -28,7 +28,7 @@ const allApartments: ApartmentProps[] = [
   {
     id: "2", 
     name: "Ghiri",
-    description: "Characteristic apartment with welcoming atmosphere and charming views of the surroundings. The most loved on booking portals.",
+    description: "Characteristic apartment with breathtaking views of San Gimignano, welcoming atmosphere and charming surroundings. The most loved on booking portals.",
     price: 220,
     capacity: 6,
     size: 117,
