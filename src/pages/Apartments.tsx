@@ -11,7 +11,7 @@ const allApartments: ApartmentProps[] = [
     name: "Padronale",
     description: "Main apartment with panoramic vineyard views, generous spaces and luxury comforts.",
     price: 280,
-    capacity: 6,
+    capacity: 4,
     size: 146,
     image: "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png",
     images: [
