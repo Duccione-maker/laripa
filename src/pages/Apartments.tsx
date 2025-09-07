@@ -32,14 +32,14 @@ const allApartments: ApartmentProps[] = [
     price: 220,
     capacity: 4,
     size: 85,
-    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    image: "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png",
     images: [
-      "/lovable-uploads/ghiri-1.jpg",
-      "/lovable-uploads/ghiri-2.jpg",
-      "/lovable-uploads/ghiri-3.jpg",
-      "/lovable-uploads/ghiri-4.jpg",
-      "/lovable-uploads/ghiri-5.jpg",
-      "/lovable-uploads/ghiri-6.jpg"
+      "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png", // Giardino (principale)
+      "/lovable-uploads/524138e8-c9d1-41e9-8867-3632efb248fc.png", // Cucina
+      "/lovable-uploads/d9903d8f-4c21-4d24-a672-25f1b3bc74ac.png", // Camera da letto
+      "/lovable-uploads/d9b7a116-e425-4b55-85d0-4bdffcf35f92.png", // Camera singola
+      "/lovable-uploads/163f6f54-8b1e-483a-82a8-c3077685d7c2.png", // Bagno
+      "/lovable-uploads/151c50a6-cce6-4b3c-b93e-cf9e0a2b078b.png"  // Esterno
     ],
     location: "Piano terra",
     features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Giardino privato", "Patio"]
