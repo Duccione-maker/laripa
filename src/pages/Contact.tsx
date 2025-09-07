@@ -116,8 +116,8 @@ export default function Contact() {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">{t.contact.email}</h3>
-                      <p className="text-muted-foreground">info@maresereno.com</p>
-                      <p className="text-muted-foreground">reservations@maresereno.com</p>
+                      <p className="text-muted-foreground">info@laripadisangimignano.com</p>
+                      <p className="text-muted-foreground">reservations@laripadisangimignano.com</p>
                     </div>
                   </div>
                   

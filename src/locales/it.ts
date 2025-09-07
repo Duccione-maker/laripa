@@ -218,10 +218,10 @@ export const it = {
   },
   home: {
     welcome: {
-      subtitle: "Benvenuti a MareSereno",
-      title: "Alloggi di Lusso sul Mare",
-      description1: "Situato sulla incontaminata costa mediterranea, MareSereno offre una squisita collezione di appartamenti di lusso e camere d'albergo. I nostri alloggi fronte mare combinano un design elegante con comfort moderni, creando l'ambientazione perfetta per una indimenticabile fuga al mare.",
-      description2: "Che tu stia cercando una fuga romantica, una vacanza in famiglia o un ritiro tranquillo, la nostra vasta gamma di alloggi si adatta a ogni preferenza ed esigenza. Ogni spazio è progettato con cura per fornire viste panoramiche sul mare e accesso diretto alla spiaggia.",
+      subtitle: "Benvenuti a La Ripa di San Gimignano",
+      title: "Alloggi di Lusso in Toscana",
+      description1: "Situata nel cuore della splendida campagna toscana, La Ripa di San Gimignano offre una squisita collezione di appartamenti e alloggi di lusso. La nostra proprietà storica combina un design elegante con comfort moderni, creando l'ambientazione perfetta per una indimenticabile fuga toscana.",
+      description2: "Che tu stia cercando una fuga romantica, una vacanza in famiglia o un ritiro tranquillo, la nostra vasta gamma di alloggi si adatta a ogni preferenza ed esigenza. Ogni spazio è progettato con cura per fornire viste panoramiche sulle colline toscane e sui vigneti.",
       learnMore: "Scopri di Più"
     },
     booking: {
@@ -276,7 +276,7 @@ export const it = {
   amenitiesPage: {
     title: "Cose da Sapere",
     subtitle: "Tutto ciò che devi sapere per rendere il tuo soggiorno perfetto.",
-    description: "A MareSereno, ci dedichiamo a fornire un'esperienza di soggiorno completa e lussuosa. Dai nostri servizi sulla spiaggia alle strutture di benessere, ogni dettaglio è stato curato per garantire il massimo comfort e piacere.",
+    description: "A La Ripa di San Gimignano, ci dedichiamo a fornire un'esperienza di soggiorno completa e lussuosa. Dai nostri servizi nella proprietà alle strutture di benessere, ogni dettaglio è stato curato per garantire il massimo comfort e piacere.",
     categories: {
       arrival: {
         title: "Come Raggiungerci",

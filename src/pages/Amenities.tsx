@@ -46,7 +46,7 @@ export default function Amenities() {
           <div className="container relative z-10 pt-20">
             <div className="text-center max-w-3xl mx-auto">
               <span className="text-sm text-white/90 font-medium uppercase tracking-wider">
-                MareSereno
+                La Ripa di San Gimignano
               </span>
               <h1 className="text-4xl md:text-5xl font-bold mt-2 mb-6 text-white">
                 {t.amenitiesPage.title}
