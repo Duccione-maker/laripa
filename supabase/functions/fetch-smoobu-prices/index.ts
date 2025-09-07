@@ -96,31 +96,34 @@ serve(async (req) => {
       const ratesData = await response.json();
       console.log('Today rates response:', JSON.stringify(ratesData, null, 2));
 
-      // Get today's price from rates data
+      // Get today's price from rates data - Smoobu structure: data[apartmentId][date]
       let rateFound = false;
       let price = 200;
       let todayRate = null;
 
-      // Try different possible data structures
-      if (ratesData.data && Array.isArray(ratesData.data) && ratesData.data.length > 0) {
-        todayRate = ratesData.data[0];
-        price = todayRate.price || todayRate.rate || 200;
-        rateFound = true;
-        console.log(`Found price in ratesData.data: ${price}`);
-      } else if (Array.isArray(ratesData) && ratesData.length > 0) {
-        todayRate = ratesData[0];
-        price = todayRate.price || todayRate.rate || 200;
-        rateFound = true;
-        console.log(`Found price in direct array: ${price}`);
-      } else if (ratesData.price) {
-        price = ratesData.price;
-        todayRate = ratesData;
-        rateFound = true;
-        console.log(`Found price directly: ${price}`);
+      if (ratesData.data && ratesData.data[smoobuApartmentId]) {
+        const apartmentRates = ratesData.data[smoobuApartmentId];
+        
+        // Try today's date first
+        if (apartmentRates[today]) {
+          todayRate = apartmentRates[today];
+          price = todayRate.price || 200;
+          rateFound = true;
+          console.log(`Found price for ${today}: ${price}`);
+        } else {
+          // If today's date not found, try to get the first available date
+          const firstDate = Object.keys(apartmentRates)[0];
+          if (firstDate && apartmentRates[firstDate]) {
+            todayRate = apartmentRates[firstDate];
+            price = todayRate.price || 200;
+            rateFound = true;
+            console.log(`Found price for ${firstDate}: ${price}`);
+          }
+        }
       }
 
       if (rateFound) {
-        console.log(`Successfully found today's price: ${price} for apartment ${smoobuApartmentId}`);
+        console.log(`Successfully found price: ${price} for apartment ${smoobuApartmentId}`);
         
         return new Response(
           JSON.stringify({
