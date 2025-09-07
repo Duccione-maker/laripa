@@ -18,7 +18,9 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/padronale-1.jpg",
       "/lovable-uploads/padronale-2.jpg", 
       "/lovable-uploads/padronale-3.jpg",
-      "/lovable-uploads/padronale-4.jpg"
+      "/lovable-uploads/padronale-4.jpg",
+      "/lovable-uploads/padronale-5.jpg",
+      "/lovable-uploads/padronale-6.jpg"
     ],
     location: "Primo piano",
     features: ["Wi-Fi", "Cucina completa", "2 Bagni", "Aria condizionata", "TV", "Terrazza vista mare", "Jacuzzi", "Soggiorno"]
@@ -35,7 +37,9 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/ghiri-1.jpg",
       "/lovable-uploads/ghiri-2.jpg",
       "/lovable-uploads/ghiri-3.jpg",
-      "/lovable-uploads/ghiri-4.jpg"
+      "/lovable-uploads/ghiri-4.jpg",
+      "/lovable-uploads/ghiri-5.jpg",
+      "/lovable-uploads/ghiri-6.jpg"
     ],
     location: "Piano terra",
     features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Giardino privato", "Patio"]
@@ -52,7 +56,9 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/fienile-1.jpg",
       "/lovable-uploads/fienile-2.jpg",
       "/lovable-uploads/fienile-3.jpg",
-      "/lovable-uploads/fienile-4.jpg"
+      "/lovable-uploads/fienile-4.jpg",
+      "/lovable-uploads/fienile-5.jpg",
+      "/lovable-uploads/fienile-6.jpg"
     ],
     location: "Dependance",
     features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Camino", "Terrazza"]
@@ -68,7 +74,10 @@ const allApartments: ApartmentProps[] = [
     images: [
       "/lovable-uploads/nidi-1.jpg",
       "/lovable-uploads/nidi-2.jpg",
-      "/lovable-uploads/nidi-3.jpg"
+      "/lovable-uploads/nidi-3.jpg",
+      "/lovable-uploads/nidi-4.jpg",
+      "/lovable-uploads/nidi-5.jpg",
+      "/lovable-uploads/nidi-6.jpg"
     ],
     location: "Mansarda",
     features: ["Wi-Fi", "Angolo cottura", "Bagno", "Aria condizionata", "TV", "Vista panoramica"]
