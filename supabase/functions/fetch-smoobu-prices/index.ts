@@ -98,13 +98,15 @@ serve(async (req) => {
 
       // Try different property names for price
       const price = apartment.defaultPrice || apartment.price || apartment.basePrice || apartment.rate || 200;
+      console.log(`Price found for apartment ${apartment.name}:`, price, 'Properties available:', Object.keys(apartment));
 
       return new Response(
         JSON.stringify({
           price: price,
           currency: 'EUR',
           source: 'smoobu',
-          apartmentData: apartment
+          apartmentData: apartment,
+          priceSource: price === 200 ? 'fallback' : 'smoobu_property'
         }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
