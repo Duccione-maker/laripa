@@ -79,14 +79,14 @@ const allApartments: ApartmentProps[] = [
     price: 160,
     capacity: 2,
     size: 45,
-    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
+    image: "/lovable-uploads/64f16b83-f8d5-49dc-b96e-6a208c142224.png", // Soggiorno rustico con camino (principale)
     images: [
-      "/lovable-uploads/nidi-1.jpg",
-      "/lovable-uploads/nidi-2.jpg",
-      "/lovable-uploads/nidi-3.jpg",
-      "/lovable-uploads/nidi-4.jpg",
-      "/lovable-uploads/nidi-5.jpg",
-      "/lovable-uploads/nidi-6.jpg"
+      "/lovable-uploads/64f16b83-f8d5-49dc-b96e-6a208c142224.png", // Soggiorno rustico con camino (principale)
+      "/lovable-uploads/f7046709-9eac-4cf9-b68b-c0fdfac4de60.png", // Soggiorno con scala e libreria
+      "/lovable-uploads/c99136a0-db75-45c6-a328-e285d21506cc.png", // Camera con due letti singoli
+      "/lovable-uploads/4501c737-dbc3-4e68-b653-3173cb93a8fe.png", // Bagno con piastrelle blu
+      "/lovable-uploads/46ded70c-6837-488e-a636-4ee5de394f3a.png", // Lavabo del bagno
+      "/lovable-uploads/a578cc1c-564c-4d1b-a5b0-aae344f7c162.png"  // Tavolo per colazione in giardino
     ],
     location: "Mansarda",
     features: ["Wi-Fi", "Angolo cottura", "Bagno", "Aria condizionata", "TV", "Vista panoramica"]
