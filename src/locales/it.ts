@@ -371,7 +371,7 @@ export const it = {
   apartmentDescriptions: {
     "1": {
       name: "Padronale",
-      description: "Appartamento principale con vista panoramica sul mare, spazi generosi e comfort di lusso."
+      description: "Appartamento principale con vista panoramica sul vigneto, spazi generosi e comfort di lusso."
     },
     "2": {
       name: "Ghiri",
