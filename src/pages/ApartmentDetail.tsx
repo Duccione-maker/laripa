@@ -39,10 +39,10 @@ const allApartments: ApartmentProps[] = [
   {
     id: "2", 
     name: "Ghiri",
-    description: "Characteristic apartment with welcoming atmosphere and charming views of the surroundings.",
+    description: "Characteristic apartment with welcoming atmosphere and charming views of the surroundings. The most loved on booking portals.",
     price: 220,
-    capacity: 4,
-    size: 85,
+    capacity: 6,
+    size: 117,
     image: "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png", // Giardino (principale)
     images: [
       "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png", // Giardino (principale)
@@ -52,8 +52,8 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/163f6f54-8b1e-483a-82a8-c3077685d7c2.png", // Bagno
       "/lovable-uploads/151c50a6-cce6-4b3c-b93e-cf9e0a2b078b.png"  // Esterno
     ],
-    location: "Piano terra",
-    features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Giardino privato", "Patio"]
+    location: "Piano terra + primo piano",
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV"]
   },
   {
     id: "3",
