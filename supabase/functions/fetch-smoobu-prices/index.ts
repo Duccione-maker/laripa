@@ -52,8 +52,11 @@ serve(async (req) => {
         }
       );
 
+      console.log(`Rates API response status: ${response.status}`);
       if (!response.ok) {
-        console.log(`Rates API error: ${response.status}, falling back to static prices`);
+        const errorText = await response.text();
+        console.log(`Rates API error: ${response.status} - ${errorText}`);
+        console.log(`Failed URL: https://login.smoobu.com/api/rates?apartments[]=${smoobuApartmentId}&start_date=${today}&end_date=${tomorrow}`);
         // Fallback to static prices if rates API fails
         const fallbackPrices: Record<string, number> = {
           '1': 139, // Prezzo più realistico basato su quello che mi hai detto
