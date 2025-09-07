@@ -15,12 +15,12 @@ const allApartments: ApartmentProps[] = [
     size: 120,
     image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
     images: [
-      "/lovable-uploads/padronale-1.jpg",
-      "/lovable-uploads/padronale-2.jpg", 
-      "/lovable-uploads/padronale-3.jpg",
-      "/lovable-uploads/padronale-4.jpg",
-      "/lovable-uploads/padronale-5.jpg",
-      "/lovable-uploads/padronale-6.jpg"
+      "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png", // Cucina (principale)
+      "/lovable-uploads/204d40d3-9d9a-411a-9f06-34ee9648960f.png", // Bagno
+      "/lovable-uploads/ac482e8b-5bc9-4801-a5cd-62c4e098627a.png", // Veranda
+      "/lovable-uploads/1a9ddcc6-3847-415a-b7e4-62542a629852.png", // Stanza singola
+      "/lovable-uploads/7ce30357-9f21-45f5-9a88-ae9cfef3a153.png", // Stanza matrimoniale
+      "/lovable-uploads/698d71b3-1f38-4d4e-a8f2-6f31e882cd08.png"  // Soggiorno
     ],
     location: "Primo piano",
     features: ["Wi-Fi", "Cucina completa", "2 Bagni", "Aria condizionata", "TV", "Terrazza vista mare", "Jacuzzi", "Soggiorno"]
