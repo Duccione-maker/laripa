@@ -46,12 +46,34 @@ serve(async (req) => {
         throw new Error(`Smoobu API error: ${response.status}`);
       }
 
-      const apartments = await response.json();
-      const apartment = apartments.find((apt: any) => 
-        apt.name.toLowerCase().includes(smoobuApartmentId.toLowerCase())
-      );
+      const apartmentsData = await response.json();
+      console.log('Smoobu apartments response:', JSON.stringify(apartmentsData, null, 2));
+
+      // Handle different response formats
+      let apartments = apartmentsData;
+      if (apartmentsData.data) {
+        apartments = apartmentsData.data;
+      }
+      if (apartmentsData.apartments) {
+        apartments = apartmentsData.apartments;
+      }
+
+      // Ensure apartments is an array
+      if (!Array.isArray(apartments)) {
+        console.log('Apartments data is not an array:', typeof apartments);
+        throw new Error('Invalid apartments data format from Smoobu');
+      }
+
+      const apartment = apartments.find((apt: any) => {
+        const aptName = apt.name?.toLowerCase() || '';
+        const aptId = apt.id?.toString() || '';
+        return aptName.includes(smoobuApartmentId.toLowerCase()) || aptId === smoobuApartmentId;
+      });
+
+      console.log('Found apartment:', apartment);
 
       if (!apartment) {
+        console.log(`Apartment ${smoobuApartmentId} not found in Smoobu data`);
         // Fallback to static prices if apartment not found
         const fallbackPrices: Record<string, number> = {
           '1': 280,
@@ -64,7 +86,8 @@ serve(async (req) => {
           JSON.stringify({
             price: fallbackPrices[apartmentId] || 200,
             currency: 'EUR',
-            source: 'fallback'
+            source: 'fallback',
+            reason: 'apartment_not_found_in_smoobu'
           }),
           {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -73,11 +96,15 @@ serve(async (req) => {
         );
       }
 
+      // Try different property names for price
+      const price = apartment.defaultPrice || apartment.price || apartment.basePrice || apartment.rate || 200;
+
       return new Response(
         JSON.stringify({
-          price: apartment.defaultPrice || 200,
+          price: price,
           currency: 'EUR',
-          source: 'smoobu'
+          source: 'smoobu',
+          apartmentData: apartment
         }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
