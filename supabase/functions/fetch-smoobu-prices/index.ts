@@ -54,10 +54,10 @@ serve(async (req) => {
         console.log(`Rates API error: ${response.status}, falling back to static prices`);
         // Fallback to static prices if rates API fails
         const fallbackPrices: Record<string, number> = {
-          '1': 280,
-          '2': 220, 
-          '3': 190,
-          '4': 160
+          '1': 139, // Prezzo più realistico basato su quello che mi hai detto
+          '2': 129, 
+          '3': 119,
+          '4': 109
         };
 
         return new Response(
@@ -101,10 +101,10 @@ serve(async (req) => {
         console.log('No rate data found for today, using fallback');
         // Fallback if no rate data found
         const fallbackPrices: Record<string, number> = {
-          '1': 280,
-          '2': 220,
-          '3': 190,
-          '4': 160
+          '1': 139,
+          '2': 129,
+          '3': 119,
+          '4': 109
         };
 
         return new Response(
@@ -172,10 +172,10 @@ serve(async (req) => {
     // Return fallback prices on error
     const { apartmentId } = await req.json().catch(() => ({ apartmentId: '1' }));
     const fallbackPrices: Record<string, number> = {
-      '1': 280,
-      '2': 220,
-      '3': 190, 
-      '4': 160
+      '1': 139,
+      '2': 129,
+      '3': 119, 
+      '4': 109
     };
 
     return new Response(
