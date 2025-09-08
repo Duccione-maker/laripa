@@ -3,7 +3,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import BookingForm from "@/components/BookingForm";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import GoogleReviews from "@/components/GoogleReviews";
 import ApartmentCard, { ApartmentProps } from "@/components/ApartmentCard";
 import { Button } from "@/components/ui/button";
@@ -197,9 +196,6 @@ export default function Index() {
             </div>
           </div>
         </section>
-        
-        {/* Testimonials Section */}
-        <TestimonialsSection />
         
         {/* Google Reviews Section */}
         <GoogleReviews />
