@@ -2,7 +2,7 @@ export const it = {
   nav: {
     home: "Home",
     apartments: "Appartamenti",
-    amenities: "Cose da Sapere",
+    amenities: "Da Sapere",
     gallery: "Galleria",
     contact: "Contatti",
     bookNow: "Prenota Ora"
@@ -274,7 +274,7 @@ export const it = {
     }
   },
   amenitiesPage: {
-    title: "Cose da Sapere",
+    title: "Da Sapere",
     subtitle: "Tutto ciò che devi sapere per rendere il tuo soggiorno perfetto.",
     description: "A La Ripa, ci dedichiamo a fornire un'esperienza di soggiorno completa e lussuosa. Dai nostri servizi nella proprietà alle strutture di benessere, ogni dettaglio è stato curato per garantire il massimo comfort e piacere.",
     categories: {
