@@ -170,7 +170,7 @@ export default function Amenities() {
                         <iframe
                           width="100%"
                           height="200"
-                          src="https://www.youtube.com/embed/YOUR_GHIRI_VIDEO_ID"
+                          src="https://www.youtube.com/embed/fs0O-PuVWV4"
                           title="Accesso Ghiri"
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
