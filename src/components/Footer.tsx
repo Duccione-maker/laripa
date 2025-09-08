@@ -62,7 +62,7 @@ export default function Footer() {
                 <MapPin className="w-5 h-5 mr-2 mt-0.5 text-primary flex-shrink-0" />
                 <div>
                   <a 
-                    href="https://maps.app.goo.gl/Hswku8u4FcpTowz18"
+                    href="https://www.google.com/maps/search/?api=1&query=Via+Santa+Maria+70%2C+53037+San+Gimignano+SI%2C+Italy"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transition-colors cursor-pointer underline decoration-1 underline-offset-2"
