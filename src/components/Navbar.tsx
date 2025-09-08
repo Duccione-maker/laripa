@@ -28,6 +28,20 @@ export default function Navbar() {
   // Only use white text on home page when not scrolled
   const isHomePage = location.pathname === "/";
   
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      // Already on home page, just scroll to footer
+      const footer = document.getElementById("footer");
+      if (footer) {
+        footer.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Navigate to home page first, then scroll
+      window.location.href = "/#footer";
+    }
+  };
+
   const navLinks = [
     { name: t.nav.home, path: "/" },
     { name: t.nav.apartments, path: "/apartments" },
@@ -35,7 +49,7 @@ export default function Navbar() {
     { name: "Calendario", path: "/calendar" },
     { name: t.nav.gallery, path: "/gallery" },
     { name: "Blog", path: "/blog" },
-    { name: t.nav.contact, path: "/#footer" }
+    { name: t.nav.contact, path: "/contact", isContact: true }
   ];
 
   useEffect(() => {
@@ -58,9 +72,18 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <ul className="hidden md:flex space-x-8">
           {navLinks.map(link => <li key={link.name} className="relative">
-              <Link to={link.path} className={cn("font-medium transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full", isHomePage && !scrolled ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
-                {link.name}
-              </Link>
+              {link.isContact ? (
+                <button 
+                  onClick={handleContactClick}
+                  className={cn("font-medium transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full", isHomePage && !scrolled ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}
+                >
+                  {link.name}
+                </button>
+              ) : (
+                <Link to={link.path} className={cn("font-medium transition-colors hover:text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full", isHomePage && !scrolled ? "text-white hover:text-white/80" : "text-foreground hover:text-primary")}>
+                  {link.name}
+                </Link>
+              )}
             </li>)}
         </ul>
 
@@ -144,9 +167,21 @@ export default function Navbar() {
               </div>
               <ul className="space-y-6">
                 {navLinks.map(link => <li key={link.name}>
-                    <Link to={link.path} className="text-lg font-medium transition-colors hover:text-primary" onClick={() => setMobileMenuOpen(false)}>
-                      {link.name}
-                    </Link>
+                    {link.isContact ? (
+                      <button 
+                        onClick={(e) => {
+                          handleContactClick(e);
+                          setMobileMenuOpen(false);
+                        }}
+                        className="text-lg font-medium transition-colors hover:text-primary"
+                      >
+                        {link.name}
+                      </button>
+                    ) : (
+                      <Link to={link.path} className="text-lg font-medium transition-colors hover:text-primary" onClick={() => setMobileMenuOpen(false)}>
+                        {link.name}
+                      </Link>
+                    )}
                   </li>)}
               </ul>
             </div>
