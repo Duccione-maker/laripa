@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import BookingForm from "@/components/BookingForm";
-import GoogleReviews from "@/components/GoogleReviews";
+import AllReviews from "@/components/AllReviews";
 import ApartmentCard, { ApartmentProps } from "@/components/ApartmentCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -197,8 +197,8 @@ export default function Index() {
           </div>
         </section>
         
-        {/* Google Reviews Section */}
-        <GoogleReviews />
+        {/* Reviews Section */}
+        <AllReviews />
         
         {/* Features Section */}
         <section className="section bg-card">
