@@ -70,8 +70,8 @@ const allApartments: ApartmentProps[] = [
     name: "Nidi",
     description: "Intimate and cozy apartment, ideal for couples seeking romance and tranquility.",
     price: 160,
-    capacity: 2,
-    size: 45,
+    capacity: 4,
+    size: 85,
     image: "/lovable-uploads/64f16b83-f8d5-49dc-b96e-6a208c142224.png", // Soggiorno rustico con camino (principale)
     images: [
       "/lovable-uploads/64f16b83-f8d5-49dc-b96e-6a208c142224.png", // Soggiorno rustico con camino (principale)
@@ -81,8 +81,8 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/46ded70c-6837-488e-a636-4ee5de394f3a.png", // Lavabo del bagno
       "/lovable-uploads/a578cc1c-564c-4d1b-a5b0-aae344f7c162.png"  // Tavolo per colazione in giardino
     ],
-    location: "Mansarda",
-    features: ["Wi-Fi", "Angolo cottura", "Bagno", "Aria condizionata", "TV", "Vista panoramica"]
+    location: "Piano terra + primo piano",
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Gazebo esterno", "2 bagni"]
   }
 ];
 

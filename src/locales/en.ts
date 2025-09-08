@@ -292,7 +292,7 @@ export const en = {
     "4": {
       name: "Nidi",
       description: "Intimate and cozy apartment, ideal for couples seeking romance and tranquility.",
-      location: "Attic"
+      location: "Ground floor + first floor"
     }
   },
   apartmentFeatures: {
@@ -326,7 +326,8 @@ export const en = {
     "Terrazza": "Terrace",
     "Angolo cottura": "Kitchenette",
     "Vista panoramica": "Panoramic view",
-    "Gazebo": "Gazebo",
+    "Gazebo esterno": "Outdoor gazebo",
+    "2 bagni": "2 bathrooms",
     "Vista sul giardino e piscina": "Garden and pool view"
   },
   apartmentLocations: {

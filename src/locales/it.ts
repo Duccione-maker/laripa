@@ -387,7 +387,7 @@ export const it = {
     "4": {
       name: "Nidi",
       description: "Appartamento intimo e raccolto, ideale per coppie in cerca di romanticismo e tranquillità.",
-      location: "Mansarda"
+      location: "Piano terra + primo piano"
     }
   },
   apartmentFeatures: {
@@ -422,6 +422,8 @@ export const it = {
     "Angolo cottura": "Angolo cottura",
     "Vista panoramica": "Vista panoramica",
     "Gazebo": "Gazebo",
+    "Gazebo esterno": "Gazebo esterno",
+    "2 bagni": "2 bagni",
     "Vista sul giardino e piscina": "Vista sul giardino e piscina"
   },
   apartmentLocations: {
