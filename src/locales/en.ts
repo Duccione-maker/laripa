@@ -276,19 +276,23 @@ export const en = {
   apartmentDescriptions: {
     "1": {
       name: "Padronale",
-      description: "Main apartment with panoramic sea views, generous spaces and luxury comforts."
+      description: "Main apartment with panoramic vineyard views, generous spaces and luxury comforts.",
+      location: "Ground floor"
     },
     "2": {
       name: "Ghiri",
-      description: "Characteristic apartment with welcoming atmosphere and charming views of the surroundings."
+      description: "Characteristic 4+2 apartment with breathtaking views of San Gimignano, Japanese bed and service bathroom on ground floor. Welcoming atmosphere and charming surroundings. The most loved on booking portals.",
+      location: "Ground floor + first floor"
     },
     "3": {
       name: "Fienile",
-      description: "Apartment with modern rustic charm, perfect for those seeking authenticity and comfort."
+      description: "Apartment with modern rustic charm, perfect for those seeking authenticity and comfort.",
+      location: "Dependance"
     },
     "4": {
       name: "Nidi",
-      description: "Intimate and cozy apartment, ideal for couples seeking romance and tranquility."
+      description: "Intimate and cozy apartment, ideal for couples seeking romance and tranquility.",
+      location: "Attic"
     }
   },
   amenitiesPage: {

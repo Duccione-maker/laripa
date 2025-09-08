@@ -371,19 +371,23 @@ export const it = {
   apartmentDescriptions: {
     "1": {
       name: "Padronale",
-      description: "Appartamento principale con vista panoramica sul vigneto, spazi generosi e comfort di lusso."
+      description: "Appartamento principale con vista panoramica sul vigneto, spazi generosi e comfort di lusso.",
+      location: "Piano terra"
     },
     "2": {
       name: "Ghiri",
-      description: "Appartamento caratteristico 4+2 con vista mozzafiato su San Gimignano, letto giapponese e bagnetto di servizio al piano terra. Atmosfera accogliente e dintorni suggestivi. Il più amato sui portali di prenotazione."
+      description: "Appartamento caratteristico 4+2 con vista mozzafiato su San Gimignano, letto giapponese e bagnetto di servizio al piano terra. Atmosfera accogliente e dintorni suggestivi. Il più amato sui portali di prenotazione.",
+      location: "Piano terra + primo piano"
     },
     "3": {
       name: "Fienile",
-      description: "Appartamento dal fascino rustico moderno, perfetto per chi cerca autenticità e comfort."
+      description: "Appartamento dal fascino rustico moderno, perfetto per chi cerca autenticità e comfort.",
+      location: "Dependance"
     },
     "4": {
       name: "Nidi",
-      description: "Appartamento intimo e raccolto, ideale per coppie in cerca di romanticismo e tranquillità."
+      description: "Appartamento intimo e raccolto, ideale per coppie in cerca di romanticismo e tranquillità.",
+      location: "Mansarda"
     }
   }
 };
