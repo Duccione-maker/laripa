@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import BookingForm from "@/components/BookingForm";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import GoogleReviews from "@/components/GoogleReviews";
 import ApartmentCard, { ApartmentProps } from "@/components/ApartmentCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -199,6 +200,9 @@ export default function Index() {
         
         {/* Testimonials Section */}
         <TestimonialsSection />
+        
+        {/* Google Reviews Section */}
+        <GoogleReviews />
         
         {/* Features Section */}
         <section className="section bg-card">

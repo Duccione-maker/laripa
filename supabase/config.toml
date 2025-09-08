@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.fetch-smoobu-prices]
 verify_jwt = false
+
+[functions.fetch-google-reviews]
+verify_jwt = false
