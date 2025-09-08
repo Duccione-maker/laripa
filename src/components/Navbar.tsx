@@ -35,7 +35,7 @@ export default function Navbar() {
     { name: "Calendario", path: "/calendar" },
     { name: t.nav.gallery, path: "/gallery" },
     { name: "Blog", path: "/blog" },
-    { name: t.nav.contact, path: "/contact" }
+    { name: t.nav.contact, path: "/#footer" }
   ];
 
   useEffect(() => {

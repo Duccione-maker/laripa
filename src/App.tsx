@@ -10,7 +10,7 @@ import ApartmentDetail from "./pages/ApartmentDetail";
 import BookingPage from "./pages/BookingPage";
 import Calendar from "./pages/Calendar";
 import Gallery from "./pages/Gallery";
-import Contact from "./pages/Contact";
+
 import Amenities from "./pages/Amenities";
 import NotFound from "./pages/NotFound";
 import MyBookings from "./pages/MyBookings";
@@ -41,7 +41,7 @@ const App = () => (
               <Route path="/booking" element={<BookingPage />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/gallery" element={<Gallery />} />
-              <Route path="/contact" element={<Contact />} />
+              
               <Route path="/amenities" element={<Amenities />} />
               <Route path="/auth" element={<Auth />} />
         <Route path="/my-bookings" element={<MyBookings />} />
