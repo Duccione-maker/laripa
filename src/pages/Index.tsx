@@ -7,7 +7,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import ApartmentCard, { ApartmentProps } from "@/components/ApartmentCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight, Wifi, Utensils, Waves, LifeBuoy, MapPin, Coffee, Trees, Droplets, Home, Heart } from "lucide-react";
+import { ArrowRight, Wifi, Utensils, Waves, LifeBuoy, MapPin, Coffee, Trees, Droplets, Home, Heart, Grape, Leaf } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 // Sample apartments data
@@ -73,12 +73,12 @@ export default function Index() {
   // Feature items
   const features = [
     {
-      icon: <Trees className="h-8 w-8 text-primary" />,
+      icon: <Grape className="h-8 w-8 text-primary" />,
       title: t.home.amenities.features.vineyards.title,
       description: t.home.amenities.features.vineyards.description
     },
     {
-      icon: <Droplets className="h-8 w-8 text-primary" />,
+      icon: <Waves className="h-8 w-8 text-primary" />,
       title: t.home.amenities.features.pools.title,
       description: t.home.amenities.features.pools.description
     },
@@ -93,7 +93,7 @@ export default function Index() {
       description: t.home.amenities.features.location.description
     },
     {
-      icon: <Coffee className="h-8 w-8 text-primary" />,
+      icon: <Leaf className="h-8 w-8 text-primary" />,
       title: t.home.amenities.features.oil.title,
       description: t.home.amenities.features.oil.description
     },
