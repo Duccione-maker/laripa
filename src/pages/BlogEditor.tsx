@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { SaveIcon, ArrowLeftIcon } from "lucide-react";
+import { SaveIcon, ArrowLeftIcon, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 
@@ -32,6 +32,7 @@ export default function BlogEditor() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(!!id);
+  const [optimizingLoading, setOptimizingLoading] = useState(false);
   const [formData, setFormData] = useState<BlogPostForm>({
     title: '',
     slug: '',
@@ -111,6 +112,55 @@ export default function BlogEditor() {
       slug: !isEdit || prev.slug === generateSlug(prev.title) ? generateSlug(title) : prev.slug,
       meta_title: !prev.meta_title || prev.meta_title === prev.title ? title : prev.meta_title,
     }));
+  };
+
+  const optimizeSEO = async () => {
+    if (!formData.title.trim() || !formData.content.trim()) {
+      toast({
+        title: "Dati mancanti",
+        description: "Inserisci almeno il titolo e il contenuto per ottimizzare il SEO",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setOptimizingLoading(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('optimize-seo', {
+        body: {
+          title: formData.title,
+          content: formData.content
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Aggiorna i campi con i dati ottimizzati
+      setFormData(prev => ({
+        ...prev,
+        meta_title: data.metaTitle,
+        meta_description: data.metaDescription,
+        slug: data.slug,
+        excerpt: data.excerpt
+      }));
+
+      toast({
+        title: "SEO Ottimizzato!",
+        description: "Meta tags, slug ed estratto sono stati ottimizzati automaticamente",
+      });
+    } catch (error) {
+      console.error('Error optimizing SEO:', error);
+      toast({
+        title: "Errore",
+        description: "Impossibile ottimizzare il SEO. Riprova più tardi.",
+        variant: "destructive",
+      });
+    } finally {
+      setOptimizingLoading(false);
+    }
   };
 
   const publishToFacebook = async (postData: BlogPostForm) => {
@@ -333,7 +383,19 @@ export default function BlogEditor() {
 
           <Card className="glass-card mt-6">
             <CardHeader>
-              <CardTitle>SEO e Meta Tags</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle>SEO e Meta Tags</CardTitle>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={optimizeSEO}
+                  disabled={optimizingLoading}
+                  className="flex items-center gap-2"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  {optimizingLoading ? 'Ottimizzando...' : '🤖 Ottimizza SEO'}
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
