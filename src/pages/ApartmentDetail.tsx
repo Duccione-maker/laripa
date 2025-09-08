@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { 
   ArrowLeft, Users, Maximize, MapPin, Bath, Coffee, Wifi, Calendar, Phone, Mail, ChevronLeft, ChevronRight,
   UtensilsCrossed, Wind, Shirt, Flame, Baby, Pizza, Microwave, Zap, Car, Gift,
-  Waves, WashingMachine, Bed, Tv, Home, Thermometer, PawPrint, Sofa, Settings
+  Waves, WashingMachine, Bed, Tv, Home, Thermometer, PawPrint, Sofa, Settings, Eye
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -151,32 +151,33 @@ export default function ApartmentDetail() {
   const getFeatureIcon = (feature: string) => {
     const lowerFeature = feature.toLowerCase();
     
-    if (lowerFeature.includes("area pranzo")) return <UtensilsCrossed className="h-4 w-4" />;
-    if (lowerFeature.includes("aria condizionata")) return <Wind className="h-4 w-4" />;
-    if (lowerFeature.includes("asciugacapelli")) return <Wind className="h-4 w-4" />;
-    if (lowerFeature.includes("asciugamani")) return <Shirt className="h-4 w-4" />;
+    if (lowerFeature.includes("area pranzo") || lowerFeature.includes("dining area")) return <UtensilsCrossed className="h-4 w-4" />;
+    if (lowerFeature.includes("aria condizionata") || lowerFeature.includes("air conditioning")) return <Wind className="h-4 w-4" />;
+    if (lowerFeature.includes("asciugacapelli") || lowerFeature.includes("hair dryer")) return <Wind className="h-4 w-4" />;
+    if (lowerFeature.includes("asciugamani") || lowerFeature.includes("towels")) return <Shirt className="h-4 w-4" />;
     if (lowerFeature.includes("barbecue")) return <Flame className="h-4 w-4" />;
-    if (lowerFeature.includes("bollitore")) return <Coffee className="h-4 w-4" />;
-    if (lowerFeature.includes("camino")) return <Flame className="h-4 w-4" />;
-    if (lowerFeature.includes("fasciatoio")) return <Baby className="h-4 w-4" />;
-    if (lowerFeature.includes("ferro")) return <Settings className="h-4 w-4" />;
-    if (lowerFeature.includes("forno a legna") || lowerFeature.includes("pizza")) return <Pizza className="h-4 w-4" />;
-    if (lowerFeature.includes("forno a microonde")) return <Microwave className="h-4 w-4" />;
-    if (lowerFeature.includes("forno elettrico")) return <Zap className="h-4 w-4" />;
-    if (lowerFeature.includes("free parking") || lowerFeature.includes("parking")) return <Car className="h-4 w-4" />;
-    if (lowerFeature.includes("free wifi") || lowerFeature.includes("wi-fi")) return <Wifi className="h-4 w-4" />;
-    if (lowerFeature.includes("kit di benvenuto")) return <Gift className="h-4 w-4" />;
-    if (lowerFeature.includes("lavastoviglie")) return <Waves className="h-4 w-4" />;
-    if (lowerFeature.includes("lavatrice")) return <WashingMachine className="h-4 w-4" />;
-    if (lowerFeature.includes("lenzuola")) return <Bed className="h-4 w-4" />;
+    if (lowerFeature.includes("bollitore") || lowerFeature.includes("kettle")) return <Coffee className="h-4 w-4" />;
+    if (lowerFeature.includes("camino") || lowerFeature.includes("fireplace")) return <Flame className="h-4 w-4" />;
+    if (lowerFeature.includes("fasciatoio") || lowerFeature.includes("changing table")) return <Baby className="h-4 w-4" />;
+    if (lowerFeature.includes("ferro") || lowerFeature.includes("iron")) return <Settings className="h-4 w-4" />;
+    if (lowerFeature.includes("forno a legna") || lowerFeature.includes("pizza") || lowerFeature.includes("wood-fired")) return <Pizza className="h-4 w-4" />;
+    if (lowerFeature.includes("forno a microonde") || lowerFeature.includes("microwave")) return <Microwave className="h-4 w-4" />;
+    if (lowerFeature.includes("forno elettrico") || lowerFeature.includes("electric oven")) return <Zap className="h-4 w-4" />;
+    if (lowerFeature.includes("free parking") || lowerFeature.includes("parking") || lowerFeature.includes("parcheggio")) return <Car className="h-4 w-4" />;
+    if (lowerFeature.includes("free wifi") || lowerFeature.includes("wi-fi") || lowerFeature.includes("wifi")) return <Wifi className="h-4 w-4" />;
+    if (lowerFeature.includes("kit di benvenuto") || lowerFeature.includes("welcome kit")) return <Gift className="h-4 w-4" />;
+    if (lowerFeature.includes("lavastoviglie") || lowerFeature.includes("dishwasher")) return <Waves className="h-4 w-4" />;
+    if (lowerFeature.includes("lavatrice") || lowerFeature.includes("washing machine")) return <WashingMachine className="h-4 w-4" />;
+    if (lowerFeature.includes("lenzuola") || lowerFeature.includes("bed linen")) return <Bed className="h-4 w-4" />;
     if (lowerFeature.includes("outdoor pool") || lowerFeature.includes("piscina")) return <Waves className="h-4 w-4" />;
-    if (lowerFeature.includes("pet friendly")) return <PawPrint className="h-4 w-4" />;
-    if (lowerFeature.includes("riscaldamento")) return <Thermometer className="h-4 w-4" />;
+    if (lowerFeature.includes("pet friendly") || lowerFeature.includes("animali")) return <PawPrint className="h-4 w-4" />;
+    if (lowerFeature.includes("riscaldamento") || lowerFeature.includes("heating")) return <Thermometer className="h-4 w-4" />;
     if (lowerFeature.includes("smart tv") || lowerFeature.includes("tv")) return <Tv className="h-4 w-4" />;
-    if (lowerFeature.includes("veranda")) return <Home className="h-4 w-4" />;
+    if (lowerFeature.includes("veranda") || lowerFeature.includes("terrace") || lowerFeature.includes("terrazza")) return <Home className="h-4 w-4" />;
     if (lowerFeature.includes("bagno") || lowerFeature.includes("bathroom")) return <Bath className="h-4 w-4" />;
-    if (lowerFeature.includes("cucina") || lowerFeature.includes("kitchen")) return <Coffee className="h-4 w-4" />;
+    if (lowerFeature.includes("cucina") || lowerFeature.includes("kitchen") || lowerFeature.includes("kitchenette")) return <Coffee className="h-4 w-4" />;
     if (lowerFeature.includes("soggiorno")) return <Sofa className="h-4 w-4" />;
+    if (lowerFeature.includes("vista panoramica") || lowerFeature.includes("panoramic view")) return <Eye className="h-4 w-4" />;
     
     return <Home className="h-4 w-4" />; // Default icon
   };
