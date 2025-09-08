@@ -139,6 +139,12 @@ export default function ApartmentDetail() {
     ? t.apartmentDescriptions[apartment.id].description 
     : apartment.description;
 
+  // Translate location and features with safe access
+  const translatedLocation = (t.apartmentLocations && t.apartmentLocations[apartment.location]) || apartment.location;
+  const translatedFeatures = apartment.features.map(feature => 
+    (t.apartmentFeatures && t.apartmentFeatures[feature]) || feature
+  );
+
   const displayPrice = pricing?.price || apartment.price;
   const currency = pricing?.currency === 'EUR' ? '€' : '$';
 
@@ -270,7 +276,7 @@ export default function ApartmentDetail() {
                     <h1 className="text-3xl font-bold text-foreground mb-2">{translatedName}</h1>
                     <div className="flex items-center text-muted-foreground mb-4">
                       <MapPin className="h-5 w-5 mr-2" />
-                      <span className="text-lg">{apartment.location}</span>
+                      <span className="text-lg">{translatedLocation}</span>
                     </div>
                   </div>
                   <div className="text-right">
@@ -315,7 +321,7 @@ export default function ApartmentDetail() {
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold">Servizi e Comfort</h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {apartment.features.map((feature, index) => (
+                    {translatedFeatures.map((feature, index) => (
                       <div 
                         key={index}
                         className="flex items-center p-3 bg-muted rounded-lg"
