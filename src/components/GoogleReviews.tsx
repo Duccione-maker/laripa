@@ -29,21 +29,41 @@ export default function GoogleReviews() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  // Place ID estratto dall'URL che hai fornito (potrebbe dover essere convertito)
-  const PLACE_ID = "ChIJZZna-TY5MhMR8u8oKK-B0Sg"; // Questo è un esempio, dobbiamo trovare quello corretto
+  const [placeId, setPlaceId] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchGoogleReviews();
+    findPlaceId();
   }, []);
 
-  const fetchGoogleReviews = async () => {
+  const findPlaceId = async () => {
+    try {
+      console.log('Finding Place ID...');
+      
+      const { data, error } = await supabase.functions.invoke('find-place-id');
+      
+      if (error) throw error;
+      
+      if (data.place_id) {
+        console.log('Found Place ID:', data.place_id);
+        setPlaceId(data.place_id);
+        fetchGoogleReviews(data.place_id);
+      } else {
+        throw new Error('Place ID not found');
+      }
+    } catch (err) {
+      console.error('Error finding Place ID:', err);
+      setError(err instanceof Error ? err.message : 'Errore nel trovare il Place ID');
+      setLoading(false);
+    }
+  };
+
+  const fetchGoogleReviews = async (targetPlaceId: string) => {
     try {
       setLoading(true);
       setError(null);
 
       const { data, error } = await supabase.functions.invoke('fetch-google-reviews', {
-        body: { placeId: PLACE_ID }
+        body: { placeId: targetPlaceId }
       });
 
       if (error) throw error;
@@ -106,7 +126,7 @@ export default function GoogleReviews() {
             {error}
           </p>
           <Button 
-            onClick={fetchGoogleReviews} 
+            onClick={() => placeId && fetchGoogleReviews(placeId)} 
             className="mt-4"
             variant="outline"
           >
