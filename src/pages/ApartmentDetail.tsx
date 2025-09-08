@@ -149,37 +149,65 @@ export default function ApartmentDetail() {
   const currency = pricing?.currency === 'EUR' ? '€' : '$';
 
   const getFeatureIcon = (feature: string) => {
-    const lowerFeature = feature.toLowerCase();
+    // Direct mapping for all features (both Italian and English)
+    const iconMap: Record<string, JSX.Element> = {
+      // Italian features
+      "Area pranzo": <UtensilsCrossed className="h-4 w-4" />,
+      "Aria condizionata": <Wind className="h-4 w-4" />,
+      "Asciugacapelli": <Wind className="h-4 w-4" />,
+      "Asciugamani": <Shirt className="h-4 w-4" />,
+      "Barbecue": <Flame className="h-4 w-4" />,
+      "Bollitore": <Coffee className="h-4 w-4" />,
+      "Camino": <Flame className="h-4 w-4" />,
+      "Fasciatoio": <Baby className="h-4 w-4" />,
+      "Ferro e asse da stiro": <Settings className="h-4 w-4" />,
+      "Forno a legna per pizza": <Pizza className="h-4 w-4" />,
+      "Forno a microonde": <Microwave className="h-4 w-4" />,
+      "Forno elettrico": <Zap className="h-4 w-4" />,
+      "Free parking": <Car className="h-4 w-4" />,
+      "Free WiFi": <Wifi className="h-4 w-4" />,
+      "Kit di benvenuto": <Gift className="h-4 w-4" />,
+      "Lavastoviglie": <Waves className="h-4 w-4" />,
+      "Lavatrice": <WashingMachine className="h-4 w-4" />,
+      "Lenzuola": <Bed className="h-4 w-4" />,
+      "Outdoor pool": <Waves className="h-4 w-4" />,
+      "Pet friendly": <PawPrint className="h-4 w-4" />,
+      "Riscaldamento": <Thermometer className="h-4 w-4" />,
+      "Smart TV": <Tv className="h-4 w-4" />,
+      "Veranda": <Home className="h-4 w-4" />,
+      "Wi-Fi": <Wifi className="h-4 w-4" />,
+      "Cucina": <Coffee className="h-4 w-4" />,
+      "Bagno": <Bath className="h-4 w-4" />,
+      "TV": <Tv className="h-4 w-4" />,
+      "Terrazza": <Home className="h-4 w-4" />,
+      "Angolo cottura": <Coffee className="h-4 w-4" />,
+      "Vista panoramica": <Eye className="h-4 w-4" />,
+      
+      // English features
+      "Dining area": <UtensilsCrossed className="h-4 w-4" />,
+      "Air conditioning": <Wind className="h-4 w-4" />,
+      "Hair dryer": <Wind className="h-4 w-4" />,
+      "Towels": <Shirt className="h-4 w-4" />,
+      "Kettle": <Coffee className="h-4 w-4" />,
+      "Fireplace": <Flame className="h-4 w-4" />,
+      "Changing table": <Baby className="h-4 w-4" />,
+      "Iron and ironing board": <Settings className="h-4 w-4" />,
+      "Wood-fired pizza oven": <Pizza className="h-4 w-4" />,
+      "Microwave": <Microwave className="h-4 w-4" />,
+      "Electric oven": <Zap className="h-4 w-4" />,
+      "Welcome kit": <Gift className="h-4 w-4" />,
+      "Dishwasher": <Waves className="h-4 w-4" />,
+      "Washing machine": <WashingMachine className="h-4 w-4" />,
+      "Bed linen": <Bed className="h-4 w-4" />,
+      "Heating": <Thermometer className="h-4 w-4" />,
+      "Kitchen": <Coffee className="h-4 w-4" />,
+      "Bathroom": <Bath className="h-4 w-4" />,
+      "Terrace": <Home className="h-4 w-4" />,
+      "Kitchenette": <Coffee className="h-4 w-4" />,
+      "Panoramic view": <Eye className="h-4 w-4" />
+    };
     
-    if (lowerFeature.includes("area pranzo") || lowerFeature.includes("dining area")) return <UtensilsCrossed className="h-4 w-4" />;
-    if (lowerFeature.includes("aria condizionata") || lowerFeature.includes("air conditioning")) return <Wind className="h-4 w-4" />;
-    if (lowerFeature.includes("asciugacapelli") || lowerFeature.includes("hair dryer")) return <Wind className="h-4 w-4" />;
-    if (lowerFeature.includes("asciugamani") || lowerFeature.includes("towels")) return <Shirt className="h-4 w-4" />;
-    if (lowerFeature.includes("barbecue")) return <Flame className="h-4 w-4" />;
-    if (lowerFeature.includes("bollitore") || lowerFeature.includes("kettle")) return <Coffee className="h-4 w-4" />;
-    if (lowerFeature.includes("camino") || lowerFeature.includes("fireplace")) return <Flame className="h-4 w-4" />;
-    if (lowerFeature.includes("fasciatoio") || lowerFeature.includes("changing table")) return <Baby className="h-4 w-4" />;
-    if (lowerFeature.includes("ferro") || lowerFeature.includes("iron")) return <Settings className="h-4 w-4" />;
-    if (lowerFeature.includes("forno a legna") || lowerFeature.includes("pizza") || lowerFeature.includes("wood-fired")) return <Pizza className="h-4 w-4" />;
-    if (lowerFeature.includes("forno a microonde") || lowerFeature.includes("microwave")) return <Microwave className="h-4 w-4" />;
-    if (lowerFeature.includes("forno elettrico") || lowerFeature.includes("electric oven")) return <Zap className="h-4 w-4" />;
-    if (lowerFeature.includes("free parking") || lowerFeature.includes("parking") || lowerFeature.includes("parcheggio")) return <Car className="h-4 w-4" />;
-    if (lowerFeature.includes("free wifi") || lowerFeature.includes("wi-fi") || lowerFeature.includes("wifi")) return <Wifi className="h-4 w-4" />;
-    if (lowerFeature.includes("kit di benvenuto") || lowerFeature.includes("welcome kit")) return <Gift className="h-4 w-4" />;
-    if (lowerFeature.includes("lavastoviglie") || lowerFeature.includes("dishwasher")) return <Waves className="h-4 w-4" />;
-    if (lowerFeature.includes("lavatrice") || lowerFeature.includes("washing machine")) return <WashingMachine className="h-4 w-4" />;
-    if (lowerFeature.includes("lenzuola") || lowerFeature.includes("bed linen")) return <Bed className="h-4 w-4" />;
-    if (lowerFeature.includes("outdoor pool") || lowerFeature.includes("piscina")) return <Waves className="h-4 w-4" />;
-    if (lowerFeature.includes("pet friendly") || lowerFeature.includes("animali")) return <PawPrint className="h-4 w-4" />;
-    if (lowerFeature.includes("riscaldamento") || lowerFeature.includes("heating")) return <Thermometer className="h-4 w-4" />;
-    if (lowerFeature.includes("smart tv") || lowerFeature.includes("tv")) return <Tv className="h-4 w-4" />;
-    if (lowerFeature.includes("veranda") || lowerFeature.includes("terrace") || lowerFeature.includes("terrazza")) return <Home className="h-4 w-4" />;
-    if (lowerFeature.includes("bagno") || lowerFeature.includes("bathroom")) return <Bath className="h-4 w-4" />;
-    if (lowerFeature.includes("cucina") || lowerFeature.includes("kitchen") || lowerFeature.includes("kitchenette")) return <Coffee className="h-4 w-4" />;
-    if (lowerFeature.includes("soggiorno")) return <Sofa className="h-4 w-4" />;
-    if (lowerFeature.includes("vista panoramica") || lowerFeature.includes("panoramic view")) return <Eye className="h-4 w-4" />;
-    
-    return <Home className="h-4 w-4" />; // Default icon
+    return iconMap[feature] || <Home className="h-4 w-4" />;
   };
 
   // Get all images for gallery (main image + additional images)
