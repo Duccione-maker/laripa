@@ -388,6 +388,7 @@ export const it = {
       name: "Nidi",
       description: "Appartamento intimo e raccolto, ideale per coppie in cerca di romanticismo e tranquillità.",
       location: "Mansarda"
+    }
   },
   apartmentFeatures: {
     "Area pranzo": "Area pranzo",
@@ -427,6 +428,5 @@ export const it = {
     "Primo piano": "Primo piano",
     "Dependance": "Dependance",
     "Mansarda": "Mansarda"
-  }
-  }
+  },
 };

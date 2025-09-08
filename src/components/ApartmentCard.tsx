@@ -34,10 +34,10 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
     ? t.apartmentDescriptions[apartment.id].description 
     : apartment.description;
 
-  // Translate location and features
-  const translatedLocation = t.apartmentLocations[apartment.location] || apartment.location;
+  // Translate location and features with safe access
+  const translatedLocation = (t.apartmentLocations && t.apartmentLocations[apartment.location]) || apartment.location;
   const translatedFeatures = apartment.features.map(feature => 
-    t.apartmentFeatures[feature] || feature
+    (t.apartmentFeatures && t.apartmentFeatures[feature]) || feature
   );
 
   // Use dynamic pricing if available, otherwise fallback to static price
