@@ -413,20 +413,24 @@ export const en = {
         description: "A few simple rules for a peaceful stay for everyone.",
         items: [
           {
-            title: "Quiet Hours",
-            description: "Respect quiet time from 10:00 PM to 8:00 AM out of respect for neighbors."
+            title: "Check-in and Check-out",
+            description: "Check-in after 2:00 PM, check-out by 9:30 AM to allow cleaning staff to prepare the apartment."
           },
           {
-            title: "Guests",
-            description: "Maximum number of guests as per booking. Additional guests must be communicated."
+            title: "Organic Waste",
+            description: "Do not leave organic waste outside the door to avoid nocturnal animals."
           },
           {
-            title: "No Smoking",
-            description: "Smoking is prohibited inside apartments. Smoking area available in garden."
+            title: "Pool Safety",
+            description: "Do not use glass items in the pool as it can be dangerous."
           },
           {
-            title: "Check-out",
-            description: "Leave the apartment by 11:00 AM. Deposit keys in the safety box."
+            title: "Apartment Damages",
+            description: "If anything is damaged inside the apartment, please report it immediately so we can repair or replace it."
+          },
+          {
+            title: "Environmental Respect",
+            description: "We have solar panels but let's remember to save the planet."
           }
         ]
       }

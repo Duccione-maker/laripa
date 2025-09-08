@@ -349,20 +349,24 @@ export const it = {
         description: "Poche semplici regole per un soggiorno sereno per tutti.",
         items: [
           {
-            title: "Silenzio Notturno",
-            description: "Rispettare il silenzio dalle 22:00 alle 8:00 per il rispetto dei vicini."
+            title: "Check-in e Check-out",
+            description: "Check-in dopo le 14:00, check-out entro le 9:30 per consentire alle donne delle pulizie di pulire."
           },
           {
-            title: "Ospiti",
-            description: "Massimo numero di ospiti come da prenotazione. Ospiti aggiuntivi devono essere comunicati."
+            title: "Rifiuti Organici",
+            description: "Non lasciare rifiuti organici fuori dalla porta per evitare animali notturni."
           },
           {
-            title: "Divieto di Fumo",
-            description: "È vietato fumare all'interno degli appartamenti. Area fumatori disponibile in giardino."
+            title: "Sicurezza in Piscina",
+            description: "Non usare bicchieri di vetro in piscina perché può essere pericoloso."
           },
           {
-            title: "Check-out",
-            description: "Lasciare l'appartamento entro le 11:00. Depositare le chiavi nella cassetta di sicurezza."
+            title: "Danni in Appartamento",
+            description: "Se all'interno dell'appartamento viene danneggiato qualcosa, per favore segnalarlo subito così possiamo riparare o rimpiazzare."
+          },
+          {
+            title: "Rispetto Ambientale",
+            description: "Abbiamo i pannelli fotovoltaici ma ricordiamoci di salvare il pianeta."
           }
         ]
       }
