@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { SaveIcon, ArrowLeftIcon, Sparkles } from "lucide-react";
+import { SaveIcon, ArrowLeftIcon, Sparkles, Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 
@@ -33,6 +33,7 @@ export default function BlogEditor() {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(!!id);
   const [optimizingLoading, setOptimizingLoading] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
   const [formData, setFormData] = useState<BlogPostForm>({
     title: '',
     slug: '',
@@ -112,6 +113,74 @@ export default function BlogEditor() {
       slug: !isEdit || prev.slug === generateSlug(prev.title) ? generateSlug(title) : prev.slug,
       meta_title: !prev.meta_title || prev.meta_title === prev.title ? title : prev.meta_title,
     }));
+  };
+
+  const uploadImage = async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Errore",
+        description: "Il file deve essere un'immagine",
+        variant: "destructive",
+      });
+      return null;
+    }
+
+    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      toast({
+        title: "File troppo grande",
+        description: "L'immagine deve essere inferiore a 5MB",
+        variant: "destructive",
+      });
+      return null;
+    }
+
+    setImageUploading(true);
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `blog/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('blog-images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('blog-images')
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: "Errore upload",
+        description: "Impossibile caricare l'immagine",
+        variant: "destructive",
+      });
+      return null;
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const imageUrl = await uploadImage(file);
+    if (imageUrl) {
+      setFormData(prev => ({ ...prev, featured_image: imageUrl }));
+      toast({
+        title: "Immagine caricata",
+        description: "L'immagine è stata caricata con successo",
+      });
+    }
+  };
+
+  const removeImage = () => {
+    setFormData(prev => ({ ...prev, featured_image: '' }));
   };
 
   const optimizeSEO = async () => {
@@ -354,14 +423,66 @@ export default function BlogEditor() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="featured_image">Immagine in evidenza (URL)</Label>
-                <Input
-                  id="featured_image"
-                  type="url"
-                  value={formData.featured_image}
-                  onChange={(e) => setFormData(prev => ({ ...prev, featured_image: e.target.value }))}
-                  placeholder="https://esempio.com/immagine.jpg"
-                />
+                <Label htmlFor="featured_image">Immagine in evidenza</Label>
+                
+                {formData.featured_image ? (
+                  <div className="space-y-3">
+                    <div className="relative inline-block">
+                      <img 
+                        src={formData.featured_image} 
+                        alt="Featured image preview" 
+                        className="max-w-xs h-32 object-cover rounded-lg border"
+                      />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={removeImage}
+                        className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                    <Input
+                      type="url"
+                      value={formData.featured_image}
+                      onChange={(e) => setFormData(prev => ({ ...prev, featured_image: e.target.value }))}
+                      placeholder="Oppure inserisci URL diretto"
+                    />
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex gap-2">
+                      <label htmlFor="image-upload" className="cursor-pointer">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          disabled={imageUploading}
+                          asChild
+                        >
+                          <span className="flex items-center gap-2">
+                            <Upload className="h-4 w-4" />
+                            {imageUploading ? 'Caricando...' : 'Carica immagine'}
+                          </span>
+                        </Button>
+                      </label>
+                      <input
+                        id="image-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        disabled={imageUploading}
+                      />
+                    </div>
+                    <Input
+                      type="url"
+                      value={formData.featured_image}
+                      onChange={(e) => setFormData(prev => ({ ...prev, featured_image: e.target.value }))}
+                      placeholder="Oppure inserisci URL diretto"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">
