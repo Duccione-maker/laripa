@@ -287,7 +287,7 @@ export const en = {
     "3": {
       name: "Fienile",
       description: "Apartment with modern rustic charm, perfect for those seeking authenticity and comfort.",
-      location: "Dependance"
+      location: "First floor"
     },
     "4": {
       name: "Nidi",

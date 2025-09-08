@@ -382,7 +382,7 @@ export const it = {
     "3": {
       name: "Fienile",
       description: "Appartamento dal fascino rustico moderno, perfetto per chi cerca autenticità e comfort.",
-      location: "Dependance"
+      location: "Primo piano"
     },
     "4": {
       name: "Nidi",
