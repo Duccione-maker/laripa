@@ -390,11 +390,21 @@ export default function ApartmentDetail() {
                 <div className="space-y-3 text-sm text-muted-foreground">
                   <div className="flex items-center">
                     <Phone className="h-4 w-4 mr-2" />
-                    <span>+39 123 456 7890</span>
+                    <a 
+                      href="tel:+393476521141" 
+                      className="hover:text-primary transition-colors"
+                    >
+                      +39 3476521141
+                    </a>
                   </div>
                   <div className="flex items-center">
                     <Mail className="h-4 w-4 mr-2" />
-                    <span>info@cinqueterreapartments.com</span>
+                    <a 
+                      href="mailto:info@laripadisangimignano.com" 
+                      className="hover:text-primary transition-colors"
+                    >
+                      info@laripadisangimignano.com
+                    </a>
                   </div>
                 </div>
               </CardContent>
