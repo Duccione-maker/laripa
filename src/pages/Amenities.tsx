@@ -310,19 +310,24 @@ export default function Amenities() {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                  {categoryData.items.map((item, index) => (
-                    <div 
-                      key={index} 
-                      className="glass-card p-6 rounded-xl flex flex-col items-center text-center animate-fade-in"
-                      style={{ animationDelay: `${(index + 1) * 100}ms` }}
-                    >
-                      <div className="mb-4 p-3 rounded-full bg-primary/10 text-primary">
-                        {getIcon(category, index)}
+                  {categoryData.items.map((item, index) => {
+                    const isLastRule = category === 'rules' && index === categoryData.items.length - 1;
+                    return (
+                      <div 
+                        key={index} 
+                        className={`glass-card p-6 rounded-xl flex flex-col items-center text-center animate-fade-in ${
+                          isLastRule ? 'md:col-span-2 lg:col-span-4 max-w-md mx-auto' : ''
+                        }`}
+                        style={{ animationDelay: `${(index + 1) * 100}ms` }}
+                      >
+                        <div className="mb-4 p-3 rounded-full bg-primary/10 text-primary">
+                          {getIcon(category, index)}
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                        <p className="text-muted-foreground">{item.description}</p>
                       </div>
-                      <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                      <p className="text-muted-foreground">{item.description}</p>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </section>
