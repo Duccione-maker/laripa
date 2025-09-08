@@ -230,6 +230,71 @@ export default function Amenities() {
               </section>
             );
           }
+
+          // Special handling for waste section - show color-coded bins and video
+          if (category === 'waste') {
+            const wasteTypes = [
+              { name: 'Carta e Cartone', color: 'bg-blue-500', icon: '📄' },
+              { name: 'Multimateriale', color: 'bg-yellow-500', icon: '♻️' },
+              { name: 'Vetro', color: 'bg-green-500', icon: '🍶' },
+              { name: 'Indifferenziato', color: 'bg-gray-500', icon: '🗑️' },
+              { name: 'Organico', color: 'bg-amber-700', icon: '🥬' }
+            ];
+
+            return (
+              <section key={category} className={`py-16 ${isEven ? 'bg-card' : ''}`}>
+                <div className="container">
+                  <div className="text-center max-w-3xl mx-auto mb-12">
+                    <h2 className="text-3xl font-bold mb-4">
+                      {categoryData.title}
+                    </h2>
+                    <p className="text-muted-foreground">
+                      {categoryData.description}
+                    </p>
+                  </div>
+                  
+                  {/* Color-coded waste bins */}
+                  <div className="max-w-4xl mx-auto mb-12">
+                    <h3 className="text-2xl font-semibold text-center mb-8">Raccolta Differenziata</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                      {wasteTypes.map((waste, index) => (
+                        <div 
+                          key={index}
+                          className="glass-card p-6 rounded-xl flex flex-col items-center text-center animate-fade-in"
+                          style={{ animationDelay: `${(index + 1) * 100}ms` }}
+                        >
+                          <div className={`w-16 h-16 ${waste.color} rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg`}>
+                            {waste.icon}
+                          </div>
+                          <h4 className="font-semibold text-sm text-center">{waste.name}</h4>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* YouTube Tutorial Video */}
+                  <div className="max-w-3xl mx-auto">
+                    <h3 className="text-2xl font-semibold text-center mb-8">Video Tutorial Raccolta Differenziata</h3>
+                    <div className="rounded-xl overflow-hidden shadow-lg">
+                      <iframe
+                        width="100%"
+                        height="400"
+                        src="https://www.youtube.com/embed/YOUR_WASTE_TUTORIAL_VIDEO_ID"
+                        title="Tutorial Raccolta Differenziata - La Ripa"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                      <div className="p-4 bg-muted text-center">
+                        <h4 className="font-semibold mb-2">Come Fare la Raccolta Differenziata</h4>
+                        <p className="text-sm text-muted-foreground">Guida completa per la corretta separazione dei rifiuti</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            );
+          }
           
           // Regular rendering for other sections
           return (
