@@ -59,17 +59,19 @@ export default function Footer() {
             <h4 className="text-xl font-bold mb-4">{t.footer.contact}</h4>
             <ul className="space-y-3">
               <li className="flex items-start">
-                <MapPin className="w-5 h-5 mr-2 mt-0.5 text-primary" />
-                <a 
-                  href="https://maps.app.goo.gl/Hswku8u4FcpTowz18"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Via Santa Maria 70<br />
-                  53037 San Gimignano (SI)<br />
-                  Toscana, Italia
-                </a>
+                <MapPin className="w-5 h-5 mr-2 mt-0.5 text-primary flex-shrink-0" />
+                <div>
+                  <a 
+                    href="https://maps.app.goo.gl/Hswku8u4FcpTowz18"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors cursor-pointer underline decoration-1 underline-offset-2"
+                  >
+                    Via Santa Maria 70<br />
+                    53037 San Gimignano (SI)<br />
+                    Toscana, Italia
+                  </a>
+                </div>
               </li>
               <li className="flex items-center">
                 <Phone className="w-5 h-5 mr-2 text-primary" />
