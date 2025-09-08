@@ -204,7 +204,7 @@ export default function Amenities() {
                         <iframe
                           width="100%"
                           height="200"
-                          src="https://www.youtube.com/embed/YOUR_FIENILE_VIDEO_ID"
+                          src="https://www.youtube.com/embed/oO8my3r-Aao"
                           title="Accesso Fienile"
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
