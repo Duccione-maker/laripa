@@ -158,13 +158,6 @@ export default function Index() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="absolute top-1/2 right-1/4 w-1/3 rounded-2xl overflow-hidden shadow-xl">
-                  <img 
-                    src="/lovable-uploads/3f1ae5ae-fa9f-4be5-b0b9-a48c88c8e1ee.png"
-                    alt="Fienile bedroom with canopy" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
               </div>
             </div>
           </div>
