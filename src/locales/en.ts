@@ -293,7 +293,46 @@ export const en = {
       name: "Nidi",
       description: "Intimate and cozy apartment, ideal for couples seeking romance and tranquility.",
       location: "Attic"
-    }
+  },
+  apartmentFeatures: {
+    "Area pranzo": "Dining area",
+    "Aria condizionata": "Air conditioning", 
+    "Asciugacapelli": "Hair dryer",
+    "Asciugamani": "Towels",
+    "Barbecue": "Barbecue",
+    "Bollitore": "Kettle",
+    "Camino": "Fireplace",
+    "Fasciatoio": "Changing table",
+    "Ferro e asse da stiro": "Iron and ironing board",
+    "Forno a legna per pizza": "Wood-fired pizza oven",
+    "Forno a microonde": "Microwave",
+    "Forno elettrico": "Electric oven",
+    "Free parking": "Free parking",
+    "Free WiFi": "Free WiFi",
+    "Kit di benvenuto": "Welcome kit",
+    "Lavastoviglie": "Dishwasher",
+    "Lavatrice": "Washing machine",
+    "Lenzuola": "Bed linen",
+    "Outdoor pool": "Outdoor pool",
+    "Pet friendly": "Pet friendly",
+    "Riscaldamento": "Heating",
+    "Smart TV": "Smart TV",
+    "Veranda": "Veranda",
+    "Wi-Fi": "Wi-Fi",
+    "Cucina": "Kitchen",
+    "Bagno": "Bathroom",
+    "TV": "TV",
+    "Terrazza": "Terrace",
+    "Angolo cottura": "Kitchenette",
+    "Vista panoramica": "Panoramic view"
+  },
+  apartmentLocations: {
+    "Piano terra": "Ground floor",
+    "Piano terra + primo piano": "Ground floor + first floor", 
+    "Primo piano": "First floor",
+    "Dependance": "Dependance",
+    "Mansarda": "Attic"
+  }
   },
   amenitiesPage: {
     title: "Things to Know",

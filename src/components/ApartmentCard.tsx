@@ -34,6 +34,12 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
     ? t.apartmentDescriptions[apartment.id].description 
     : apartment.description;
 
+  // Translate location and features
+  const translatedLocation = t.apartmentLocations[apartment.location] || apartment.location;
+  const translatedFeatures = apartment.features.map(feature => 
+    t.apartmentFeatures[feature] || feature
+  );
+
   // Use dynamic pricing if available, otherwise fallback to static price
   const displayPrice = pricing?.price || apartment.price;
   const currency = pricing?.currency === 'EUR' ? '€' : '$';
@@ -58,7 +64,7 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
             <h3 className="text-white text-xl font-bold mb-1">{translatedName}</h3>
             <div className="flex items-center text-white/80 text-sm mb-2">
               <MapPin className="h-4 w-4 mr-1" />
-              <span>{apartment.location}</span>
+              <span>{translatedLocation}</span>
             </div>
             <div className="flex items-center space-x-3 text-white">
               <div className="flex items-center">
@@ -79,7 +85,7 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
         <p className="text-muted-foreground line-clamp-2">{translatedDescription}</p>
         
         <div className="flex flex-wrap gap-2">
-          {apartment.features.slice(0, 3).map((feature, index) => (
+          {translatedFeatures.slice(0, 3).map((feature, index) => (
             <div 
               key={index} 
               className="flex items-center text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full"
@@ -90,9 +96,9 @@ export default function ApartmentCard({ apartment }: { apartment: ApartmentProps
               <span>{feature}</span>
             </div>
           ))}
-          {apartment.features.length > 3 && (
+          {translatedFeatures.length > 3 && (
             <div className="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">
-              +{apartment.features.length - 3} {t.apartments.filters.more}
+              +{translatedFeatures.length - 3} {t.apartments.filters.more}
             </div>
           )}
         </div>

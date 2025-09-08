@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect, useContext, ReactNode } from
 import { en } from '../locales/en';
 import { it } from '../locales/it';
 
-type Translations = typeof en;
+type Translations = typeof en & { apartmentFeatures: Record<string, string>; apartmentLocations: Record<string, string> };
 
 interface LanguageContextType {
   language: string;
@@ -12,8 +12,8 @@ interface LanguageContextType {
 }
 
 const translations: Record<string, Translations> = {
-  en,
-  it
+  en: en as Translations,
+  it: it as Translations
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);

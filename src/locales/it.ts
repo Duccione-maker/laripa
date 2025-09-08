@@ -388,6 +388,45 @@ export const it = {
       name: "Nidi",
       description: "Appartamento intimo e raccolto, ideale per coppie in cerca di romanticismo e tranquillità.",
       location: "Mansarda"
-    }
+  },
+  apartmentFeatures: {
+    "Area pranzo": "Area pranzo",
+    "Aria condizionata": "Aria condizionata", 
+    "Asciugacapelli": "Asciugacapelli",
+    "Asciugamani": "Asciugamani",
+    "Barbecue": "Barbecue",
+    "Bollitore": "Bollitore",
+    "Camino": "Camino",
+    "Fasciatoio": "Fasciatoio",
+    "Ferro e asse da stiro": "Ferro e asse da stiro",
+    "Forno a legna per pizza": "Forno a legna per pizza",
+    "Forno a microonde": "Forno a microonde",
+    "Forno elettrico": "Forno elettrico",
+    "Free parking": "Parcheggio gratuito",
+    "Free WiFi": "WiFi gratuito",
+    "Kit di benvenuto": "Kit di benvenuto",
+    "Lavastoviglie": "Lavastoviglie",
+    "Lavatrice": "Lavatrice",
+    "Lenzuola": "Lenzuola",
+    "Outdoor pool": "Piscina esterna",
+    "Pet friendly": "Animali ammessi",
+    "Riscaldamento": "Riscaldamento",
+    "Smart TV": "Smart TV",
+    "Veranda": "Veranda",
+    "Wi-Fi": "Wi-Fi",
+    "Cucina": "Cucina",
+    "Bagno": "Bagno",
+    "TV": "TV",
+    "Terrazza": "Terrazza",
+    "Angolo cottura": "Angolo cottura",
+    "Vista panoramica": "Vista panoramica"
+  },
+  apartmentLocations: {
+    "Piano terra": "Piano terra",
+    "Piano terra + primo piano": "Piano terra + primo piano", 
+    "Primo piano": "Primo piano",
+    "Dependance": "Dependance",
+    "Mansarda": "Mansarda"
+  }
   }
 };
