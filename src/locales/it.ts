@@ -16,11 +16,11 @@ export const it = {
     scrollDown: "Scorri Giù"
   },
   footer: {
-    description: "Appartamenti di lusso sul mare e camere d'albergo con splendide viste sul mare, che offrono il perfetto connubio di comfort ed eleganza per la tua vacanza da sogno.",
+    description: "Vivi l'autentica ospitalità toscana a La Ripa di San Gimignano. I nostri caratteristici appartamenti offrono viste mozzafiato su vigneti e oliveti, perfetti per un soggiorno indimenticabile nel cuore della Toscana.",
     quickLinks: "Link Rapidi",
     contact: "Contatti",
     newsletter: "Newsletter",
-    newsletterDesc: "Iscriviti alla nostra newsletter per offerte speciali e aggiornamenti.",
+    newsletterDesc: "Iscriviti alla nostra newsletter per offerte esclusive e aggiornamenti su La Ripa.",
     yourEmail: "Il tuo indirizzo email",
     subscribe: "Iscriviti",
     allRights: "Tutti i diritti riservati."

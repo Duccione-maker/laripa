@@ -16,11 +16,11 @@ export const en = {
     scrollDown: "Scroll Down"
   },
   footer: {
-    description: "Luxurious beachfront apartments and hotel rooms with stunning sea views, offering the perfect blend of comfort and elegance for your dream vacation.",
+    description: "Experience authentic Tuscan hospitality at La Ripa di San Gimignano. Our charming apartments offer breathtaking views of vineyards and olive groves, perfect for an unforgettable stay in the heart of Tuscany.",
     quickLinks: "Quick Links",
     contact: "Contact",
     newsletter: "Newsletter",
-    newsletterDesc: "Subscribe to our newsletter for special deals and updates.",
+    newsletterDesc: "Subscribe to our newsletter for exclusive offers and updates about La Ripa.",
     yourEmail: "Your email address",
     subscribe: "Subscribe",
     allRights: "All rights reserved."

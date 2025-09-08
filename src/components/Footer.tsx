@@ -61,14 +61,15 @@ export default function Footer() {
               <li className="flex items-start">
                 <MapPin className="w-5 h-5 mr-2 mt-0.5 text-primary" />
                 <span className="text-muted-foreground">
-                  123 Seaside Boulevard<br />
-                  Costa Bella, 12345<br />
-                  Italy
+                  La Ripa di San Gimignano<br />
+                  Località La Ripa<br />
+                  53037 San Gimignano (SI)<br />
+                  Toscana, Italia
                 </span>
               </li>
               <li className="flex items-center">
                 <Phone className="w-5 h-5 mr-2 text-primary" />
-                <span className="text-muted-foreground">+39 123 4567 890</span>
+                <span className="text-muted-foreground">+39 0577 940 000</span>
               </li>
               <li className="flex items-center">
                 <Mail className="w-5 h-5 mr-2 text-primary" />
