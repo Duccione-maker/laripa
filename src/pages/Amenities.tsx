@@ -107,6 +107,73 @@ export default function Amenities() {
               </section>
             );
           }
+
+          // Special handling for checkin section - show videos
+          if (category === 'checkin') {
+            return (
+              <section key={category} className={`py-16 ${isEven ? 'bg-card' : ''}`}>
+                <div className="container">
+                  <div className="text-center max-w-3xl mx-auto mb-12">
+                    <h2 className="text-3xl font-bold mb-4">
+                      {categoryData.title}
+                    </h2>
+                    <p className="text-muted-foreground">
+                      {categoryData.description}
+                    </p>
+                  </div>
+                  
+                  {/* YouTube Videos Section */}
+                  <div className="max-w-6xl mx-auto">
+                    <h3 className="text-2xl font-semibold text-center mb-8">Video Tutorial di Accesso</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      {/* Video 1 - Replace with actual YouTube URL */}
+                      <div className="rounded-xl overflow-hidden shadow-lg">
+                        <iframe
+                          width="100%"
+                          height="315"
+                          src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1"
+                          title="Come accedere alla proprietà - Video 1"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                        <div className="p-4 bg-muted">
+                          <h4 className="font-semibold mb-2">Accesso Principale</h4>
+                          <p className="text-sm text-muted-foreground">Come raggiungere e accedere all'ingresso principale della struttura</p>
+                        </div>
+                      </div>
+                      
+                      {/* Video 2 - Replace with actual YouTube URL */}
+                      <div className="rounded-xl overflow-hidden shadow-lg">
+                        <iframe
+                          width="100%"
+                          height="315"
+                          src="https://www.youtube.com/embed/YOUR_VIDEO_ID_2"
+                          title="Self Check-in - Video 2"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                        <div className="p-4 bg-muted">
+                          <h4 className="font-semibold mb-2">Self Check-in</h4>
+                          <p className="text-sm text-muted-foreground">Procedura passo-passo per il check-in autonomo</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-8 text-center">
+                      <p className="text-muted-foreground">
+                        Per qualsiasi domanda o assistenza, contattaci al{" "}
+                        <a href="tel:+393476521141" className="text-primary hover:underline">
+                          +39 3476521141
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            );
+          }
           
           // Regular rendering for other sections
           return (
