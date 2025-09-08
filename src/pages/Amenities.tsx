@@ -187,7 +187,7 @@ export default function Amenities() {
                         <iframe
                           width="100%"
                           height="200"
-                          src="https://www.youtube.com/embed/YOUR_NIDI_VIDEO_ID"
+                          src="https://www.youtube.com/embed/GjUhWF8Y_L8"
                           title="Accesso Nidi"
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
