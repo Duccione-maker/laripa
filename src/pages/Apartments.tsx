@@ -50,7 +50,7 @@ const allApartments: ApartmentProps[] = [
     description: "Apartment with modern rustic charm, perfect for those seeking authenticity and comfort.",
     price: 190,
     capacity: 4,
-    size: 70,
+    size: 87,
     image: "/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png", // Soggiorno con camino (principale)
     images: [
       "/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png", // Soggiorno con camino (principale)
@@ -63,7 +63,7 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/6a850667-528d-4af4-ae56-7af124b28b97.png"  // Bagno con vasca
     ],
     location: "Dependance",
-    features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Camino", "Terrazza"]
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Gazebo", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Vista sul giardino e piscina"]
   },
   {
     id: "4",

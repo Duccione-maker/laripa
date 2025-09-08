@@ -420,7 +420,9 @@ export const it = {
     "TV": "TV",
     "Terrazza": "Terrazza",
     "Angolo cottura": "Angolo cottura",
-    "Vista panoramica": "Vista panoramica"
+    "Vista panoramica": "Vista panoramica",
+    "Gazebo": "Gazebo",
+    "Vista sul giardino e piscina": "Vista sul giardino e piscina"
   },
   apartmentLocations: {
     "Piano terra": "Piano terra",
