@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.find-place-id]
 verify_jwt = false
+
+[functions.fetch-facebook-reviews]
+verify_jwt = false
