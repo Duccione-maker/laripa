@@ -138,6 +138,28 @@ export default function BlogAdmin() {
     }
   };
 
+  const testFacebookToken = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('test-facebook-token');
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Test Facebook completato",
+        description: "Controlla i log nella console di Supabase per i dettagli",
+      });
+      
+      console.log('Facebook test results:', data);
+    } catch (error) {
+      console.error('Error testing Facebook token:', error);
+      toast({
+        title: "Errore test Facebook",
+        description: "Impossibile testare il token Facebook",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/50">
@@ -157,12 +179,17 @@ export default function BlogAdmin() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold">Gestione Blog</h1>
-          <Button asChild className="btn-primary">
-            <Link to="/blog/admin/new">
-              <PlusIcon className="h-4 w-4 mr-2" />
-              Nuovo Articolo
-            </Link>
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={testFacebookToken}>
+              Test Facebook
+            </Button>
+            <Button asChild className="btn-primary">
+              <Link to="/blog/admin/new">
+                <PlusIcon className="h-4 w-4 mr-2" />
+                Nuovo Articolo
+              </Link>
+            </Button>
+          </div>
         </div>
 
         {posts.length === 0 ? (
