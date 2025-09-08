@@ -25,7 +25,7 @@ serve(async (req) => {
     }
 
     const accessToken = Deno.env.get('FACEBOOK_ACCESS_TOKEN');
-    const pageId = '105934702166031'; // ID della tua pagina Facebook
+    const pageId = '130801953656622'; // ID della tua pagina Facebook
     
     if (!accessToken) {
       console.error('Facebook access token not found');
