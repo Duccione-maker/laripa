@@ -139,22 +139,29 @@ export default function Index() {
               <div className="relative animate-fade-in [animation-delay:300ms]">
                 <div className="aspect-[4/3] rounded-2xl overflow-hidden">
                   <img 
-                    src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&h=600&fit=crop"
-                    alt="Seaside view" 
+                    src="/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png"
+                    alt="Ghiri garden view" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="absolute -bottom-6 -left-6 w-2/3 rounded-2xl overflow-hidden shadow-xl">
                   <img 
-                    src="https://images.unsplash.com/photo-1545579133-99bb5ab189bd?w=400&h=300&fit=crop"
-                    alt="Luxury apartment interior" 
+                    src="/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png"
+                    alt="Fienile fireplace living room" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="absolute -top-6 -right-6 w-1/2 rounded-2xl overflow-hidden shadow-xl">
                   <img 
-                    src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=400&h=300&fit=crop"
-                    alt="Pool view" 
+                    src="/lovable-uploads/ac482e8b-5bc9-4801-a5cd-62c4e098627a.png"
+                    alt="Padronale veranda" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute top-1/2 right-1/4 w-1/3 rounded-2xl overflow-hidden shadow-xl">
+                  <img 
+                    src="/lovable-uploads/f7046709-9eac-4cf9-b68b-c0fdfac4de60.png"
+                    alt="Nidi cozy living area" 
                     className="w-full h-full object-cover"
                   />
                 </div>
