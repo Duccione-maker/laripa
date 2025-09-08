@@ -95,7 +95,12 @@ export default function Footer() {
               </li>
               <li className="flex items-center">
                 <Mail className="w-5 h-5 mr-2 text-primary" />
-                <span className="text-muted-foreground">info@laripadisangimignano.com</span>
+                <a 
+                  href="mailto:info@laripadisangimignano.com" 
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  info@laripadisangimignano.com
+                </a>
               </li>
             </ul>
           </div>
