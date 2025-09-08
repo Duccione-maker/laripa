@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { MapPin, Key, Trash2, Home, Car, Bus, Navigation, Clock, HelpCircle, Phone, Cigarette, Users } from "lucide-react";
+import { MapPin, Key, Trash2, Home, Car, Bus, Navigation, Clock, HelpCircle, Phone, Cigarette, Users, ShieldAlert, Wrench, Leaf, AlertTriangle } from "lucide-react";
 
 export default function Amenities() {
   const { t } = useLanguage();
@@ -19,7 +19,7 @@ export default function Amenities() {
       arrival: [<Car key={0} />, <MapPin key={1} />, <Bus key={2} />, <Navigation key={3} />],
       checkin: [<Clock key={0} />, <Key key={1} />, <HelpCircle key={2} />, <Phone key={3} />],
       waste: [<Trash2 key={0} />, <Trash2 key={1} />, <Trash2 key={2} />, <Trash2 key={3} />],
-      rules: [<Clock key={0} />, <Users key={1} />, <Cigarette key={2} />, <Home key={3} />]
+      rules: [<Clock key={0} />, <AlertTriangle key={1} />, <ShieldAlert key={2} />, <Wrench key={3} />, <Leaf key={4} />]
     };
     
     return icons[categoryName as keyof typeof icons]?.[index] || <HelpCircle />;
