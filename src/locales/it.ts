@@ -241,29 +241,29 @@ export const it = {
       title: "Vivi il Meglio",
       description: "Goditi le nostre strutture e servizi premium progettati per rendere il tuo soggiorno eccezionale.",
       features: {
-        beachfront: {
-          title: "Posizione Fronte Mare",
-          description: "Accesso diretto a spiagge incontaminate con acque cristalline."
+        vineyards: {
+          title: "In Mezzo a Vigneti e Oliveti",
+          description: "Immersi nell'autentica campagna toscana con panorami mozzafiato."
         },
         pools: {
-          title: "Piscine",
-          description: "Rilassati accanto alle nostre piscine a sfioro con vista mozzafiato sul mare."
-        },
-        restaurant: {
-          title: "Ristorante Gourmet",
-          description: "Goditi squisita cucina locale e internazionale."
+          title: "Piscina",
+          description: "Rilassati nella nostra bellissima piscina circondata dalla natura."
         },
         wifi: {
           title: "Wi-Fi ad Alta Velocità",
           description: "Rimani connesso con internet ad alta velocità gratuito."
         },
-        bar: {
-          title: "Bar & Caffè sulla Spiaggia",
-          description: "Bevande rinfrescanti e snack serviti direttamente sulla spiaggia."
-        },
         location: {
-          title: "Posizione Privilegiata",
-          description: "Vicino alle attrazioni locali, negozi e ristoranti."
+          title: "Posizione Strategica",
+          description: "Vicino a tutte le principali città d'arte e attrazioni toscane."
+        },
+        oil: {
+          title: "Produzione Olio EVO",
+          description: "Scopri la nostra produzione di olio extravergine di oliva toscano di prima qualità."
+        },
+        family: {
+          title: "Ambiente Familiare",
+          description: "Sentiti a casa tua con la nostra atmosfera calorosa e accogliente."
         }
       }
     },

@@ -74,8 +74,8 @@ export default function Index() {
   const features = [
     {
       icon: <Waves className="h-8 w-8 text-primary" />,
-      title: t.home.amenities.features.beachfront.title,
-      description: t.home.amenities.features.beachfront.description
+      title: t.home.amenities.features.vineyards.title,
+      description: t.home.amenities.features.vineyards.description
     },
     {
       icon: <LifeBuoy className="h-8 w-8 text-primary" />,
@@ -83,24 +83,24 @@ export default function Index() {
       description: t.home.amenities.features.pools.description
     },
     {
-      icon: <Utensils className="h-8 w-8 text-primary" />,
-      title: t.home.amenities.features.restaurant.title,
-      description: t.home.amenities.features.restaurant.description
-    },
-    {
       icon: <Wifi className="h-8 w-8 text-primary" />,
       title: t.home.amenities.features.wifi.title,
       description: t.home.amenities.features.wifi.description
     },
     {
-      icon: <Coffee className="h-8 w-8 text-primary" />,
-      title: t.home.amenities.features.bar.title,
-      description: t.home.amenities.features.bar.description
-    },
-    {
       icon: <MapPin className="h-8 w-8 text-primary" />,
       title: t.home.amenities.features.location.title,
       description: t.home.amenities.features.location.description
+    },
+    {
+      icon: <Utensils className="h-8 w-8 text-primary" />,
+      title: t.home.amenities.features.oil.title,
+      description: t.home.amenities.features.oil.description
+    },
+    {
+      icon: <Coffee className="h-8 w-8 text-primary" />,
+      title: t.home.amenities.features.family.title,
+      description: t.home.amenities.features.family.description
     }
   ];
   

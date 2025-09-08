@@ -71,29 +71,29 @@ export const en = {
       title: "Experience The Best",
       description: "Enjoy our premium facilities and services designed to make your stay exceptional.",
       features: {
-        beachfront: {
-          title: "Beachfront Location",
-          description: "Direct access to pristine beaches with crystal clear waters."
+        vineyards: {
+          title: "Among Vineyards and Olive Groves",
+          description: "Immersed in the authentic Tuscan countryside with breathtaking views."
         },
         pools: {
-          title: "Swimming Pools",
-          description: "Relax by our infinity pools with stunning sea views."
-        },
-        restaurant: {
-          title: "Gourmet Restaurant",
-          description: "Enjoy exquisite local and international cuisine."
+          title: "Swimming Pool",
+          description: "Relax by our beautiful pool surrounded by nature."
         },
         wifi: {
           title: "High-Speed Wi-Fi",
           description: "Stay connected with complimentary high-speed internet."
         },
-        bar: {
-          title: "Beach Bar & Café",
-          description: "Refreshing drinks and snacks served right on the beach."
-        },
         location: {
-          title: "Prime Location",
-          description: "Close to local attractions, shops, and restaurants."
+          title: "Strategic Location",
+          description: "Close to all major art cities and Tuscan attractions."
+        },
+        oil: {
+          title: "Extra Virgin Olive Oil Production",
+          description: "Experience our own production of premium Tuscan olive oil."
+        },
+        family: {
+          title: "Family Atmosphere",
+          description: "Feel at home with our warm, welcoming family environment."
         }
       }
     },
