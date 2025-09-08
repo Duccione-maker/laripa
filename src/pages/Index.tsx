@@ -15,24 +15,34 @@ const featuredApartments: ApartmentProps[] = [
   {
     id: "1",
     name: "Padronale",
-    description: "Main apartment with panoramic sea views, generous spaces and luxury comforts.",
+    description: "Main apartment with panoramic vineyard views, generous spaces and luxury comforts.",
     price: 280,
-    capacity: 6,
-    size: 120,
-    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
-    location: "Primo piano",
-    features: ["Wi-Fi", "Cucina completa", "2 Bagni", "Aria condizionata", "TV", "Terrazza vista mare"]
+    capacity: 4,
+    size: 146,
+    image: "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png",
+    images: [
+      "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png",
+      "/lovable-uploads/204d40d3-9d9a-411a-9f06-34ee9648960f.png",
+      "/lovable-uploads/ac482e8b-5bc9-4801-a5cd-62c4e098627a.png"
+    ],
+    location: "Piano terra",
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a legna per pizza", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Veranda"]
   },
   {
     id: "2", 
     name: "Ghiri",
-    description: "Characteristic apartment with welcoming atmosphere and charming views of the surroundings.",
+    description: "Characteristic 4+2 apartment with breathtaking views of San Gimignano, Japanese bed and service bathroom on ground floor. Welcoming atmosphere and charming surroundings. The most loved on booking portals.",
     price: 220,
-    capacity: 4,
-    size: 85,
-    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
-    location: "Piano terra",
-    features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Giardino privato"]
+    capacity: 6,
+    size: 117,
+    image: "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png",
+    images: [
+      "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png",
+      "/lovable-uploads/524138e8-c9d1-41e9-8867-3632efb248fc.png",
+      "/lovable-uploads/a0bd4059-64fa-4bd7-a506-cd13d8fd18e5.png"
+    ],
+    location: "Piano terra + primo piano",
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV"]
   },
   {
     id: "3",
@@ -40,10 +50,15 @@ const featuredApartments: ApartmentProps[] = [
     description: "Apartment with modern rustic charm, perfect for those seeking authenticity and comfort.",
     price: 190,
     capacity: 4,
-    size: 70,
-    image: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
-    location: "Dependance",
-    features: ["Wi-Fi", "Cucina", "Bagno", "Aria condizionata", "TV", "Camino"]
+    size: 87,
+    image: "/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png",
+    images: [
+      "/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png",
+      "/lovable-uploads/b4b7072e-42c3-4d8f-80b8-3d2ab767fbd7.png",
+      "/lovable-uploads/1186d9ca-0c44-4a10-8518-69b07a812b81.png"
+    ],
+    location: "Primo piano",
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Gazebo", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Vista sul giardino e piscina"]
   }
 ];
 
