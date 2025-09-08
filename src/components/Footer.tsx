@@ -60,12 +60,16 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin className="w-5 h-5 mr-2 mt-0.5 text-primary" />
-                <span className="text-muted-foreground">
-                  La Ripa di San Gimignano<br />
-                  Località La Ripa<br />
+                <a 
+                  href="https://maps.app.goo.gl/Hswku8u4FcpTowz18"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Via Santa Maria 70<br />
                   53037 San Gimignano (SI)<br />
                   Toscana, Italia
-                </span>
+                </a>
               </li>
               <li className="flex items-center">
                 <Phone className="w-5 h-5 mr-2 text-primary" />
