@@ -125,38 +125,94 @@ export default function Amenities() {
                   {/* YouTube Videos Section */}
                   <div className="max-w-6xl mx-auto">
                     <h3 className="text-2xl font-semibold text-center mb-8">Video Tutorial di Accesso</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {/* Video 1 - Replace with actual YouTube URL */}
-                      <div className="rounded-xl overflow-hidden shadow-lg">
+                    
+                    {/* Main Access Video */}
+                    <div className="mb-12">
+                      <div className="max-w-3xl mx-auto rounded-xl overflow-hidden shadow-lg">
                         <iframe
                           width="100%"
-                          height="315"
-                          src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1"
-                          title="Come accedere alla proprietà - Video 1"
+                          height="400"
+                          src="https://www.youtube.com/embed/YOUR_MAIN_ACCESS_VIDEO_ID"
+                          title="Accesso Principale - La Ripa"
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                         ></iframe>
-                        <div className="p-4 bg-muted">
-                          <h4 className="font-semibold mb-2">Accesso Principale</h4>
-                          <p className="text-sm text-muted-foreground">Come raggiungere e accedere all'ingresso principale della struttura</p>
+                        <div className="p-4 bg-muted text-center">
+                          <h4 className="font-semibold mb-2">Accesso Principale alla Proprietà</h4>
+                          <p className="text-sm text-muted-foreground">Come raggiungere La Ripa e accedere alla struttura</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Apartment Specific Videos */}
+                    <h4 className="text-xl font-semibold text-center mb-6">Accesso Specifico per Appartamento</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                      {/* Padronale */}
+                      <div className="rounded-xl overflow-hidden shadow-lg">
+                        <iframe
+                          width="100%"
+                          height="200"
+                          src="https://www.youtube.com/embed/YOUR_PADRONALE_VIDEO_ID"
+                          title="Accesso Padronale"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                        <div className="p-3 bg-muted">
+                          <h5 className="font-semibold mb-1">Padronale</h5>
+                          <p className="text-xs text-muted-foreground">Accesso appartamento Padronale</p>
                         </div>
                       </div>
                       
-                      {/* Video 2 - Replace with actual YouTube URL */}
+                      {/* Ghiri */}
                       <div className="rounded-xl overflow-hidden shadow-lg">
                         <iframe
                           width="100%"
-                          height="315"
-                          src="https://www.youtube.com/embed/YOUR_VIDEO_ID_2"
-                          title="Self Check-in - Video 2"
+                          height="200"
+                          src="https://www.youtube.com/embed/YOUR_GHIRI_VIDEO_ID"
+                          title="Accesso Ghiri"
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                         ></iframe>
-                        <div className="p-4 bg-muted">
-                          <h4 className="font-semibold mb-2">Self Check-in</h4>
-                          <p className="text-sm text-muted-foreground">Procedura passo-passo per il check-in autonomo</p>
+                        <div className="p-3 bg-muted">
+                          <h5 className="font-semibold mb-1">Ghiri</h5>
+                          <p className="text-xs text-muted-foreground">Accesso appartamento Ghiri</p>
+                        </div>
+                      </div>
+                      
+                      {/* Nidi */}
+                      <div className="rounded-xl overflow-hidden shadow-lg">
+                        <iframe
+                          width="100%"
+                          height="200"
+                          src="https://www.youtube.com/embed/YOUR_NIDI_VIDEO_ID"
+                          title="Accesso Nidi"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                        <div className="p-3 bg-muted">
+                          <h5 className="font-semibold mb-1">Nidi</h5>
+                          <p className="text-xs text-muted-foreground">Accesso appartamento Nidi</p>
+                        </div>
+                      </div>
+                      
+                      {/* Fienile */}
+                      <div className="rounded-xl overflow-hidden shadow-lg">
+                        <iframe
+                          width="100%"
+                          height="200"
+                          src="https://www.youtube.com/embed/YOUR_FIENILE_VIDEO_ID"
+                          title="Accesso Fienile"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                        <div className="p-3 bg-muted">
+                          <h5 className="font-semibold mb-1">Fienile</h5>
+                          <p className="text-xs text-muted-foreground">Accesso appartamento Fienile</p>
                         </div>
                       </div>
                     </div>
