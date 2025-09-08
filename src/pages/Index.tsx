@@ -139,29 +139,29 @@ export default function Index() {
               <div className="relative animate-fade-in [animation-delay:300ms]">
                 <div className="aspect-[4/3] rounded-2xl overflow-hidden">
                   <img 
-                    src="/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png"
-                    alt="Ghiri garden view" 
+                    src="/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png"
+                    alt="Padronale kitchen" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="absolute -bottom-6 -left-6 w-2/3 rounded-2xl overflow-hidden shadow-xl">
                   <img 
-                    src="/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png"
-                    alt="Fienile fireplace living room" 
+                    src="/lovable-uploads/524138e8-c9d1-41e9-8867-3632efb248fc.png"
+                    alt="Ghiri kitchen interior" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="absolute -top-6 -right-6 w-1/2 rounded-2xl overflow-hidden shadow-xl">
                   <img 
-                    src="/lovable-uploads/ac482e8b-5bc9-4801-a5cd-62c4e098627a.png"
-                    alt="Padronale veranda" 
+                    src="/lovable-uploads/64f16b83-f8d5-49dc-b96e-6a208c142224.png"
+                    alt="Nidi rustic living room" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="absolute top-1/2 right-1/4 w-1/3 rounded-2xl overflow-hidden shadow-xl">
                   <img 
-                    src="/lovable-uploads/f7046709-9eac-4cf9-b68b-c0fdfac4de60.png"
-                    alt="Nidi cozy living area" 
+                    src="/lovable-uploads/3f1ae5ae-fa9f-4be5-b0b9-a48c88c8e1ee.png"
+                    alt="Fienile bedroom with canopy" 
                     className="w-full h-full object-cover"
                   />
                 </div>
