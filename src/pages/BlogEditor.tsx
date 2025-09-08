@@ -113,6 +113,36 @@ export default function BlogEditor() {
     }));
   };
 
+  const publishToFacebook = async (postData: BlogPostForm) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('publish-to-facebook', {
+        body: {
+          title: postData.title,
+          excerpt: postData.excerpt,
+          slug: postData.slug,
+          imageUrl: postData.featured_image
+        }
+      });
+
+      if (error) {
+        console.error('Error publishing to Facebook:', error);
+        toast({
+          title: "Attenzione",
+          description: "Articolo salvato ma non pubblicato su Facebook",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Pubblicato su Facebook",
+        description: "L'articolo è stato condiviso automaticamente su Facebook",
+      });
+    } catch (error) {
+      console.error('Error publishing to Facebook:', error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -135,13 +165,30 @@ export default function BlogEditor() {
         meta_description: formData.meta_description || formData.excerpt,
       };
 
+      const wasPublished = isEdit ? false : true; // Per nuovi post
+      const isNowPublished = formData.published;
+
       if (isEdit) {
+        // Per articoli esistenti, controlla se sta diventando pubblico ora
+        const { data: currentPost } = await supabase
+          .from('blog_posts')
+          .select('published')
+          .eq('id', id)
+          .single();
+        
+        const wasCurrentlyPublished = currentPost?.published || false;
+        
         const { error } = await supabase
           .from('blog_posts')
           .update(postData)
           .eq('id', id);
 
         if (error) throw error;
+
+        // Pubblica su Facebook solo se l'articolo sta diventando pubblico ora
+        if (!wasCurrentlyPublished && isNowPublished) {
+          await publishToFacebook(postData);
+        }
 
         toast({
           title: "Articolo aggiornato",
@@ -153,6 +200,11 @@ export default function BlogEditor() {
           .insert([postData]);
 
         if (error) throw error;
+
+        // Pubblica su Facebook solo se il nuovo articolo è pubblico
+        if (isNowPublished) {
+          await publishToFacebook(postData);
+        }
 
         toast({
           title: "Articolo creato",
@@ -323,7 +375,7 @@ export default function BlogEditor() {
                     Pubblica articolo
                   </Label>
                   <p className="text-sm text-muted-foreground">
-                    L'articolo sarà visibile pubblicamente quando pubblicato
+                    L'articolo sarà visibile pubblicamente e condiviso automaticamente su Facebook quando pubblicato
                   </p>
                 </div>
                 <Switch

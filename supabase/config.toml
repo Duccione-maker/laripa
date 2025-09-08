@@ -14,3 +14,6 @@ verify_jwt = false
 
 [functions.fetch-facebook-reviews]
 verify_jwt = false
+
+[functions.publish-to-facebook]
+verify_jwt = false
