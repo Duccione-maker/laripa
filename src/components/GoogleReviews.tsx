@@ -32,6 +32,7 @@ export default function GoogleReviews() {
   const [placeId, setPlaceId] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('GoogleReviews component mounted, starting to find Place ID...');
     findPlaceId();
   }, []);
 
@@ -77,6 +78,8 @@ export default function GoogleReviews() {
         ...data,
         reviews: filteredReviews
       });
+      
+      console.log(`Loaded ${filteredReviews.length} reviews with 4-5 stars out of ${data.reviews.length} total`);
     } catch (err) {
       console.error('Error fetching Google reviews:', err);
       setError(err instanceof Error ? err.message : 'Errore nel caricamento delle recensioni');
