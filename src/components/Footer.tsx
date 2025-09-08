@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Footer() {
@@ -75,7 +75,23 @@ export default function Footer() {
               </li>
               <li className="flex items-center">
                 <Phone className="w-5 h-5 mr-2 text-primary" />
-                <span className="text-muted-foreground">+39 0577 940 000</span>
+                <a 
+                  href="tel:+393476521141" 
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  +39 3476521141
+                </a>
+              </li>
+              <li className="flex items-center">
+                <MessageCircle className="w-5 h-5 mr-2 text-primary" />
+                <a 
+                  href="https://wa.me/393476521141" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  WhatsApp
+                </a>
               </li>
               <li className="flex items-center">
                 <Mail className="w-5 h-5 mr-2 text-primary" />
