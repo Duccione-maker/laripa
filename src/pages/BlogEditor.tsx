@@ -305,7 +305,9 @@ export default function BlogEditor() {
         if (error) throw error;
 
         // Pubblica su Facebook solo se l'articolo sta diventando pubblico ora
+        console.log('Facebook check:', { wasCurrentlyPublished, isNowPublished });
         if (!wasCurrentlyPublished && isNowPublished) {
+          console.log('Calling publishToFacebook');
           await publishToFacebook(postData);
         }
 
