@@ -68,7 +68,15 @@ export default function GoogleReviews() {
 
       if (error) throw error;
 
-      setReviewsData(data);
+      // Filtra solo recensioni con 4 e 5 stelle
+      const filteredReviews = data.reviews.filter((review: GoogleReview) => 
+        review.rating >= 4
+      );
+
+      setReviewsData({
+        ...data,
+        reviews: filteredReviews
+      });
     } catch (err) {
       console.error('Error fetching Google reviews:', err);
       setError(err instanceof Error ? err.message : 'Errore nel caricamento delle recensioni');
@@ -156,7 +164,7 @@ export default function GoogleReviews() {
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Recensioni Google</h2>
+          <h2 className="text-3xl font-bold mb-4">Le Nostre Migliori Recensioni Google</h2>
           <div className="flex items-center justify-center gap-2 mb-2">
             {renderStars(Math.round(reviewsData.average_rating))}
             <span className="text-2xl font-bold ml-2">
@@ -164,7 +172,7 @@ export default function GoogleReviews() {
             </span>
           </div>
           <p className="text-muted-foreground">
-            Basato su {reviewsData.total_reviews} recensioni Google
+            Le migliori recensioni (4-5 stelle) dei nostri ospiti su Google
           </p>
         </div>
 
