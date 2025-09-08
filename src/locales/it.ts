@@ -47,8 +47,8 @@ export const it = {
     returnHome: "Torna alla Home"
   },
   apartments: {
-    title: "I Nostri Appartamenti e Camere",
-    subtitle: "Scopri la nostra selezione di alloggi premium, perfetti per ogni tipo di soggiorno.",
+    title: "I Nostri Appartamenti",
+    subtitle: "Scopri la nostra selezione di appartamenti premium, ognuno con il suo fascino unico e comfort nel cuore della Toscana.",
     filters: {
       guests: "Ospiti",
       anyGuests: "Qualsiasi numero di ospiti",

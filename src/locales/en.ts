@@ -104,8 +104,8 @@ export const en = {
     }
   },
   apartments: {
-    title: "Our Apartments & Rooms",
-    subtitle: "Discover our selection of premium accommodations, ranging from cozy studios to luxurious penthouses.",
+    title: "Our Apartments",
+    subtitle: "Discover our selection of premium apartments, each offering unique charm and comfort in the heart of Tuscany.",
     filters: {
       guests: "Guests",
       anyGuests: "Any number of guests",
