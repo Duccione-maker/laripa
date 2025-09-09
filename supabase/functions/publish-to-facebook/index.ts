@@ -64,12 +64,6 @@ serve(async (req) => {
       access_token: accessToken
     };
 
-    // Se c'è un'immagine, includila
-    if (imageUrl) {
-      postData.link = articleUrl;
-      postData.picture = imageUrl;
-    }
-
     const response = await fetch(facebookUrl, {
       method: 'POST',
       headers: {
