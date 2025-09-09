@@ -63,7 +63,7 @@ export const en = {
     featuredApartments: {
       subtitle: "Our Accommodations",
       title: "Featured Apartments",
-      description: "Discover our most popular accommodation options, each offering a perfect blend of comfort, style, and breathtaking sea views.",
+      description: "Discover our most popular accommodation options, each offering a perfect blend of comfort, style, and breathtaking countryside views.",
       viewAll: "View All Apartments"
     },
     amenities: {
@@ -99,7 +99,7 @@ export const en = {
     },
     cta: {
       title: "Ready for Your Dream Vacation?",
-      description: "Book your stay today and experience the perfect blend of luxury, comfort, and stunning sea views.",
+      description: "Book your stay today and experience the perfect blend of luxury, comfort, and stunning Tuscan countryside views.",
       bookNow: "Book Now"
     }
   },
@@ -129,7 +129,7 @@ export const en = {
   },
   gallery: {
     title: "Photo Gallery",
-    subtitle: "Explore our seaside paradise through captivating imagery.",
+    subtitle: "Explore our Tuscan paradise through captivating imagery.",
     filters: {
       all: "All",
       exterior: "Exterior",

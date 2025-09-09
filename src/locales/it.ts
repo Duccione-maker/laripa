@@ -72,7 +72,7 @@ export const it = {
   },
   gallery: {
     title: "Galleria Fotografica",
-    subtitle: "Esplora il nostro paradiso sul mare attraverso immagini suggestive.",
+    subtitle: "Esplora il nostro paradiso toscano attraverso immagini suggestive.",
     filters: {
       all: "Tutti",
       exterior: "Esterno",
@@ -233,7 +233,7 @@ export const it = {
     featuredApartments: {
       subtitle: "I Nostri Alloggi",
       title: "Appartamenti in Evidenza",
-      description: "Scopri le nostre opzioni di alloggio più popolari, ognuna che offre un perfetto equilibrio di comfort, stile e viste mozzafiato sul mare.",
+      description: "Scopri le nostre opzioni di alloggio più popolari, ognuna che offre un perfetto equilibrio di comfort, stile e viste mozzafiato sulla campagna toscana.",
       viewAll: "Visualizza Tutti gli Appartamenti"
     },
     amenities: {
@@ -269,7 +269,7 @@ export const it = {
     },
     cta: {
       title: "Pronto per la tua Vacanza da Sogno?",
-      description: "Prenota il tuo soggiorno oggi e vivi il perfetto connubio di lusso, comfort e viste mozzafiato sul mare.",
+      description: "Prenota il tuo soggiorno oggi e vivi il perfetto connubio di lusso, comfort e viste mozzafiato sulla campagna toscana.",
       bookNow: "Prenota Ora"
     }
   },
