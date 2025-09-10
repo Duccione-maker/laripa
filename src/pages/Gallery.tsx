@@ -64,6 +64,40 @@ const allApartments = [
   }
 ];
 
+// Pool images
+const poolImages = [
+  {
+    id: 100,
+    src: "/lovable-uploads/2807f271-ff86-4cdc-b11d-3edcdd325e06.png",
+    alt: "Relax in piscina con libro",
+    category: "pool"
+  },
+  {
+    id: 101,
+    src: "/lovable-uploads/fc598a71-9a45-49ac-a987-ca545394e171.png",
+    alt: "Vista generale della piscina",
+    category: "pool"
+  },
+  {
+    id: 102,
+    src: "/lovable-uploads/25347281-e633-44c8-9703-92be4df25a36.png",
+    alt: "Vista panoramica piscina e struttura",
+    category: "pool"
+  },
+  {
+    id: 103,
+    src: "/lovable-uploads/2ac63ed1-ab4d-46f8-8b36-66c7a1ff0914.png",
+    alt: "Area piscina con ombrelloni",
+    category: "pool"
+  },
+  {
+    id: 104,
+    src: "/lovable-uploads/a930fdfe-4573-422b-bb04-ebdb70b93b96.png",
+    alt: "Piscina illuminata di sera",
+    category: "pool"
+  }
+];
+
 // Generate gallery images from apartment data
 const generateGalleryImages = () => {
   const galleryImages: Array<{id: number; src: string; alt: string; category: string; apartment?: string}> = [];
@@ -93,18 +127,18 @@ const generateGalleryImages = () => {
     });
   });
 
+  // Add pool images
+  galleryImages.push(...poolImages);
+
   return galleryImages;
 };
 
 const galleryImages = generateGalleryImages();
-console.log('Gallery images generated:', galleryImages.length, galleryImages);
 
 export default function Gallery() {
   const { t } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [filteredImages, setFilteredImages] = useState(galleryImages);
-  
-  console.log('Filtered images:', filteredImages.length, filteredImages);
   const [activeFilter, setActiveFilter] = useState("all");
   
   useEffect(() => {
@@ -112,12 +146,14 @@ export default function Gallery() {
     window.scrollTo(0, 0);
   }, []);
   
-  // Filter gallery images by apartment or show all
+  // Filter gallery images by apartment, category or show all
   const filterGallery = (filter: string) => {
     setActiveFilter(filter);
     
     if (filter === "all") {
       setFilteredImages(galleryImages);
+    } else if (filter === "pool") {
+      setFilteredImages(galleryImages.filter(img => img.category === "pool"));
     } else {
       setFilteredImages(galleryImages.filter(img => img.apartment === filter));
     }
@@ -186,7 +222,7 @@ export default function Gallery() {
         <section className="py-8">
           <div className="container">
             <div className="flex flex-wrap justify-center gap-2 mb-8 animate-fade-in">
-              {["all", "Padronale", "Ghiri", "Fienile", "Nidi"].map((filter) => (
+              {["all", "Padronale", "Ghiri", "Fienile", "Nidi", "pool"].map((filter) => (
                 <button
                   key={filter}
                   onClick={() => filterGallery(filter)}
@@ -197,7 +233,11 @@ export default function Gallery() {
                       : "bg-card hover:bg-muted"
                   )}
                 >
-                  {filter === "all" ? "Tutte le foto" : `Appartamento ${filter}`}
+                  {filter === "all" 
+                    ? "Tutte le foto" 
+                    : filter === "pool" 
+                      ? "Piscina" 
+                      : `Appartamento ${filter}`}
                 </button>
               ))}
             </div>
