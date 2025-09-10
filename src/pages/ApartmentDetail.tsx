@@ -56,7 +56,7 @@ const allApartments: ApartmentProps[] = [
     ],
     location: "Piano terra + primo piano",
     features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV"],
-    googlePhotosAlbumId: "your-album-id-for-ghiri"
+    googlePhotosAlbumId: "AF1QipNgsefJs_bZi91TkwyLK2qH9RvHH5KdpwhuzPAa"
   },
   {
     id: "3",
