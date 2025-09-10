@@ -14,7 +14,11 @@ serve(async (req) => {
   try {
     const { currentToken, pageId } = await req.json();
     
+    console.log('Received request with pageId:', pageId);
+    console.log('Token length:', currentToken?.length);
+    
     if (!currentToken) {
+      console.log('No token provided');
       return new Response(
         JSON.stringify({ error: 'Token Facebook richiesto' }), 
         { 
@@ -26,6 +30,9 @@ serve(async (req) => {
 
     const appId = Deno.env.get('FACEBOOK_APP_ID');
     const appSecret = Deno.env.get('FACEBOOK_APP_SECRET');
+    
+    console.log('App ID:', appId ? 'Present' : 'Missing');
+    console.log('App Secret:', appSecret ? 'Present' : 'Missing');
     
     if (!appId || !appSecret) {
       return new Response(
