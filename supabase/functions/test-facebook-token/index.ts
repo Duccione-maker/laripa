@@ -39,7 +39,7 @@ serve(async (req) => {
     console.log('Pages response:', pagesData);
 
     // Test 3: Verifica la pagina specifica
-    const pageId = '105934702166031';
+    const pageId = '130801953656622'; // La Ripa page ID
     console.log(`Testing specific page: ${pageId}`);
     const pageResponse = await fetch(`https://graph.facebook.com/${pageId}?access_token=${accessToken}`);
     const pageData = await pageResponse.json();
