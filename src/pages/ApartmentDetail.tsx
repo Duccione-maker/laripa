@@ -36,7 +36,7 @@ const allApartments: ApartmentProps[] = [
     ],
     location: "Piano terra",
     features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a legna per pizza", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Veranda"],
-    googlePhotosAlbumId: "your-album-id-for-padronale"
+    googlePhotosAlbumId: "AF1QipMzrwzfYMdMvYT8C6v7uPJ5KCuwwUtPVSo-uD-C"
   },
   {
     id: "2", 
