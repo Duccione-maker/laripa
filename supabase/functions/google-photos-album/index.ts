@@ -30,7 +30,9 @@ serve(async (req) => {
 
   try {
     const googlePhotosApiKey = Deno.env.get('GOOGLE_PHOTOS_API_KEY');
+    console.log('Google Photos API Key configured:', !!googlePhotosApiKey);
     if (!googlePhotosApiKey) {
+      console.error('GOOGLE_PHOTOS_API_KEY environment variable not found');
       throw new Error('Google Photos API key not configured');
     }
 
