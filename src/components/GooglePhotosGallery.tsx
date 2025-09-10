@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Camera, ExternalLink } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface GooglePhoto {
   id: string;
@@ -34,23 +35,18 @@ export function GooglePhotosGallery({ albumId, apartmentName, className }: Googl
         setLoading(true);
         setError(null);
 
-        const response = await fetch('https://dsylclbnkddaghmsptax.supabase.co/functions/v1/google-photos-album', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ albumId }),
+        const { data, error: functionError } = await supabase.functions.invoke('google-photos-album', {
+          body: { albumId }
         });
 
-        if (!response.ok) {
-          throw new Error('Errore nel caricamento delle foto');
+        if (functionError) {
+          throw functionError;
         }
 
-        const data = await response.json();
         setPhotos(data.photos || []);
       } catch (err) {
         console.error('Error fetching Google Photos:', err);
-        setError(err instanceof Error ? err.message : 'Errore sconosciuto');
+        setError(err instanceof Error ? err.message : 'Errore nel caricamento delle foto');
       } finally {
         setLoading(false);
       }
