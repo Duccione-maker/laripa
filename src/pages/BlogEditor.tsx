@@ -304,12 +304,6 @@ export default function BlogEditor() {
 
         if (error) throw error;
 
-        // Pubblica su Facebook solo se l'articolo sta diventando pubblico ora
-        console.log('Facebook check:', { wasCurrentlyPublished, isNowPublished });
-        if (!wasCurrentlyPublished && isNowPublished) {
-          console.log('Calling publishToFacebook');
-          await publishToFacebook(postData);
-        }
 
         toast({
           title: "Articolo aggiornato",
@@ -322,10 +316,6 @@ export default function BlogEditor() {
 
         if (error) throw error;
 
-        // Pubblica su Facebook solo se il nuovo articolo è pubblico
-        if (isNowPublished) {
-          await publishToFacebook(postData);
-        }
 
         toast({
           title: "Articolo creato",
