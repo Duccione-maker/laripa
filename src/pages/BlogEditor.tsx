@@ -550,7 +550,7 @@ export default function BlogEditor() {
                     Pubblica articolo
                   </Label>
                   <p className="text-sm text-muted-foreground">
-                    L'articolo sarà visibile pubblicamente e condiviso automaticamente su Facebook quando pubblicato
+                    L'articolo sarà visibile pubblicamente quando pubblicato
                   </p>
                 </div>
                 <Switch
