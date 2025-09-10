@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.setup-google-oauth]
 verify_jwt = false
+
+[functions.google-photos-album]
+verify_jwt = false
