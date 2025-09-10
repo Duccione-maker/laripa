@@ -237,7 +237,7 @@ export default function Gallery() {
                     ? "Tutte le foto" 
                     : filter === "pool" 
                       ? "Piscina" 
-                      : `Appartamento ${filter}`}
+                      : filter}
                 </button>
               ))}
             </div>
