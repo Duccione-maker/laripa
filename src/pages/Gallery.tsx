@@ -97,11 +97,14 @@ const generateGalleryImages = () => {
 };
 
 const galleryImages = generateGalleryImages();
+console.log('Gallery images generated:', galleryImages.length, galleryImages);
 
 export default function Gallery() {
   const { t } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [filteredImages, setFilteredImages] = useState(galleryImages);
+  
+  console.log('Filtered images:', filteredImages.length, filteredImages);
   const [activeFilter, setActiveFilter] = useState("all");
   
   useEffect(() => {
