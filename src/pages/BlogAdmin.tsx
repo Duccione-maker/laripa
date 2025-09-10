@@ -177,7 +177,16 @@ export default function BlogAdmin() {
         }
       });
       
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw error;
+      }
+      
+      // Check if the response contains an error field
+      if (data?.error) {
+        console.error('Function returned error:', data);
+        throw new Error(data.error + (data.details ? ': ' + data.details : ''));
+      }
       
       toast({
         title: "Token convertito con successo!",
@@ -191,7 +200,7 @@ export default function BlogAdmin() {
       console.error('Error converting Facebook token:', error);
       toast({
         title: "Errore conversione token",
-        description: "Impossibile convertire il token Facebook",
+        description: error.message || "Impossibile convertire il token Facebook",
         variant: "destructive",
       });
     }
