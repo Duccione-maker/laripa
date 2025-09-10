@@ -97,6 +97,7 @@ serve(async (req) => {
     }
 
     const pageTokenData = await pageTokenResponse.json();
+    console.log('Page token response:', JSON.stringify(pageTokenData, null, 2));
     
     // Trova la pagina specifica se pageId è fornito, altrimenti restituisci tutte
     let targetPage = null;
