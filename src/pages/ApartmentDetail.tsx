@@ -78,7 +78,7 @@ const allApartments: ApartmentProps[] = [
     ],
     location: "Primo piano",
     features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Gazebo", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Vista sul giardino e piscina"],
-    googlePhotosAlbumId: "your-album-id-for-fienile"
+    googlePhotosAlbumId: "AF1QipMb4WontHoPuGgbnILD_JHngN74E5E3FEKAJ65h"
   },
   {
     id: "4",
