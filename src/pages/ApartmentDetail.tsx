@@ -14,6 +14,7 @@ import CustomCalendar from "@/components/CustomCalendar";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSmoobuPricing } from "@/hooks/useSmoobuPricing";
 import { ApartmentProps } from "@/components/ApartmentCard";
+import { GooglePhotosGallery } from "@/components/GooglePhotosGallery";
 
 // Import apartment data
 const allApartments: ApartmentProps[] = [
@@ -34,7 +35,8 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/698d71b3-1f38-4d4e-a8f2-6f31e882cd08.png"  // Soggiorno
     ],
     location: "Piano terra",
-    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a legna per pizza", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Veranda"]
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a legna per pizza", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Veranda"],
+    googlePhotosAlbumId: "your-album-id-for-padronale"
   },
   {
     id: "2", 
@@ -53,7 +55,8 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/151c50a6-cce6-4b3c-b93e-cf9e0a2b078b.png"  // Esterno
     ],
     location: "Piano terra + primo piano",
-    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV"]
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV"],
+    googlePhotosAlbumId: "your-album-id-for-ghiri"
   },
   {
     id: "3",
@@ -74,7 +77,8 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/6a850667-528d-4af4-ae56-7af124b28b97.png"  // Bagno con vasca
     ],
     location: "Primo piano",
-    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Gazebo", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Vista sul giardino e piscina"]
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Gazebo", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Vista sul giardino e piscina"],
+    googlePhotosAlbumId: "your-album-id-for-fienile"
   },
   {
     id: "4",
@@ -93,7 +97,8 @@ const allApartments: ApartmentProps[] = [
       "/lovable-uploads/a578cc1c-564c-4d1b-a5b0-aae344f7c162.png"  // Tavolo per colazione in giardino
     ],
     location: "Piano terra + primo piano",
-    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Gazebo esterno", "2 bagni"]
+    features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Gazebo esterno", "2 bagni"],
+    googlePhotosAlbumId: "your-album-id-for-nidi"
   }
 ];
 
@@ -368,6 +373,15 @@ export default function ApartmentDetail() {
                     ))}
                   </div>
                 </div>
+
+                {/* Google Photos Gallery */}
+                {apartment.googlePhotosAlbumId && (
+                  <GooglePhotosGallery 
+                    albumId={apartment.googlePhotosAlbumId}
+                    apartmentName={translatedName}
+                    className="mt-6"
+                  />
+                )}
               </CardContent>
             </Card>
           </div>

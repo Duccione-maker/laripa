@@ -18,6 +18,7 @@ export interface ApartmentProps {
   images?: string[]; // Additional images for gallery
   location: string;
   features: string[];
+  googlePhotosAlbumId?: string; // Google Photos album ID for additional gallery
 }
 
 export default function ApartmentCard({ apartment }: { apartment: ApartmentProps }) {
