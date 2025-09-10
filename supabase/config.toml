@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.publish-to-facebook]
 verify_jwt = false
+
+[functions.setup-google-oauth]
+verify_jwt = false
