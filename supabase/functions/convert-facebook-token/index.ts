@@ -70,16 +70,39 @@ serve(async (req) => {
     const longLivedTokenData = await longLivedTokenResponse.json();
     const longLivedUserToken = longLivedTokenData.access_token;
     
-    console.log('Step 2: Getting user ID...');
+    console.log('Step 2: Getting token info...');
     
-    // Ottieni l'ID utente per il passo successivo
-    const userResponse = await fetch(`https://graph.facebook.com/me?access_token=${longLivedUserToken}`);
-    const userData = await userResponse.json();
-    const userId = userData.id;
+    // Ottieni info su chi è il proprietario del token
+    const tokenInfoResponse = await fetch(`https://graph.facebook.com/me?access_token=${longLivedUserToken}`);
+    const tokenInfo = await tokenInfoResponse.json();
+    
+    console.log('Token info:', JSON.stringify(tokenInfo, null, 2));
+
+    // Controlla se è un token utente o di pagina controllando il campo 'category'
+    if (tokenInfo.category) {
+      // È già un token di pagina - restituisci così com'è
+      console.log('Token is already a page token');
+      return new Response(
+        JSON.stringify({ 
+          success: true,
+          permanentPageToken: longLivedUserToken,
+          pageInfo: {
+            id: tokenInfo.id,
+            name: tokenInfo.name,
+            category: tokenInfo.category
+          },
+          message: 'Il token era già un token di pagina permanente!'
+        }), 
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
 
     console.log('Step 3: Converting to permanent page token...');
     
-    // Passo 2: Usa il token utente di lunga durata per ottenere il token pagina permanente
+    // È un token utente - ottieni i token delle pagine
+    const userId = tokenInfo.id;
     const pageTokenResponse = await fetch(
       `https://graph.facebook.com/v18.0/${userId}/accounts?access_token=${longLivedUserToken}`
     );
