@@ -139,36 +139,22 @@ async function fetchPhotos(albumId: string) {
     body: JSON.stringify(requestBody),
   });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Google Photos API error:', errorText);
-      throw new Error(`Google Photos API error: ${response.status}`);
-    }
-
-    const data: GooglePhotosResponse = await response.json();
-    
-    console.log(`Fetched ${data.mediaItems?.length || 0} photos from album`);
-
-    const result = {
-      photos: data.mediaItems || [],
-      nextPageToken: data.nextPageToken
-    };
-
-    return new Response(JSON.stringify(result), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
-
-  } catch (error) {
-    console.error('Error fetching Google Photos album:', error);
-    return new Response(
-      JSON.stringify({ 
-        error: error.message,
-        photos: []
-      }), 
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error('Google Photos API error:', errorText);
+    throw new Error(`Google Photos API error: ${response.status}`);
   }
-});
+
+  const data: GooglePhotosResponse = await response.json();
+  
+  console.log(`Fetched ${data.mediaItems?.length || 0} photos from album`);
+
+  const result = {
+    photos: data.mediaItems || [],
+    nextPageToken: data.nextPageToken
+  };
+
+  return new Response(JSON.stringify(result), {
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+  });
+}
