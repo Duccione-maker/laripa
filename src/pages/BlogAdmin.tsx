@@ -160,6 +160,43 @@ export default function BlogAdmin() {
     }
   };
 
+  const convertFacebookToken = async () => {
+    try {
+      const currentToken = prompt("Inserisci il token Facebook corrente da convertire:");
+      if (!currentToken) return;
+
+      toast({
+        title: "Conversione in corso...",
+        description: "Sto convertendo il token Facebook",
+      });
+
+      const { data, error } = await supabase.functions.invoke('convert-facebook-token', {
+        body: { 
+          currentToken: currentToken,
+          pageId: '105934702166031' // Il tuo page ID
+        }
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Token convertito con successo!",
+        description: `Token permanente generato per: ${data.pageInfo.name}`,
+      });
+      
+      console.log('Token convertito:', data.permanentPageToken);
+      console.log('Dettagli conversione:', data);
+      
+    } catch (error) {
+      console.error('Error converting Facebook token:', error);
+      toast({
+        title: "Errore conversione token",
+        description: "Impossibile convertire il token Facebook",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/50">
@@ -182,6 +219,9 @@ export default function BlogAdmin() {
           <div className="flex gap-2">
             <Button variant="outline" onClick={testFacebookToken}>
               Test Facebook
+            </Button>
+            <Button variant="outline" onClick={convertFacebookToken}>
+              Converti Token FB
             </Button>
             <Button asChild className="btn-primary">
               <Link to="/blog/admin/new">
