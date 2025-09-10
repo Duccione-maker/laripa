@@ -98,7 +98,7 @@ const allApartments: ApartmentProps[] = [
     ],
     location: "Piano terra + primo piano",
     features: ["Area pranzo", "Aria condizionata", "Asciugacapelli", "Asciugamani", "Barbecue", "Bollitore", "Camino", "Fasciatoio", "Ferro e asse da stiro", "Forno a microonde", "Forno elettrico", "Free parking", "Free WiFi", "Kit di benvenuto", "Lavastoviglie", "Lavatrice", "Lenzuola", "Outdoor pool", "Pet friendly", "Riscaldamento", "Smart TV", "Gazebo esterno", "2 bagni"],
-    googlePhotosAlbumId: "your-album-id-for-nidi"
+    googlePhotosAlbumId: "AF1QipOeE9S51Xg-Jhq0JCTbi5AHSXpjQeGIvxL8t5bd"
   }
 ];
 
