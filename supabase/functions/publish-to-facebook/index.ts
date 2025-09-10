@@ -12,9 +12,13 @@ serve(async (req) => {
   }
 
   try {
-    const { title, excerpt, slug, imageUrl } = await req.json();
+    const body = await req.json();
+    const { title, excerpt, slug, imageUrl } = body;
+    
+    console.log('Parsed data:', { title, excerpt, slug, imageUrl });
     
     if (!title || !slug) {
+      console.error('Missing required fields:', { title, slug });
       return new Response(
         JSON.stringify({ error: 'Titolo e slug sono richiesti' }), 
         { 
