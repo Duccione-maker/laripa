@@ -6,81 +6,97 @@ import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Sample gallery images - pronte per le tue foto reali
-const galleryImages = [
+// Apartment data - imported from apartment pages
+const allApartments = [
   {
-    id: 1,
-    src: "/lovable-uploads/99f7a726-ed92-4c63-b687-ba579de8c20b.png",
-    alt: "Vista generale La Ripa",
-    category: "apartments"
+    id: "1",
+    name: "Padronale",
+    image: "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png",
+    images: [
+      "/lovable-uploads/1855fa03-9c3f-46d6-b7ce-8760cedc9f90.png",
+      "/lovable-uploads/204d40d3-9d9a-411a-9f06-34ee9648960f.png",
+      "/lovable-uploads/ac482e8b-5bc9-4801-a5cd-62c4e098627a.png",
+      "/lovable-uploads/1a9ddcc6-3847-415a-b7e4-62542a629852.png",
+      "/lovable-uploads/7ce30357-9f21-45f5-9a88-ae9cfef3a153.png",
+      "/lovable-uploads/698d71b3-1f38-4d4e-a8f2-6f31e882cd08.png"
+    ]
   },
   {
-    id: 2,
-    src: "/lovable-uploads/gallery-exterior-1.jpg",
-    alt: "Esterno La Ripa",
-    category: "exterior"
+    id: "2", 
+    name: "Ghiri",
+    image: "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png",
+    images: [
+      "/lovable-uploads/e636d9ee-5f63-4fdd-beb9-6a3d6502048e.png",
+      "/lovable-uploads/524138e8-c9d1-41e9-8867-3632efb248fc.png",
+      "/lovable-uploads/a0bd4059-64fa-4bd7-a506-cd13d8fd18e5.png",
+      "/lovable-uploads/d9b7a116-e425-4b55-85d0-4bdffcf35f92.png",
+      "/lovable-uploads/163f6f54-8b1e-483a-82a8-c3077685d7c2.png",
+      "/lovable-uploads/151c50a6-cce6-4b3c-b93e-cf9e0a2b078b.png"
+    ]
   },
   {
-    id: 3,
-    src: "/lovable-uploads/gallery-pool-1.jpg", 
-    alt: "Area piscina",
-    category: "pool"
+    id: "3",
+    name: "Fienile",
+    image: "/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png",
+    images: [
+      "/lovable-uploads/4f21e3a8-c435-420a-9c45-8c828be3c0b2.png",
+      "/lovable-uploads/b4b7072e-42c3-4d8f-80b8-3d2ab767fbd7.png",
+      "/lovable-uploads/1186d9ca-0c44-4a10-8518-69b07a812b81.png",
+      "/lovable-uploads/0a4860b0-b18d-4f60-b004-c0a8cfeec2c5.png",
+      "/lovable-uploads/3f1ae5ae-fa9f-4be5-b0b9-a48c88c8e1ee.png",
+      "/lovable-uploads/ebf36a44-3fca-4c29-99ec-56ff07963d02.png",
+      "/lovable-uploads/25f155d7-09a3-46bd-ae61-f458cd3727c8.png",
+      "/lovable-uploads/6a850667-528d-4af4-ae56-7af124b28b97.png"
+    ]
   },
   {
-    id: 4,
-    src: "/lovable-uploads/gallery-padronale-1.jpg",
-    alt: "Appartamento Padronale",
-    category: "apartments"
-  },
-  {
-    id: 5,
-    src: "/lovable-uploads/gallery-ghiri-1.jpg",
-    alt: "Appartamento Ghiri",
-    category: "apartments"
-  },
-  {
-    id: 6,
-    src: "/lovable-uploads/gallery-fienile-1.jpg",
-    alt: "Appartamento Fienile", 
-    category: "apartments"
-  },
-  {
-    id: 7,
-    src: "/lovable-uploads/gallery-nidi-1.jpg",
-    alt: "Appartamento Nidi",
-    category: "apartments"
-  },
-  {
-    id: 8,
-    src: "/lovable-uploads/gallery-amenities-1.jpg",
-    alt: "Servizi e comfort",
-    category: "amenities"
-  },
-  {
-    id: 9,
-    src: "/lovable-uploads/gallery-pool-2.jpg",
-    alt: "Vista piscina panoramica",
-    category: "pool"
-  },
-  {
-    id: 10,
-    src: "/lovable-uploads/gallery-exterior-2.jpg", 
-    alt: "Giardini La Ripa",
-    category: "exterior"
-  },
-  {
-    id: 11,
-    src: "/lovable-uploads/gallery-amenities-2.jpg",
-    alt: "Area comune",
-    category: "amenities"
-  },
-  {
-    id: 12,
-    src: "/lovable-uploads/gallery-view-1.jpg",
-    alt: "Vista panoramica",
-    category: "exterior"
+    id: "4",
+    name: "Nidi",
+    image: "/lovable-uploads/64f16b83-f8d5-49dc-b96e-6a208c142224.png",
+    images: [
+      "/lovable-uploads/64f16b83-f8d5-49dc-b96e-6a208c142224.png",
+      "/lovable-uploads/f7046709-9eac-4cf9-b68b-c0fdfac4de60.png",
+      "/lovable-uploads/c99136a0-db75-45c6-a328-e285d21506cc.png",
+      "/lovable-uploads/4501c737-dbc3-4e68-b653-3173cb93a8fe.png",
+      "/lovable-uploads/46ded70c-6837-488e-a636-4ee5de394f3a.png",
+      "/lovable-uploads/a578cc1c-564c-4d1b-a5b0-aae344f7c162.png"
+    ]
   }
 ];
+
+// Generate gallery images from apartment data
+const generateGalleryImages = () => {
+  const galleryImages: Array<{id: number; src: string; alt: string; category: string; apartment?: string}> = [];
+  let idCounter = 1;
+
+  allApartments.forEach(apartment => {
+    // Add main image
+    galleryImages.push({
+      id: idCounter++,
+      src: apartment.image,
+      alt: `${apartment.name} - Vista principale`,
+      category: "apartments",
+      apartment: apartment.name
+    });
+
+    // Add additional images
+    apartment.images?.forEach((image, index) => {
+      if (image !== apartment.image) { // Avoid duplicates
+        galleryImages.push({
+          id: idCounter++,
+          src: image,
+          alt: `${apartment.name} - Foto ${index + 1}`,
+          category: "apartments",
+          apartment: apartment.name
+        });
+      }
+    });
+  });
+
+  return galleryImages;
+};
+
+const galleryImages = generateGalleryImages();
 
 export default function Gallery() {
   const { t } = useLanguage();
@@ -93,14 +109,14 @@ export default function Gallery() {
     window.scrollTo(0, 0);
   }, []);
   
-  // Filter gallery images by category
-  const filterGallery = (category: string) => {
-    setActiveFilter(category);
+  // Filter gallery images by apartment or show all
+  const filterGallery = (filter: string) => {
+    setActiveFilter(filter);
     
-    if (category === "all") {
+    if (filter === "all") {
       setFilteredImages(galleryImages);
     } else {
-      setFilteredImages(galleryImages.filter(img => img.category === category));
+      setFilteredImages(galleryImages.filter(img => img.apartment === filter));
     }
   };
   
@@ -167,26 +183,18 @@ export default function Gallery() {
         <section className="py-8">
           <div className="container">
             <div className="flex flex-wrap justify-center gap-2 mb-8 animate-fade-in">
-              {["all", "apartments", "pool", "exterior", "amenities"].map((category) => (
+              {["all", "Padronale", "Ghiri", "Fienile", "Nidi"].map((filter) => (
                 <button
-                  key={category}
-                  onClick={() => filterGallery(category)}
+                  key={filter}
+                  onClick={() => filterGallery(filter)}
                   className={cn(
                     "px-6 py-2 rounded-full transition-all",
-                    activeFilter === category
+                    activeFilter === filter
                       ? "bg-primary text-white shadow-lg"
                       : "bg-card hover:bg-muted"
                   )}
                 >
-                  {category === "all" 
-                    ? t.gallery.filters.all 
-                    : category === "apartments"
-                      ? "Appartamenti"
-                    : category === "pool" 
-                      ? "Piscina"
-                    : category === "exterior"
-                      ? "Esterni"
-                      : "Servizi"}
+                  {filter === "all" ? "Tutte le foto" : `Appartamento ${filter}`}
                 </button>
               ))}
             </div>
@@ -206,7 +214,12 @@ export default function Gallery() {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <p className="text-white">{image.alt}</p>
+                    <div className="text-white">
+                      <p className="font-medium">{image.alt}</p>
+                      {image.apartment && (
+                        <p className="text-sm text-white/80">Appartamento {image.apartment}</p>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
