@@ -173,7 +173,7 @@ export default function BlogAdmin() {
       const { data, error } = await supabase.functions.invoke('convert-facebook-token', {
         body: { 
           currentToken: currentToken,
-          pageId: '105934702166031' // Il tuo page ID
+          pageId: '130801953656622' // La Ripa page ID
         }
       });
       
