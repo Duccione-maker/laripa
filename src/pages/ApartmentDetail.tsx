@@ -14,7 +14,7 @@ import CustomCalendar from "@/components/CustomCalendar";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSmoobuPricing } from "@/hooks/useSmoobuPricing";
 import { ApartmentProps } from "@/components/ApartmentCard";
-import { GooglePhotosGallery } from "@/components/GooglePhotosGallery";
+
 
 // Import apartment data
 const allApartments: ApartmentProps[] = [
@@ -374,14 +374,6 @@ export default function ApartmentDetail() {
                   </div>
                 </div>
 
-                {/* Google Photos Gallery */}
-                {apartment.googlePhotosAlbumId && (
-                  <GooglePhotosGallery 
-                    albumId={apartment.googlePhotosAlbumId}
-                    apartmentName={translatedName}
-                    className="mt-6"
-                  />
-                )}
               </CardContent>
             </Card>
           </div>
