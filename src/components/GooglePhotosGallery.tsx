@@ -36,7 +36,7 @@ export function GooglePhotosGallery({ albumId, apartmentName, className }: Googl
         setError(null);
 
         const { data, error: functionError } = await supabase.functions.invoke('google-photos-album', {
-          body: { albumId }
+          body: { albumId, action: 'fetch' }
         });
 
         if (functionError) {
