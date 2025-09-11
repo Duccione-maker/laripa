@@ -14,4 +14,4 @@ Disallow: /auth
 Disallow: /my-bookings
 
 # Sitemap location
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://www.laripadisangimignano.com/sitemap.xml
