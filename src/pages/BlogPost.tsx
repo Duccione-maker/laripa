@@ -7,6 +7,8 @@ import { CalendarIcon, ArrowLeftIcon, ShareIcon } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import { useToast } from "@/hooks/use-toast";
+import SEOHead from "@/components/SEO/SEOHead";
+import { useStructuredData } from "@/components/SEO/StructuredData";
 
 interface BlogPost {
   id: string;
@@ -27,6 +29,7 @@ export default function BlogPost() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const { toast } = useToast();
+  const { getArticleData } = useStructuredData();
 
   useEffect(() => {
     if (slug) {

@@ -5,6 +5,8 @@ import HeroSection from "@/components/HeroSection";
 import BookingForm from "@/components/BookingForm";
 import AllReviews from "@/components/AllReviews";
 import ApartmentCard, { ApartmentProps } from "@/components/ApartmentCard";
+import SEOHead from "@/components/SEO/SEOHead";
+import { useStructuredData } from "@/components/SEO/StructuredData";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Wifi, Utensils, Waves, LifeBuoy, MapPin, Coffee, Trees, Droplets, Home, Heart, Grape, Leaf } from "lucide-react";
@@ -63,7 +65,8 @@ const featuredApartments: ApartmentProps[] = [
 ];
 
 export default function Index() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { getOrganizationData, getLocalBusinessData } = useStructuredData();
   
   useEffect(() => {
     // Scroll to top when component mounts
@@ -106,6 +109,18 @@ export default function Index() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title={language === 'it' ? 'Casa Vacanze con Piscina' : 'Holiday Rentals with Pool'}
+        description={language === 'it' 
+          ? 'Scopri i nostri appartamenti vacanza a San Gimignano con piscina privata. Perfetti per una vacanza indimenticabile in Toscana con tutti i comfort.'
+          : 'Discover our San Gimignano holiday apartments with private swimming pool. Perfect for an unforgettable vacation in Tuscany with all amenities.'
+        }
+        keywords={language === 'it' 
+          ? ['casa vacanze san gimignano', 'appartamenti piscina', 'vacanze toscana', 'affitto breve']
+          : ['san gimignano holiday rental', 'pool apartments', 'tuscany vacation', 'short term rental']
+        }
+        structuredData={getOrganizationData()}
+      />
       <Navbar />
       
       <main className="flex-1">

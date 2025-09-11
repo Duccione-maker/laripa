@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Important pages for SEO
+Allow: /apartments
+Allow: /gallery
+Allow: /blog
+Allow: /amenities
+Allow: /booking
+
+# Block admin and authentication pages
+Disallow: /admin/
+Disallow: /auth
+Disallow: /my-bookings
+
+# Sitemap location
+Sitemap: https://your-domain.com/sitemap.xml

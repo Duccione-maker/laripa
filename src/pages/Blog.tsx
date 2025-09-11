@@ -9,6 +9,8 @@ import { it } from "date-fns/locale";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEO/SEOHead";
+import { useStructuredData } from "@/components/SEO/StructuredData";
 
 interface BlogPost {
   id: string;
@@ -25,20 +27,9 @@ export default function Blog() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { getOrganizationData } = useStructuredData();
 
   useEffect(() => {
-    // Set SEO meta tags
-    document.title = "Blog | Scopri le nostre storie e consigli";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Scopri articoli interessanti su viaggi, ospitalità e consigli per il tuo soggiorno perfetto. Leggi le nostre storie e guide per vivere al meglio la tua esperienza.');
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = 'description';
-      meta.content = 'Scopri articoli interessanti su viaggi, ospitalità e consigli per il tuo soggiorno perfetto. Leggi le nostre storie e guide per vivere al meglio la tua esperienza.';
-      document.getElementsByTagName('head')[0].appendChild(meta);
-    }
-
     fetchPosts();
   }, []);
 
@@ -87,6 +78,12 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Blog - Scopri le nostre storie e consigli"
+        description="Scopri articoli interessanti su viaggi, ospitalità e consigli per il tuo soggiorno perfetto. Leggi le nostre storie e guide per vivere al meglio la tua esperienza."
+        keywords={['blog', 'viaggi', 'ospitalità', 'consigli', 'san gimignano', 'toscana']}
+        structuredData={getOrganizationData()}
+      />
       <Navbar />
       <div className="flex-1 bg-gradient-to-br from-background via-background/95 to-muted/50 pt-20">
       <div className="container mx-auto px-4 py-16">
