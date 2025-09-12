@@ -122,6 +122,23 @@ export default function Amenities() {
                     </p>
                   </div>
                   
+                  {/* MyMaison Web Check-in Information */}
+                  <div className="max-w-4xl mx-auto mb-12">
+                    <div className="glass-card p-8 rounded-xl text-center">
+                      <div className="mb-4 p-3 rounded-full bg-primary/10 text-primary inline-block">
+                        <Key />
+                      </div>
+                      <h3 className="text-2xl font-semibold mb-4">Web Check-in con MyMaison</h3>
+                      <p className="text-muted-foreground mb-4">
+                        Il check-in avviene tramite invio automatico di un link MyMaison che raccoglie tutte le informazioni obbligatorie per legge.
+                      </p>
+                      <div className="bg-accent/20 rounded-lg p-4 text-sm">
+                        <strong>Come funziona:</strong> Riceverai via email un link personalizzato per completare il check-in online prima del tuo arrivo. 
+                        Questo processo semplifica e velocizza il tuo ingresso nella struttura.
+                      </div>
+                    </div>
+                  </div>
+                  
                   {/* YouTube Videos Section */}
                   <div className="max-w-6xl mx-auto">
                     <h3 className="text-2xl font-semibold text-center mb-8">Video Tutorial di Accesso</h3>
