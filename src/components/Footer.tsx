@@ -117,16 +117,16 @@ export default function Footer() {
             <p className="font-medium mb-2">Codici Identificativi Nazionali (C.I.N.)</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2 max-w-2xl mx-auto">
               <div>
-                <span className="font-medium">Fienile:</span> <span>055032LTN0000</span>
+                <span className="font-medium">Fienile:</span> <span>IT052028C26UHINPXN</span>
               </div>
               <div>
-                <span className="font-medium">Ghiri:</span> <span>055032LTN0001</span>
+                <span className="font-medium">Ghiri:</span> <span>IT052028C29AHM6MQX</span>
               </div>
               <div>
-                <span className="font-medium">Nidi:</span> <span>055032LTN0002</span>
+                <span className="font-medium">Nidi:</span> <span>IT052028C2AYAJTFOQ</span>
               </div>
               <div>
-                <span className="font-medium">Padronale:</span> <span>055032LTN0003</span>
+                <span className="font-medium">Padronale:</span> <span>IT052028C25S9SGLM5</span>
               </div>
             </div>
           </div>
