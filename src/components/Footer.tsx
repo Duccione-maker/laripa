@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { Facebook, Instagram, X, Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Footer() {
@@ -41,8 +41,8 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
-                <Twitter size={20} />
-                <span className="sr-only">Twitter</span>
+                <X size={20} />
+                <span className="sr-only">X</span>
               </a>
             </div>
           </div>
