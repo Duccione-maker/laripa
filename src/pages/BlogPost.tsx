@@ -9,6 +9,7 @@ import { it } from "date-fns/locale";
 import { useToast } from "@/hooks/use-toast";
 import SEOHead from "@/components/SEO/SEOHead";
 import { useStructuredData } from "@/components/SEO/StructuredData";
+import OptimizedImage from "@/components/OptimizedImage";
 
 interface BlogPost {
   id: string;
@@ -211,13 +212,14 @@ export default function BlogPost() {
 
         <Card className="glass-card">
           {post.featured_image && (
-            <div className="aspect-video overflow-hidden rounded-t-lg">
-              <img
-                src={post.featured_image}
-                alt={`Immagine dell'articolo: ${post.title}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <OptimizedImage
+              src={post.featured_image}
+              alt={`Immagine dell'articolo: ${post.title}`}
+              aspectRatio="video"
+              className="rounded-t-lg"
+              priority={true}
+              sizes="(max-width: 768px) 100vw, 1200px"
+            />
           )}
           
           <CardContent className="p-8">

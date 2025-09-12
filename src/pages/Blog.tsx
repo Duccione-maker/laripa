@@ -11,6 +11,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEO/SEOHead";
 import { useStructuredData } from "@/components/SEO/StructuredData";
+import OptimizedImage from "@/components/OptimizedImage";
 
 interface BlogPost {
   id: string;
@@ -109,17 +110,16 @@ export default function Blog() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => (
               <article key={post.id} className="group">
-                <Card className="h-full glass-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  {post.featured_image && (
-                    <div className="aspect-video overflow-hidden rounded-t-lg">
-                      <img
-                        src={post.featured_image}
-                        alt={`Immagine dell'articolo: ${post.title}`}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    </div>
-                  )}
+                 <Card className="h-full glass-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                   {post.featured_image && (
+                     <OptimizedImage
+                       src={post.featured_image}
+                       alt={`Immagine dell'articolo: ${post.title}`}
+                       aspectRatio="video"
+                       className="rounded-t-lg"
+                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                     />
+                   )}
                   <CardHeader>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                       <CalendarIcon className="h-4 w-4" />
