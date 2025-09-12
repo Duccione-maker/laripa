@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // ⚠️ SOSTITUISCI CON IL TUO ID GOOGLE ANALYTICS
+const GA_MEASUREMENT_ID = 'G-47KQTMQGEK';
 
 export const Analytics = () => {
   const location = useLocation();
