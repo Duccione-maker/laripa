@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          apartment_id: string | null
+          created_at: string
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          page_path: string | null
+          referrer: string | null
+          session_id: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          apartment_id?: string | null
+          created_at?: string
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          page_path?: string | null
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          apartment_id?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          page_path?: string | null
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       apartments: {
         Row: {
           amenities: string[] | null

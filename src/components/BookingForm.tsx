@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Check, CalendarIcon, Users, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { trackBooking } from "@/components/Analytics";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -85,6 +86,10 @@ export default function BookingForm() {
         title: "Success",
         description: "Booking created successfully!",
       });
+
+      // Track booking completion for analytics
+      const totalPrice = data?.totalPrice || 0;
+      trackBooking(apartmentId, totalPrice, 'EUR');
 
       setSubmitted(true);
       

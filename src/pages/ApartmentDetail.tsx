@@ -14,6 +14,7 @@ import CustomCalendar from "@/components/CustomCalendar";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSmoobuPricing } from "@/hooks/useSmoobuPricing";
 import { ApartmentProps } from "@/components/ApartmentCard";
+import { trackApartmentView } from "@/components/Analytics";
 
 
 // Import apartment data
@@ -113,6 +114,10 @@ export default function ApartmentDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
     
+    // Track apartment view
+    if (id) {
+      trackApartmentView(id);
+    }
     if (id) {
       const foundApartment = allApartments.find(apt => apt.id === id);
       setApartment(foundApartment || null);

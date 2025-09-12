@@ -20,6 +20,7 @@ import BlogAdmin from "./pages/BlogAdmin";
 import BlogEditor from "./pages/BlogEditor";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import { Analytics } from "./components/Analytics";
 import Auth from "./pages/Auth";
 
 // Create a react-query client
@@ -34,6 +35,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <Analytics />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/apartments" element={<Apartments />} />
