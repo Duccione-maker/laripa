@@ -107,8 +107,29 @@ export default function Footer() {
           
         </div>
         
-        <div className="border-t border-border pt-8 mt-8 text-center text-muted-foreground">
-          <p>&copy; {currentYear} La Ripa. {t.footer.allRights}</p>
+        <div className="border-t border-border pt-8 mt-8">
+          <div className="text-center text-muted-foreground mb-4">
+            <p>&copy; {currentYear} La Ripa. {t.footer.allRights}</p>
+          </div>
+          
+          {/* CIN Codes Section */}
+          <div className="text-xs text-muted-foreground/60 text-center space-y-1">
+            <p className="font-medium mb-2">Codici Identificativi Nazionali (C.I.N.)</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 max-w-2xl mx-auto">
+              <div>
+                <span className="font-medium">Fienile:</span> <span>055032LTN0000</span>
+              </div>
+              <div>
+                <span className="font-medium">Ghiri:</span> <span>055032LTN0001</span>
+              </div>
+              <div>
+                <span className="font-medium">Nidi:</span> <span>055032LTN0002</span>
+              </div>
+              <div>
+                <span className="font-medium">Padronale:</span> <span>055032LTN0003</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
