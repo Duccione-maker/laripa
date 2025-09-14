@@ -88,7 +88,7 @@ export default function Navbar() {
         </ul>
 
         <div className="hidden md:flex items-center space-x-2">
-          <ThemeToggle />
+          <ThemeToggle className={cn(isHomePage && !scrolled ? "text-white hover:bg-white/10" : "")} />
           {user ? (
             <>
               <Button asChild className="btn-primary">
@@ -96,7 +96,7 @@ export default function Navbar() {
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full">
+                  <Button variant="ghost" size="icon" className={cn("rounded-full", isHomePage && !scrolled ? "text-white hover:text-white/80 hover:bg-white/10" : "")}>
                     <User className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -135,7 +135,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Button asChild variant="ghost">
+              <Button asChild variant="ghost" className={cn(isHomePage && !scrolled ? "text-white hover:text-white/80 hover:bg-white/10" : "")}>
                 <Link to="/auth">Accedi</Link>
               </Button>
               <Button asChild className="btn-primary">
@@ -147,7 +147,7 @@ export default function Navbar() {
 
         {/* Mobile Navigation */}
         <div className="md:hidden flex items-center space-x-2">
-          <ThemeToggle />
+          <ThemeToggle className={cn(isHomePage && !scrolled ? "text-white hover:bg-white/10" : "")} />
           <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={cn("rounded-full", isHomePage && !scrolled ? "text-white hover:text-white/80 hover:bg-white/10" : "text-foreground hover:text-muted-foreground")}>
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>

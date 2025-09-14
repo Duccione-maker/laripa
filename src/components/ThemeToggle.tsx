@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ className }: { className?: string }) {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="rounded-full w-10 h-10 transition-all duration-300 hover:bg-muted"
+      className={`rounded-full w-10 h-10 transition-all duration-300 hover:bg-muted ${className || ""}`}
     >
       {isDark ? (
         <Sun className="h-5 w-5 transition-transform duration-500 rotate-0" />
