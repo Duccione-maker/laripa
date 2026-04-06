@@ -213,7 +213,10 @@ function StripePaymentForm({
             Caricamento modulo di pagamento...
           </div>
         )}
-        <PaymentElement onReady={() => setElementReady(true)} />
+        <PaymentElement
+          onReady={() => setElementReady(true)}
+          options={{ wallets: { googlePay: 'never', applePay: 'never' } }}
+        />
       </div>
       <Button type="submit" className="w-full" size="lg" disabled={!stripe || !elementReady || processing}>
         {processing ? (

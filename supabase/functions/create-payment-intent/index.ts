@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import Stripe from 'https://esm.sh/stripe@14.21.0?target=deno'
+import Stripe from 'https://esm.sh/stripe@14?target=deno&no-check'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -116,9 +116,10 @@ serve(async (req) => {
       )
     }
 
+    // Deno has native fetch — httpClient option is not needed and causes issues
+    // with the ESM import. Use a stable apiVersion for stripe@14.
     const stripe = new Stripe(stripeKey, {
-      apiVersion: '2024-06-20',
-      httpClient: Stripe.createFetchHttpClient(),
+      apiVersion: '2023-10-16',
     })
 
     const paymentIntent = await stripe.paymentIntents.create({
