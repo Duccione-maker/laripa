@@ -315,6 +315,20 @@ function DiscountCodesTab() {
   );
 }
 
+// Names that indicate owner blocks, not real guests
+const OWNER_BLOCK_NAMES = new Set(
+  Object.values(APARTMENT_NAMES).map(n => n.toLowerCase())
+);
+
+function channelBadge(notes: string | null) {
+  const ch = (notes ?? '').trim();
+  if (/airbnb/i.test(ch))   return <Badge className="bg-rose-500 text-white text-xs">{ch}</Badge>;
+  if (/booking/i.test(ch))  return <Badge className="bg-blue-600 text-white text-xs">{ch}</Badge>;
+  if (/direct|diretto|stripe/i.test(ch)) return <Badge className="bg-green-600 text-white text-xs">{ch || 'Diretto'}</Badge>;
+  if (!ch || ch === 'Smoobu') return <Badge variant="outline" className="text-xs text-muted-foreground">—</Badge>;
+  return <Badge variant="secondary" className="text-xs">{ch}</Badge>;
+}
+
 // ─── Bookings Tab ─────────────────────────────────────────────────────────────
 function BookingsTab() {
   const { toast } = useToast();
@@ -323,12 +337,23 @@ function BookingsTab() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [aptFilter, setAptFilter] = useState('all');
+  const [showPast, setShowPast] = useState(false);
+
+  const today = format(new Date(), 'yyyy-MM-dd');
 
   const fetchBookings = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase.from('bookings').select('*').order('created_at', { ascending: false });
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .order('check_in', { ascending: true });
     if (error) { toast({ title: "Errore caricamento prenotazioni", variant: "destructive" }); }
-    setBookings((data as Booking[]) ?? []);
+    // Remove owner blocks: rows where guest_name matches an apartment name
+    const real = ((data as Booking[]) ?? []).filter(
+      b => !OWNER_BLOCK_NAMES.has((b.guest_name ?? '').trim().toLowerCase())
+    );
+    setBookings(real);
     setLoading(false);
   }, [toast]);
 
@@ -336,15 +361,19 @@ function BookingsTab() {
 
   useEffect(() => {
     let f = bookings;
+    // Default: upcoming only
+    if (!showPast) f = f.filter(b => b.check_in >= today);
     if (search) f = f.filter(b =>
       b.guest_name?.toLowerCase().includes(search.toLowerCase()) ||
       b.guest_email?.toLowerCase().includes(search.toLowerCase())
     );
     if (statusFilter !== 'all') f = f.filter(b => b.status === statusFilter);
+    if (aptFilter !== 'all') f = f.filter(b => b.apartment_id === aptFilter);
     setFiltered(f);
-  }, [bookings, search, statusFilter]);
+  }, [bookings, search, statusFilter, aptFilter, showPast, today]);
 
-  const totalRevenue = bookings.filter(b => b.status === 'confirmed').reduce((s, b) => s + (b.total_price ?? 0), 0);
+  const confirmedBookings = bookings.filter(b => b.status === 'confirmed');
+  const totalRevenue = confirmedBookings.reduce((s, b) => s + (b.total_price ?? 0), 0);
 
   if (loading) return <div className="flex items-center justify-center h-64 text-muted-foreground">Caricamento...</div>;
 
@@ -353,22 +382,39 @@ function BookingsTab() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Totale</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{bookings.length}</div></CardContent></Card>
         <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Ricavi</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">€{totalRevenue.toFixed(0)}</div></CardContent></Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="text-sm text-green-600">Confermate</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold text-green-600">{bookings.filter(b => b.status === 'confirmed').length}</div></CardContent></Card>
+        <Card><CardHeader className="pb-2"><CardTitle className="text-sm text-green-600">Confermate</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold text-green-600">{confirmedBookings.length}</div></CardContent></Card>
         <Card><CardHeader className="pb-2"><CardTitle className="text-sm text-yellow-600">In attesa</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold text-yellow-600">{bookings.filter(b => b.status === 'pending').length}</div></CardContent></Card>
       </div>
 
-      <div className="flex gap-3">
-        <Input placeholder="Cerca per nome o email..." value={search} onChange={e => setSearch(e.target.value)} className="flex-1"/>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-40"><SelectValue/></SelectTrigger>
+      <div className="flex flex-wrap gap-3">
+        <Input placeholder="Cerca per nome o email..." value={search} onChange={e => setSearch(e.target.value)} className="flex-1 min-w-[180px]"/>
+        <Select value={aptFilter} onValueChange={setAptFilter}>
+          <SelectTrigger className="w-36"><SelectValue placeholder="Appartamento"/></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tutti</SelectItem>
+            <SelectItem value="all">Tutti gli apt.</SelectItem>
+            {Object.entries(APARTMENT_NAMES).map(([id, name]) => (
+              <SelectItem key={id} value={id}>{name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-36"><SelectValue/></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tutti gli stati</SelectItem>
             <SelectItem value="pending">In attesa</SelectItem>
             <SelectItem value="confirmed">Confermata</SelectItem>
             <SelectItem value="cancelled">Annullata</SelectItem>
           </SelectContent>
         </Select>
-        <Button variant="outline" onClick={fetchBookings}><RefreshCw className="h-4 w-4"/></Button>
+        <Button
+          variant={showPast ? 'default' : 'outline'}
+          size="sm"
+          onClick={() => setShowPast(p => !p)}
+          className="text-xs"
+        >
+          {showPast ? 'Solo future' : 'Includi passate'}
+        </Button>
+        <Button variant="outline" size="icon" onClick={fetchBookings}><RefreshCw className="h-4 w-4"/></Button>
       </div>
 
       <Card>
@@ -378,13 +424,13 @@ function BookingsTab() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Ospite</TableHead>
-                  <TableHead>Apt</TableHead>
+                  <TableHead>Appartamento</TableHead>
                   <TableHead>Check-in</TableHead>
                   <TableHead>Check-out</TableHead>
                   <TableHead>Ospiti</TableHead>
                   <TableHead>Totale</TableHead>
+                  <TableHead>Portale</TableHead>
                   <TableHead>Stato</TableHead>
-                  <TableHead>Creata</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -394,18 +440,22 @@ function BookingsTab() {
                       <div className="font-medium">{b.guest_name}</div>
                       <div className="text-xs text-muted-foreground">{b.guest_email}</div>
                     </TableCell>
-                    <TableCell>{APARTMENT_NAMES[b.apartment_id] ?? `Apt ${b.apartment_id}`}</TableCell>
+                    <TableCell className="font-medium">{APARTMENT_NAMES[b.apartment_id] ?? `Apt ${b.apartment_id}`}</TableCell>
                     <TableCell className="text-sm">{b.check_in}</TableCell>
                     <TableCell className="text-sm">{b.check_out}</TableCell>
-                    <TableCell>{b.adults} ad.{b.children > 0 ? ` ${b.children} bamb.` : ''}</TableCell>
-                    <TableCell>{b.total_price ? `€${b.total_price}` : '—'}</TableCell>
-                    <TableCell>
-                      <Badge className={b.status === 'confirmed' ? 'bg-green-500' : b.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500'}>
-                        {b.status}
-                      </Badge>
+                    <TableCell className="text-sm">
+                      {b.adults} ad.{b.children > 0 ? ` · ${b.children} bamb.` : ''}
                     </TableCell>
-                    <TableCell className="text-xs text-muted-foreground">
-                      {format(parseISO(b.created_at), 'd MMM HH:mm', { locale: it })}
+                    <TableCell className="font-medium">{b.total_price ? `€${b.total_price}` : '—'}</TableCell>
+                    <TableCell>{channelBadge(b.notes)}</TableCell>
+                    <TableCell>
+                      <Badge className={
+                        b.status === 'confirmed' ? 'bg-green-500 text-white' :
+                        b.status === 'pending'   ? 'bg-yellow-500 text-white' :
+                        'bg-red-500 text-white'
+                      }>
+                        {b.status === 'confirmed' ? 'Confermata' : b.status === 'pending' ? 'In attesa' : 'Annullata'}
+                      </Badge>
                     </TableCell>
                   </TableRow>
                 ))}
