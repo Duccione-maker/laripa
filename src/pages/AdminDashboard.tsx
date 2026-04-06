@@ -18,6 +18,10 @@ import { it } from "date-fns/locale";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 
+const APARTMENT_NAMES: Record<string, string> = {
+  '1': 'Padronale', '2': 'Ghiri', '3': 'Fienile', '4': 'Nidi',
+}
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Booking {
   id: string; apartment_id: string; guest_name: string; guest_email: string;
@@ -390,10 +394,10 @@ function BookingsTab() {
                       <div className="font-medium">{b.guest_name}</div>
                       <div className="text-xs text-muted-foreground">{b.guest_email}</div>
                     </TableCell>
-                    <TableCell>Apt {b.apartment_id}</TableCell>
+                    <TableCell>{APARTMENT_NAMES[b.apartment_id] ?? `Apt ${b.apartment_id}`}</TableCell>
                     <TableCell className="text-sm">{b.check_in}</TableCell>
                     <TableCell className="text-sm">{b.check_out}</TableCell>
-                    <TableCell>{b.adults}A{b.children > 0 ? ` ${b.children}B` : ''}</TableCell>
+                    <TableCell>{b.adults} ad.{b.children > 0 ? ` ${b.children} bamb.` : ''}</TableCell>
                     <TableCell>{b.total_price ? `€${b.total_price}` : '—'}</TableCell>
                     <TableCell>
                       <Badge className={b.status === 'confirmed' ? 'bg-green-500' : b.status === 'pending' ? 'bg-yellow-500' : 'bg-red-500'}>

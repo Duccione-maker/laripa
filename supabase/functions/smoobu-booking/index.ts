@@ -65,6 +65,11 @@ serve(async (req) => {
         const reservations: Record<string, unknown>[] = json.bookings ?? []
 
         for (const r of reservations) {
+          // Skip blocked-off periods (check-in/check-out day blocks, owner blocks, etc.)
+          if (r['is-blocked-off'] === true) continue
+          // Skip if type is not a real reservation
+          if (r.type === 'block' || r.type === 'owner-stay') continue
+
           const smoobuAptId = (r.apartment as Record<string, unknown>)?.id as number
           if (!OUR_SMOOBU_IDS.has(smoobuAptId)) continue
 
