@@ -427,10 +427,20 @@ export default function AdminDashboard() {
     if (!user) navigate('/auth');
   }, [user, navigate]);
 
+  const [syncing, setSyncing] = useState(false);
+
   const syncWithSmoobu = async () => {
+    setSyncing(true);
     const { data, error } = await supabase.functions.invoke('smoobu-booking', { body: { action: 'sync' } });
-    if (error) { toast({ title: "Errore sync", variant: "destructive" }); return; }
-    toast({ title: "Sync completato", description: `Importate ${data?.synced ?? 0} nuove prenotazioni` });
+    setSyncing(false);
+    if (error) { toast({ title: "Errore sync", description: error.message, variant: "destructive" }); return; }
+    const parts = [];
+    if ((data?.synced ?? 0) > 0) parts.push(`${data.synced} nuove`);
+    if ((data?.updated ?? 0) > 0) parts.push(`${data.updated} aggiornate`);
+    toast({
+      title: "Sync completato",
+      description: parts.length > 0 ? parts.join(', ') + ' prenotazioni' : 'Nessuna novità',
+    });
   };
 
   if (!user) return null;
@@ -440,8 +450,9 @@ export default function AdminDashboard() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          <Button onClick={syncWithSmoobu} variant="outline" size="sm">
-            <RefreshCw className="h-4 w-4 mr-2"/>Sync Smoobu
+          <Button onClick={syncWithSmoobu} variant="outline" size="sm" disabled={syncing}>
+            <RefreshCw className={`h-4 w-4 mr-2 ${syncing ? 'animate-spin' : ''}`}/>
+            {syncing ? 'Sync in corso...' : 'Sync Smoobu'}
           </Button>
         </div>
 
