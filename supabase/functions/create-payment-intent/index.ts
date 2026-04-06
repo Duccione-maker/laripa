@@ -136,7 +136,7 @@ serve(async (req) => {
     const stripeParams: Record<string, string> = {
       'amount':                              String(Math.round(totalPrice * 100)),
       'currency':                            'eur',
-      'automatic_payment_methods[enabled]':  'true',
+      'payment_method_types[0]':             'card',
       'receipt_email':                       guestEmail,
       'metadata[apartmentId]':               String(apartmentId),
       'metadata[checkIn]':                   checkIn,
