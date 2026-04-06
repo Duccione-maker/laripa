@@ -140,7 +140,7 @@ serve(async (req) => {
     }
 
     // ─── CREATE BOOKING: forward to Smoobu API then save to DB ───────────────
-    const { apartmentId, guestName, guestEmail, guestPhone, checkIn, checkOut, adults, children, notes, userId } = requestData
+    const { apartmentId, guestName, guestEmail, guestPhone, checkIn, checkOut, adults, children, notes, userId, paymentIntentId } = requestData
 
     if (!apartmentId || !guestName || !guestEmail || !checkIn || !checkOut) {
       return new Response(
@@ -221,7 +221,7 @@ serve(async (req) => {
         total_price: totalPrice,
         currency: 'EUR',
         status: 'confirmed',
-        notes: notes || '',
+        notes: [notes, paymentIntentId ? `stripe:${paymentIntentId}` : ''].filter(Boolean).join(' | '),
       })
       .select()
       .single()

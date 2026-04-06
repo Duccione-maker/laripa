@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(supabase --version)",
-      "Bash(npx supabase:*)"
+      "Bash(npx supabase:*)",
+      "Bash(npm install:*)",
+      "Bash(npm ls:*)"
     ]
   }
 }

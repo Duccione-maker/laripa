@@ -213,11 +213,13 @@ Tutte le funzioni: Deno runtime, `verify_jwt = false`, CORS abilitato.
 | `VITE_SUPABASE_URL` | URL progetto Supabase |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | Chiave anon pubblica Supabase |
 | `VITE_SUPABASE_PROJECT_ID` | ID progetto Supabase |
+| `VITE_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key (pk_live_... o pk_test_...) |
 
 ### Edge Functions (Supabase Secrets — non in repo)
 
 | Secret | Descrizione |
 |--------|------------|
+| `STRIPE_SECRET_KEY` | Stripe secret key (sk_live_... o sk_test_...) |
 | `SMOOBU_API_KEY` | Autenticazione Smoobu |
 | `SMOOBU_ICAL_PADRONALE` | URL iCal appartamento 1 |
 | `SMOOBU_ICAL_GHIRI` | URL iCal appartamento 2 |

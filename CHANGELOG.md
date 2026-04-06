@@ -7,6 +7,14 @@ Formato: `[versione] - YYYY-MM-DD` con sezioni `Added`, `Changed`, `Fixed`, `Rem
 
 ## [Unreleased]
 
+### Added
+- **Flusso prenotazione interno Stripe** — sostituisce il widget iframe Smoobu con un wizard a 4 step (date+appartamento → dati ospite → pagamento Stripe → conferma)
+- `create-payment-intent` Edge Function: calcola prezzo da Smoobu rates API, applica codice sconto (`MIMANDADUCCIO` = 10%), crea Stripe PaymentIntent e restituisce `clientSecret`
+- `BookingCalendar` component: calendario con selezione range (check-in/check-out) e date non disponibili da iCal Smoobu
+- Packages `@stripe/stripe-js` e `@stripe/react-stripe-js` installati
+- Variabile d'ambiente `VITE_STRIPE_PUBLISHABLE_KEY` aggiunta a `.env`
+- `smoobu-booking`: accetta `paymentIntentId` e lo persiste nel campo `notes` della prenotazione
+
 ### Fixed
 - `smoobu-booking` Edge Function: aggiunto handler POST per creare prenotazioni reali su Smoobu API (`POST /api/reservations`) con mapping appartamenti (1→192379, 2→195814, 3→195816, 4→195815); la prenotazione viene poi salvata su Supabase con lo `smoobu_booking_id` restituito
 - `smoobu-booking` Edge Function: l'handler sync iCal ora è correttamente isolato su `action === 'sync'`; in caso di errore DB post-Smoobu viene restituito status 207 invece di 500
