@@ -1,47 +1,106 @@
 import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { format, parseISO, differenceInCalendarDays } from "date-fns";
+import { it } from "date-fns/locale";
+import { subDays } from "date-fns";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { CalendarIcon, Users, Euro, RefreshCw, BarChart2, Tag, Plus, Trash2, Pencil, Monitor, Smartphone } from "lucide-react";
-import { format, subDays, parseISO } from "date-fns";
-import { it } from "date-fns/locale";
-import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import {
+  RefreshCw, BarChart2, Tag, CalendarIcon,
+  Plus, Pencil, Trash2, Monitor, Smartphone,
+} from "lucide-react";
 
-const APARTMENT_NAMES: Record<string, string> = {
-  '1': 'Padronale', '2': 'Ghiri', '3': 'Fienile', '4': 'Nidi',
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+const APT_NAMES: Record<string, string> = {
+  "1": "Padronale",
+  "2": "Ghiri",
+  "3": "Fienile",
+  "4": "Nidi",
+};
+
+// Guest names that are just apartment names = owner blocks, not real bookings
+const OWNER_BLOCK_NAMES = new Set(Object.values(APT_NAMES).map(n => n.toLowerCase()));
+
+function isOwnerBlock(guestName: string | null): boolean {
+  return OWNER_BLOCK_NAMES.has((guestName ?? "").trim().toLowerCase());
+}
+
+function ChannelBadge({ channel }: { channel: string | null }) {
+  const ch = (channel ?? "").trim();
+  if (/airbnb/i.test(ch))
+    return <Badge className="bg-rose-500 hover:bg-rose-500 text-white text-xs">{ch}</Badge>;
+  if (/booking/i.test(ch))
+    return <Badge className="bg-blue-600 hover:bg-blue-600 text-white text-xs">{ch}</Badge>;
+  if (/direct|diretto|stripe/i.test(ch))
+    return <Badge className="bg-green-600 hover:bg-green-600 text-white text-xs">{ch || "Diretto"}</Badge>;
+  if (!ch || ch === "Smoobu")
+    return <Badge variant="outline" className="text-xs text-muted-foreground">—</Badge>;
+  return <Badge variant="secondary" className="text-xs">{ch}</Badge>;
+}
+
+function StatusBadge({ status }: { status: string }) {
+  if (status === "confirmed")
+    return <Badge className="bg-green-500 hover:bg-green-500 text-white text-xs">Confermata</Badge>;
+  if (status === "pending")
+    return <Badge className="bg-yellow-500 hover:bg-yellow-500 text-white text-xs">In attesa</Badge>;
+  return <Badge className="bg-red-500 hover:bg-red-500 text-white text-xs">Annullata</Badge>;
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
+
 interface Booking {
-  id: string; apartment_id: string; guest_name: string; guest_email: string;
-  guest_phone: string; check_in: string; check_out: string; adults: number;
-  children: number; total_price: number; currency: string; status: string;
-  notes: string; created_at: string;
+  id: string;
+  apartment_id: string;
+  guest_name: string;
+  guest_email: string;
+  guest_phone: string;
+  check_in: string;
+  check_out: string;
+  adults: number;
+  children: number;
+  total_price: number | null;
+  currency: string;
+  status: string;
+  notes: string | null;
+  created_at: string;
 }
 
 interface DiscountCode {
-  id: string; code: string; discount_type: string; value: number;
-  active: boolean; expires_at: string | null; created_at: string;
+  id: string;
+  code: string;
+  discount_type: string;
+  value: number;
+  active: boolean;
+  expires_at: string | null;
+  created_at: string;
 }
 
 interface AnalyticsEvent {
-  id: string; event_type: string; page_path: string | null;
-  session_id: string | null; country_code: string | null;
-  user_agent: string | null; created_at: string;
+  id: string;
+  event_type: string;
+  page_path: string | null;
+  session_id: string | null;
+  country_code: string | null;
+  user_agent: string | null;
+  created_at: string;
 }
 
 // ─── Analytics Tab ────────────────────────────────────────────────────────────
+
 function AnalyticsTab() {
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,62 +113,60 @@ function AnalyticsTab() {
       .eq("event_type", "page_view")
       .gte("created_at", since)
       .order("created_at", { ascending: true })
-      .then(({ data }) => { setEvents((data as AnalyticsEvent[]) ?? []); setLoading(false); });
+      .then(({ data }) => {
+        setEvents((data as AnalyticsEvent[]) ?? []);
+        setLoading(false);
+      });
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center h-64 text-muted-foreground">Caricamento analytics...</div>;
+  if (loading)
+    return <div className="flex items-center justify-center h-64 text-muted-foreground">Caricamento analytics...</div>;
 
-  // Unique sessions = unique visitors
-  const uniqueSessions = new Set(events.map(e => e.session_id)).size;
   const totalViews = events.length;
+  const uniqueSessions = new Set(events.map(e => e.session_id)).size;
+  const mobile = events.filter(e => /Mobi|Android|iPhone|iPad/i.test(e.user_agent ?? "")).length;
+  const desktop = totalViews - mobile;
 
-  // Views per day (last 30)
+  // Daily chart
   const dayMap: Record<string, number> = {};
-  for (let i = 29; i >= 0; i--) {
-    dayMap[format(subDays(new Date(), i), 'yyyy-MM-dd')] = 0;
-  }
-  events.forEach(e => {
-    const d = e.created_at.split('T')[0];
-    if (d in dayMap) dayMap[d]++;
-  });
+  for (let i = 29; i >= 0; i--) dayMap[format(subDays(new Date(), i), "yyyy-MM-dd")] = 0;
+  events.forEach(e => { const d = e.created_at.split("T")[0]; if (d in dayMap) dayMap[d]++; });
   const chartData = Object.entries(dayMap).map(([date, views]) => ({
-    date: format(parseISO(date), 'd MMM', { locale: it }),
+    date: format(parseISO(date), "d MMM", { locale: it }),
     views,
   }));
 
-  // Top 5 pages
+  // Top pages
   const pageCount: Record<string, number> = {};
-  events.forEach(e => { const p = e.page_path ?? '/'; pageCount[p] = (pageCount[p] ?? 0) + 1; });
+  events.forEach(e => { const p = e.page_path ?? "/"; pageCount[p] = (pageCount[p] ?? 0) + 1; });
   const topPages = Object.entries(pageCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
-  // Top 5 countries
+  // Top countries
   const countryCount: Record<string, number> = {};
-  events.forEach(e => { const c = e.country_code ?? 'Unknown'; countryCount[c] = (countryCount[c] ?? 0) + 1; });
+  events.forEach(e => { const c = e.country_code ?? "Unknown"; countryCount[c] = (countryCount[c] ?? 0) + 1; });
   const topCountries = Object.entries(countryCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
-
-  // Desktop vs Mobile
-  const mobile = events.filter(e => /Mobi|Android|iPhone|iPad/i.test(e.user_agent ?? '')).length;
-  const desktop = totalViews - mobile;
 
   return (
     <div className="space-y-6">
-      {/* KPI cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Visite totali</CardTitle></CardHeader>
+        <Card>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">Visite totali</CardTitle></CardHeader>
           <CardContent><div className="text-2xl font-bold">{totalViews}</div><p className="text-xs text-muted-foreground">ultimi 30 giorni</p></CardContent>
         </Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Visitatori unici</CardTitle></CardHeader>
+        <Card>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">Visitatori unici</CardTitle></CardHeader>
           <CardContent><div className="text-2xl font-bold">{uniqueSessions}</div><p className="text-xs text-muted-foreground">sessioni distinte</p></CardContent>
         </Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-1"><Monitor className="h-3 w-3"/>Desktop</CardTitle></CardHeader>
-          <CardContent><div className="text-2xl font-bold">{desktop}</div><p className="text-xs text-muted-foreground">{totalViews ? Math.round(desktop/totalViews*100) : 0}%</p></CardContent>
+        <Card>
+          <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-1"><Monitor className="h-3 w-3" />Desktop</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold">{desktop}</div><p className="text-xs text-muted-foreground">{totalViews ? Math.round(desktop / totalViews * 100) : 0}%</p></CardContent>
         </Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-1"><Smartphone className="h-3 w-3"/>Mobile</CardTitle></CardHeader>
-          <CardContent><div className="text-2xl font-bold">{mobile}</div><p className="text-xs text-muted-foreground">{totalViews ? Math.round(mobile/totalViews*100) : 0}%</p></CardContent>
+        <Card>
+          <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-1"><Smartphone className="h-3 w-3" />Mobile</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold">{mobile}</div><p className="text-xs text-muted-foreground">{totalViews ? Math.round(mobile / totalViews * 100) : 0}%</p></CardContent>
         </Card>
       </div>
 
-      {/* Chart */}
       <Card>
         <CardHeader><CardTitle>Visite per giorno</CardTitle></CardHeader>
         <CardContent>
@@ -119,13 +176,12 @@ function AnalyticsTab() {
               <XAxis dataKey="date" tick={{ fontSize: 11 }} interval={4} />
               <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
               <Tooltip />
-              <Bar dataKey="views" fill="hsl(var(--primary))" radius={[3,3,0,0]} />
+              <Bar dataKey="views" fill="hsl(var(--primary))" radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
 
-      {/* Top pages + top countries */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader><CardTitle className="text-base">Top 5 pagine</CardTitle></CardHeader>
@@ -159,16 +215,17 @@ function AnalyticsTab() {
 }
 
 // ─── Discount Codes Tab ───────────────────────────────────────────────────────
+
 function DiscountCodesTab() {
   const { toast } = useToast();
   const [codes, setCodes] = useState<DiscountCode[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<DiscountCode | null>(null);
-  const [form, setForm] = useState({ code: '', discount_type: 'percent', value: '', active: true, expires_at: '' });
+  const [form, setForm] = useState({ code: "", discount_type: "percent", value: "", active: true, expires_at: "" });
 
   const fetchCodes = useCallback(async () => {
-    const { data } = await supabase.from('discount_codes').select('*').order('created_at', { ascending: false });
+    const { data } = await supabase.from("discount_codes").select("*").order("created_at", { ascending: false });
     setCodes((data as DiscountCode[]) ?? []);
     setLoading(false);
   }, []);
@@ -177,7 +234,7 @@ function DiscountCodesTab() {
 
   const openNew = () => {
     setEditing(null);
-    setForm({ code: '', discount_type: 'percent', value: '', active: true, expires_at: '' });
+    setForm({ code: "", discount_type: "percent", value: "", active: true, expires_at: "" });
     setDialogOpen(true);
   };
 
@@ -188,7 +245,7 @@ function DiscountCodesTab() {
       discount_type: c.discount_type,
       value: String(c.value),
       active: c.active,
-      expires_at: c.expires_at ? c.expires_at.split('T')[0] : '',
+      expires_at: c.expires_at ? c.expires_at.split("T")[0] : "",
     });
     setDialogOpen(true);
   };
@@ -205,8 +262,8 @@ function DiscountCodesTab() {
       toast({ title: "Codice e valore sono obbligatori", variant: "destructive" }); return;
     }
     const { error } = editing
-      ? await supabase.from('discount_codes').update(payload).eq('id', editing.id)
-      : await supabase.from('discount_codes').insert(payload);
+      ? await supabase.from("discount_codes").update(payload).eq("id", editing.id)
+      : await supabase.from("discount_codes").insert(payload);
     if (error) { toast({ title: "Errore", description: error.message, variant: "destructive" }); return; }
     toast({ title: editing ? "Codice aggiornato" : "Codice creato" });
     setDialogOpen(false);
@@ -214,23 +271,24 @@ function DiscountCodesTab() {
   };
 
   const handleDelete = async (id: string) => {
-    const { error } = await supabase.from('discount_codes').delete().eq('id', id);
+    const { error } = await supabase.from("discount_codes").delete().eq("id", id);
     if (error) { toast({ title: "Errore eliminazione", variant: "destructive" }); return; }
     toast({ title: "Codice eliminato" });
     fetchCodes();
   };
 
   const toggleActive = async (c: DiscountCode) => {
-    await supabase.from('discount_codes').update({ active: !c.active }).eq('id', c.id);
+    await supabase.from("discount_codes").update({ active: !c.active }).eq("id", c.id);
     fetchCodes();
   };
 
-  if (loading) return <div className="flex items-center justify-center h-32 text-muted-foreground">Caricamento...</div>;
+  if (loading)
+    return <div className="flex items-center justify-center h-32 text-muted-foreground">Caricamento...</div>;
 
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <Button onClick={openNew} size="sm"><Plus className="h-4 w-4 mr-2"/>Nuovo codice</Button>
+        <Button onClick={openNew} size="sm"><Plus className="h-4 w-4 mr-2" />Nuovo codice</Button>
       </div>
 
       <Card>
@@ -250,17 +308,19 @@ function DiscountCodesTab() {
               {codes.map(c => (
                 <TableRow key={c.id}>
                   <TableCell className="font-mono font-bold">{c.code}</TableCell>
-                  <TableCell><Badge variant="outline">{c.discount_type === 'fixed' ? 'Fisso €' : 'Percentuale %'}</Badge></TableCell>
-                  <TableCell>{c.discount_type === 'fixed' ? `€${c.value}` : `${c.value}%`}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline">{c.discount_type === "fixed" ? "Fisso €" : "Percentuale %"}</Badge>
+                  </TableCell>
+                  <TableCell>{c.discount_type === "fixed" ? `€${c.value}` : `${c.value}%`}</TableCell>
                   <TableCell className="text-sm text-muted-foreground">
-                    {c.expires_at ? format(parseISO(c.expires_at), 'd MMM yyyy', { locale: it }) : '—'}
+                    {c.expires_at ? format(parseISO(c.expires_at), "d MMM yyyy", { locale: it }) : "—"}
                   </TableCell>
                   <TableCell>
                     <Switch checked={c.active} onCheckedChange={() => toggleActive(c)} />
                   </TableCell>
                   <TableCell className="text-right space-x-2">
-                    <Button size="icon" variant="ghost" onClick={() => openEdit(c)}><Pencil className="h-4 w-4"/></Button>
-                    <Button size="icon" variant="ghost" className="text-destructive" onClick={() => handleDelete(c.id)}><Trash2 className="h-4 w-4"/></Button>
+                    <Button size="icon" variant="ghost" onClick={() => openEdit(c)}><Pencil className="h-4 w-4" /></Button>
+                    <Button size="icon" variant="ghost" className="text-destructive" onClick={() => handleDelete(c.id)}><Trash2 className="h-4 w-4" /></Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -274,17 +334,21 @@ function DiscountCodesTab() {
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>{editing ? 'Modifica codice' : 'Nuovo codice sconto'}</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{editing ? "Modifica codice" : "Nuovo codice sconto"}</DialogTitle></DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-1">
               <Label>Codice *</Label>
-              <Input value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))} placeholder="ESTATE2026"/>
+              <Input
+                value={form.code}
+                onChange={e => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))}
+                placeholder="ESTATE2026"
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
                 <Label>Tipo</Label>
                 <Select value={form.discount_type} onValueChange={v => setForm(f => ({ ...f, discount_type: v }))}>
-                  <SelectTrigger><SelectValue/></SelectTrigger>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="percent">Percentuale %</SelectItem>
                     <SelectItem value="fixed">Fisso €</SelectItem>
@@ -293,21 +357,26 @@ function DiscountCodesTab() {
               </div>
               <div className="space-y-1">
                 <Label>Valore *</Label>
-                <Input type="number" min="0" value={form.value} onChange={e => setForm(f => ({ ...f, value: e.target.value }))} placeholder={form.discount_type === 'fixed' ? '49' : '10'}/>
+                <Input
+                  type="number" min="0"
+                  value={form.value}
+                  onChange={e => setForm(f => ({ ...f, value: e.target.value }))}
+                  placeholder={form.discount_type === "fixed" ? "49" : "10"}
+                />
               </div>
             </div>
             <div className="space-y-1">
               <Label>Scadenza (opzionale)</Label>
-              <Input type="date" value={form.expires_at} onChange={e => setForm(f => ({ ...f, expires_at: e.target.value }))}/>
+              <Input type="date" value={form.expires_at} onChange={e => setForm(f => ({ ...f, expires_at: e.target.value }))} />
             </div>
             <div className="flex items-center gap-3">
-              <Switch checked={form.active} onCheckedChange={v => setForm(f => ({ ...f, active: v }))}/>
+              <Switch checked={form.active} onCheckedChange={v => setForm(f => ({ ...f, active: v }))} />
               <Label>Attivo</Label>
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setDialogOpen(false)}>Annulla</Button>
-            <Button onClick={handleSave}>{editing ? 'Salva modifiche' : 'Crea codice'}</Button>
+            <Button onClick={handleSave}>{editing ? "Salva modifiche" : "Crea codice"}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -315,108 +384,100 @@ function DiscountCodesTab() {
   );
 }
 
-// Names that indicate owner blocks, not real guests
-const OWNER_BLOCK_NAMES = new Set(
-  Object.values(APARTMENT_NAMES).map(n => n.toLowerCase())
-);
-
-function channelBadge(notes: string | null) {
-  const ch = (notes ?? '').trim();
-  if (/airbnb/i.test(ch))   return <Badge className="bg-rose-500 text-white text-xs">{ch}</Badge>;
-  if (/booking/i.test(ch))  return <Badge className="bg-blue-600 text-white text-xs">{ch}</Badge>;
-  if (/direct|diretto|stripe/i.test(ch)) return <Badge className="bg-green-600 text-white text-xs">{ch || 'Diretto'}</Badge>;
-  if (!ch || ch === 'Smoobu') return <Badge variant="outline" className="text-xs text-muted-foreground">—</Badge>;
-  return <Badge variant="secondary" className="text-xs">{ch}</Badge>;
-}
-
 // ─── Bookings Tab ─────────────────────────────────────────────────────────────
+
 function BookingsTab() {
   const { toast } = useToast();
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [filtered, setFiltered] = useState<Booking[]>([]);
+  const [all, setAll] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [aptFilter, setAptFilter] = useState('all');
-  const [showPast, setShowPast] = useState(false);
+  const [search, setSearch] = useState("");
+  const [aptFilter, setAptFilter] = useState("all");
+  const [showAll, setShowAll] = useState(false);
 
-  const today = format(new Date(), 'yyyy-MM-dd');
+  const today = format(new Date(), "yyyy-MM-dd");
 
   const fetchBookings = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
-      .from('bookings')
-      .select('*')
-      .order('check_in', { ascending: true });
-    if (error) { toast({ title: "Errore caricamento prenotazioni", variant: "destructive" }); }
-    // Remove owner blocks: rows where guest_name matches an apartment name
-    const real = ((data as Booking[]) ?? []).filter(
-      b => !OWNER_BLOCK_NAMES.has((b.guest_name ?? '').trim().toLowerCase())
-    );
-    setBookings(real);
+      .from("bookings")
+      .select("*")
+      .order("check_in", { ascending: true });
+    if (error) toast({ title: "Errore caricamento prenotazioni", variant: "destructive" });
+    const real = ((data as Booking[]) ?? []).filter(b => !isOwnerBlock(b.guest_name));
+    setAll(real);
     setLoading(false);
   }, [toast]);
 
   useEffect(() => { fetchBookings(); }, [fetchBookings]);
 
-  useEffect(() => {
-    let f = bookings;
-    // Default: upcoming only
-    if (!showPast) f = f.filter(b => b.check_in >= today);
-    if (search) f = f.filter(b =>
-      b.guest_name?.toLowerCase().includes(search.toLowerCase()) ||
-      b.guest_email?.toLowerCase().includes(search.toLowerCase())
-    );
-    if (statusFilter !== 'all') f = f.filter(b => b.status === statusFilter);
-    if (aptFilter !== 'all') f = f.filter(b => b.apartment_id === aptFilter);
-    setFiltered(f);
-  }, [bookings, search, statusFilter, aptFilter, showPast, today]);
+  const filtered = all.filter(b => {
+    if (!showAll && b.check_in < today) return false;
+    if (aptFilter !== "all" && b.apartment_id !== aptFilter) return false;
+    if (search) {
+      const q = search.toLowerCase();
+      return b.guest_name?.toLowerCase().includes(q) || b.guest_email?.toLowerCase().includes(q);
+    }
+    return true;
+  });
 
-  const confirmedBookings = bookings.filter(b => b.status === 'confirmed');
-  const totalRevenue = confirmedBookings.reduce((s, b) => s + (b.total_price ?? 0), 0);
+  const confirmed = all.filter(b => b.status === "confirmed");
+  const revenue = confirmed.reduce((s, b) => s + (b.total_price ?? 0), 0);
 
-  if (loading) return <div className="flex items-center justify-center h-64 text-muted-foreground">Caricamento...</div>;
+  if (loading)
+    return <div className="flex items-center justify-center h-64 text-muted-foreground">Caricamento...</div>;
 
   return (
     <div className="space-y-6">
+      {/* KPI cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Totale</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{bookings.length}</div></CardContent></Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Ricavi</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">€{totalRevenue.toFixed(0)}</div></CardContent></Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="text-sm text-green-600">Confermate</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold text-green-600">{confirmedBookings.length}</div></CardContent></Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="text-sm text-yellow-600">In attesa</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold text-yellow-600">{bookings.filter(b => b.status === 'pending').length}</div></CardContent></Card>
+        <Card>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">Prenotazioni</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold">{all.length}</div><p className="text-xs text-muted-foreground">totali</p></CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">Confermate</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold text-green-600">{confirmed.length}</div></CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">Ricavi</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold">€{revenue.toFixed(0)}</div><p className="text-xs text-muted-foreground">confermate</p></CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">In tabella</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold">{filtered.length}</div><p className="text-xs text-muted-foreground">filtrate</p></CardContent>
+        </Card>
       </div>
 
-      <div className="flex flex-wrap gap-3">
-        <Input placeholder="Cerca per nome o email..." value={search} onChange={e => setSearch(e.target.value)} className="flex-1 min-w-[180px]"/>
+      {/* Filters */}
+      <div className="flex flex-wrap gap-3 items-center">
+        <Input
+          placeholder="Cerca ospite o email..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="flex-1 min-w-[180px]"
+        />
         <Select value={aptFilter} onValueChange={setAptFilter}>
-          <SelectTrigger className="w-36"><SelectValue placeholder="Appartamento"/></SelectTrigger>
+          <SelectTrigger className="w-36"><SelectValue placeholder="Appartamento" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Tutti gli apt.</SelectItem>
-            {Object.entries(APARTMENT_NAMES).map(([id, name]) => (
+            {Object.entries(APT_NAMES).map(([id, name]) => (
               <SelectItem key={id} value={id}>{name}</SelectItem>
             ))}
           </SelectContent>
         </Select>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-36"><SelectValue/></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Tutti gli stati</SelectItem>
-            <SelectItem value="pending">In attesa</SelectItem>
-            <SelectItem value="confirmed">Confermata</SelectItem>
-            <SelectItem value="cancelled">Annullata</SelectItem>
-          </SelectContent>
-        </Select>
         <Button
-          variant={showPast ? 'default' : 'outline'}
+          variant={showAll ? "default" : "outline"}
           size="sm"
-          onClick={() => setShowPast(p => !p)}
-          className="text-xs"
+          onClick={() => setShowAll(v => !v)}
         >
-          {showPast ? 'Solo future' : 'Includi passate'}
+          {showAll ? "Solo future" : "Includi passate"}
         </Button>
-        <Button variant="outline" size="icon" onClick={fetchBookings}><RefreshCw className="h-4 w-4"/></Button>
+        <Button variant="outline" size="icon" onClick={fetchBookings}>
+          <RefreshCw className="h-4 w-4" />
+        </Button>
       </div>
 
+      {/* Table */}
       <Card>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
@@ -427,6 +488,7 @@ function BookingsTab() {
                   <TableHead>Appartamento</TableHead>
                   <TableHead>Check-in</TableHead>
                   <TableHead>Check-out</TableHead>
+                  <TableHead>Notti</TableHead>
                   <TableHead>Ospiti</TableHead>
                   <TableHead>Totale</TableHead>
                   <TableHead>Portale</TableHead>
@@ -434,33 +496,42 @@ function BookingsTab() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filtered.map(b => (
-                  <TableRow key={b.id}>
-                    <TableCell>
-                      <div className="font-medium">{b.guest_name}</div>
-                      <div className="text-xs text-muted-foreground">{b.guest_email}</div>
-                    </TableCell>
-                    <TableCell className="font-medium">{APARTMENT_NAMES[b.apartment_id] ?? `Apt ${b.apartment_id}`}</TableCell>
-                    <TableCell className="text-sm">{b.check_in}</TableCell>
-                    <TableCell className="text-sm">{b.check_out}</TableCell>
-                    <TableCell className="text-sm">
-                      {b.adults} ad.{b.children > 0 ? ` · ${b.children} bamb.` : ''}
-                    </TableCell>
-                    <TableCell className="font-medium">{b.total_price ? `€${b.total_price}` : '—'}</TableCell>
-                    <TableCell>{channelBadge(b.notes)}</TableCell>
-                    <TableCell>
-                      <Badge className={
-                        b.status === 'confirmed' ? 'bg-green-500 text-white' :
-                        b.status === 'pending'   ? 'bg-yellow-500 text-white' :
-                        'bg-red-500 text-white'
-                      }>
-                        {b.status === 'confirmed' ? 'Confermata' : b.status === 'pending' ? 'In attesa' : 'Annullata'}
-                      </Badge>
+                {filtered.map(b => {
+                  const nights = differenceInCalendarDays(
+                    parseISO(b.check_out),
+                    parseISO(b.check_in)
+                  );
+                  return (
+                    <TableRow key={b.id}>
+                      <TableCell>
+                        <div className="font-medium whitespace-nowrap">{b.guest_name}</div>
+                        {b.guest_email && (
+                          <div className="text-xs text-muted-foreground">{b.guest_email}</div>
+                        )}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap font-medium">
+                        {APT_NAMES[b.apartment_id] ?? `Apt ${b.apartment_id}`}
+                      </TableCell>
+                      <TableCell className="text-sm whitespace-nowrap">{b.check_in}</TableCell>
+                      <TableCell className="text-sm whitespace-nowrap">{b.check_out}</TableCell>
+                      <TableCell className="text-sm">{nights > 0 ? nights : "—"}</TableCell>
+                      <TableCell className="text-sm whitespace-nowrap">
+                        {b.adults} ad.{b.children > 0 ? ` · ${b.children} bamb.` : ""}
+                      </TableCell>
+                      <TableCell className="font-medium whitespace-nowrap">
+                        {b.total_price != null ? `€${b.total_price}` : "—"}
+                      </TableCell>
+                      <TableCell><ChannelBadge channel={b.notes} /></TableCell>
+                      <TableCell><StatusBadge status={b.status} /></TableCell>
+                    </TableRow>
+                  );
+                })}
+                {filtered.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={9} className="text-center text-muted-foreground py-10">
+                      Nessuna prenotazione trovata
                     </TableCell>
                   </TableRow>
-                ))}
-                {filtered.length === 0 && (
-                  <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-8">Nessuna prenotazione</TableCell></TableRow>
                 )}
               </TableBody>
             </Table>
@@ -472,28 +543,33 @@ function BookingsTab() {
 }
 
 // ─── Main Dashboard ───────────────────────────────────────────────────────────
+
 export default function AdminDashboard() {
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
-    if (!user) navigate('/auth');
+    if (!user) navigate("/auth");
   }, [user, navigate]);
-
-  const [syncing, setSyncing] = useState(false);
 
   const syncWithSmoobu = async () => {
     setSyncing(true);
-    const { data, error } = await supabase.functions.invoke('smoobu-booking', { body: { action: 'sync' } });
+    const { data, error } = await supabase.functions.invoke("smoobu-booking", {
+      body: { action: "sync" },
+    });
     setSyncing(false);
-    if (error) { toast({ title: "Errore sync", description: error.message, variant: "destructive" }); return; }
-    const parts = [];
+    if (error) {
+      toast({ title: "Errore sync", description: error.message, variant: "destructive" });
+      return;
+    }
+    const parts: string[] = [];
     if ((data?.synced ?? 0) > 0) parts.push(`${data.synced} nuove`);
     if ((data?.updated ?? 0) > 0) parts.push(`${data.updated} aggiornate`);
     toast({
       title: "Sync completato",
-      description: parts.length > 0 ? parts.join(', ') + ' prenotazioni' : 'Nessuna novità',
+      description: parts.length > 0 ? parts.join(", ") + " prenotazioni" : "Nessuna novità",
     });
   };
 
@@ -505,27 +581,27 @@ export default function AdminDashboard() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
           <Button onClick={syncWithSmoobu} variant="outline" size="sm" disabled={syncing}>
-            <RefreshCw className={`h-4 w-4 mr-2 ${syncing ? 'animate-spin' : ''}`}/>
-            {syncing ? 'Sync in corso...' : 'Sync Smoobu'}
+            <RefreshCw className={`h-4 w-4 mr-2 ${syncing ? "animate-spin" : ""}`} />
+            {syncing ? "Sync in corso..." : "Sync Smoobu"}
           </Button>
         </div>
 
-        <Tabs defaultValue="analytics">
+        <Tabs defaultValue="bookings">
           <TabsList className="grid w-full grid-cols-3 mb-6">
+            <TabsTrigger value="bookings" className="flex items-center gap-2">
+              <CalendarIcon className="h-4 w-4" />Prenotazioni
+            </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <BarChart2 className="h-4 w-4"/>Analytics
+              <BarChart2 className="h-4 w-4" />Analytics
             </TabsTrigger>
             <TabsTrigger value="discounts" className="flex items-center gap-2">
-              <Tag className="h-4 w-4"/>Codici sconto
-            </TabsTrigger>
-            <TabsTrigger value="bookings" className="flex items-center gap-2">
-              <CalendarIcon className="h-4 w-4"/>Prenotazioni
+              <Tag className="h-4 w-4" />Codici sconto
             </TabsTrigger>
           </TabsList>
 
+          <TabsContent value="bookings"><BookingsTab /></TabsContent>
           <TabsContent value="analytics"><AnalyticsTab /></TabsContent>
           <TabsContent value="discounts"><DiscountCodesTab /></TabsContent>
-          <TabsContent value="bookings"><BookingsTab /></TabsContent>
         </Tabs>
       </div>
     </div>
