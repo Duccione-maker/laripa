@@ -124,6 +124,7 @@ serve(async (req) => {
     }
 
     const stripeKey = Deno.env.get('STRIPE_SECRET_KEY')?.trim()
+    console.log('[stripe] key prefix:', stripeKey?.substring(0, 10), '| length:', stripeKey?.length)
     if (!stripeKey) {
       return new Response(
         JSON.stringify({ error: 'STRIPE_SECRET_KEY non configurata' }),

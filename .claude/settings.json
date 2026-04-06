@@ -5,7 +5,8 @@
       "Bash(npx supabase:*)",
       "Bash(npm install:*)",
       "Bash(npm ls:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)"
     ]
   }
 }
