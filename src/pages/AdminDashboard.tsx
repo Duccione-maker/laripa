@@ -133,14 +133,16 @@ export default function AdminDashboard() {
     try {
       setLoading(true);
       const { data, error } = await supabase.functions.invoke('smoobu-booking', {
-        method: 'GET'
+        body: { action: 'sync' },
       });
 
       if (error) throw error;
 
       toast({
-        title: "Success",
-        description: "Synchronized with Smoobu successfully",
+        title: "Sync completato",
+        description: data?.synced != null
+          ? `Importate ${data.synced} nuove prenotazioni da Smoobu`
+          : "Sincronizzazione con Smoobu completata",
       });
 
       // Refresh bookings after sync

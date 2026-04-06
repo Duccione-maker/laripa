@@ -77,6 +77,7 @@ export default function BookingForm() {
           adults: parseInt(adults),
           children: parseInt(children),
           notes,
+          userId: user.id,
         },
       });
 
