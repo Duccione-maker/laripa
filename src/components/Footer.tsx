@@ -55,7 +55,6 @@ export default function Footer() {
                 { name: t.nav.apartments, path: "/apartments" },
                 { name: t.nav.amenities, path: "/amenities" },
                 { name: t.nav.gallery, path: "/gallery" },
-                { name: t.nav.contact, path: "/contact" },
                 { name: t.nav.bookNow, path: "/booking" },
               ].map((link) => (
                 <li key={link.name}>

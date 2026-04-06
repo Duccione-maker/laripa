@@ -47,8 +47,9 @@ const App = () => (
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/my-bookings" element={<MyBookings />} />
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogPost />} />
+                {/* Blog pubblico nascosto temporaneamente */}
+                {/* <Route path="/blog" element={<Blog />} /> */}
+                {/* <Route path="/blog/:slug" element={<BlogPost />} /> */}
                 <Route path="/blog/admin" element={<BlogAdmin />} />
                 <Route path="/blog/admin/new" element={<BlogEditor />} />
                 <Route path="/blog/admin/edit/:id" element={<BlogEditor />} />
