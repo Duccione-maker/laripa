@@ -47,6 +47,7 @@ function CardForm({ clientSecret, amount, onSuccess, bookingPayload }: {
     const card = elements.getElement(CardElement)
     if (!card) return
 
+    console.log('clientSecret usato:', clientSecret?.substring(0,20))
     setProcessing(true)
     try {
       const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
@@ -158,6 +159,7 @@ export default function BookingPage() {
         toast({ title: `Sconto ${data.discountPercent}% applicato!` })
       }
 
+      console.log('clientSecret ricevuto:', data.clientSecret?.substring(0,20))
       setPaymentInfo(data)
       setStep(3)
       window.scrollTo(0, 0)
