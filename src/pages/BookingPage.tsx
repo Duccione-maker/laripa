@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { DateRange } from "react-day-picker";
 import { format, differenceInDays } from "date-fns";
 import { it } from "date-fns/locale";
@@ -151,10 +151,11 @@ function StripePaymentForm({
   const elements = useElements();
   const { toast } = useToast();
   const [processing, setProcessing] = useState(false);
+  const [elementReady, setElementReady] = useState(false);
 
   const handlePay = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!stripe || !elements) return;
+    if (!stripe || !elements || !elementReady) return;
 
     setProcessing(true);
     try {
@@ -206,9 +207,15 @@ function StripePaymentForm({
   return (
     <form onSubmit={handlePay} className="space-y-6">
       <div className="rounded-lg border p-4 bg-background">
-        <PaymentElement />
+        {!elementReady && (
+          <div className="flex items-center justify-center h-20 gap-2 text-muted-foreground text-sm">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Caricamento modulo di pagamento...
+          </div>
+        )}
+        <PaymentElement onReady={() => setElementReady(true)} />
       </div>
-      <Button type="submit" className="w-full" size="lg" disabled={!stripe || processing}>
+      <Button type="submit" className="w-full" size="lg" disabled={!stripe || !elementReady || processing}>
         {processing ? (
           <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Elaborazione...</>
         ) : (
@@ -272,11 +279,6 @@ export default function BookingPage() {
   // ── Step 2 → Step 3: call create-payment-intent ───────────────────────────
   const goToStep3 = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) {
-      toast({ title: "Accesso richiesto", description: "Devi essere loggato per prenotare.", variant: "destructive" });
-      navigate('/auth');
-      return;
-    }
     if (!guest.guestName || !guest.guestEmail) {
       toast({ title: "Dati mancanti", description: "Inserisci nome e email.", variant: "destructive" });
       return;
@@ -325,8 +327,9 @@ export default function BookingPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Build payload for smoobu-booking (used in StripePaymentForm)
-  const bookingPayload = {
+  // Memoize to avoid recreating object references on every render —
+  // stable props prevent Elements / PaymentElement from remounting.
+  const bookingPayload = useMemo(() => ({
     apartmentId,
     guestName: guest.guestName,
     guestEmail: guest.guestEmail,
@@ -337,7 +340,14 @@ export default function BookingPage() {
     children: parseInt(children),
     notes: guest.notes,
     userId: user?.id ?? '',
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [step]); // freeze once we reach step 3; values are already validated
+
+  const elementsOptions = useMemo(() => paymentData ? ({
+    clientSecret: paymentData.clientSecret,
+    appearance: { theme: 'stripe' as const },
+    locale: 'it' as const,
+  }) : undefined, [paymentData?.clientSecret]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -541,7 +551,7 @@ export default function BookingPage() {
           )}
 
           {/* ── STEP 3: Stripe payment ────────────────────────────────────── */}
-          {step === 3 && paymentData && (
+          {step === 3 && paymentData && elementsOptions && (
             <div className="space-y-6 animate-fade-in">
               <PriceSummary
                 apartmentName={selectedApartment.name}
@@ -562,14 +572,7 @@ export default function BookingPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Elements
-                    stripe={stripePromise}
-                    options={{
-                      clientSecret: paymentData.clientSecret,
-                      appearance: { theme: 'stripe' },
-                      locale: 'it',
-                    }}
-                  >
+                  <Elements stripe={stripePromise} options={elementsOptions}>
                     <StripePaymentForm
                       paymentData={paymentData}
                       bookingPayload={bookingPayload}
