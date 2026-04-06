@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import Stripe from 'https://esm.sh/stripe@14?target=deno&no-check'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -20,9 +19,34 @@ const FALLBACK_PRICES: Record<string, number> = {
   '4': 109,
 }
 
-// Discount codes: code → percent off
 const DISCOUNT_CODES: Record<string, number> = {
   'MIMANDADUCCIO': 10,
+}
+
+// Call Stripe REST API directly — no SDK, no Deno compatibility issues
+async function createPaymentIntent(
+  secretKey: string,
+  params: Record<string, string>
+): Promise<Record<string, unknown>> {
+  const body = new URLSearchParams(params).toString()
+
+  const res = await fetch('https://api.stripe.com/v1/payment_intents', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Stripe-Version': '2023-10-16',
+    },
+    body,
+  })
+
+  const data = await res.json()
+
+  if (!res.ok) {
+    throw new Error(data?.error?.message ?? `Stripe error ${res.status}`)
+  }
+
+  return data
 }
 
 serve(async (req) => {
@@ -31,8 +55,11 @@ serve(async (req) => {
   }
 
   try {
-    const { apartmentId, checkIn, checkOut, adults, children, discountCode, guestName, guestEmail } =
-      await req.json()
+    const {
+      apartmentId, checkIn, checkOut,
+      adults, children, discountCode,
+      guestName, guestEmail,
+    } = await req.json()
 
     if (!apartmentId || !checkIn || !checkOut || !guestName || !guestEmail) {
       return new Response(
@@ -60,36 +87,26 @@ serve(async (req) => {
       )
     }
 
-    // Fetch per-night prices from Smoobu rates API
+    // Fetch per-night prices from Smoobu
     const smoobuApiKey = Deno.env.get('SMOOBU_API_KEY')
-    let pricePerNight = FALLBACK_PRICES[apartmentId] ?? 200
+    let pricePerNight = FALLBACK_PRICES[String(apartmentId)] ?? 200
     let priceSource: 'smoobu' | 'fallback' = 'fallback'
 
     if (smoobuApiKey) {
       try {
         const ratesRes = await fetch(
           `https://login.smoobu.com/api/rates?apartments[]=${smoobuApartmentId}&start_date=${checkIn}&end_date=${checkOut}`,
-          {
-            headers: { 'Api-Key': smoobuApiKey, 'Content-Type': 'application/json' },
-          }
+          { headers: { 'Api-Key': smoobuApiKey, 'Content-Type': 'application/json' } }
         )
         if (ratesRes.ok) {
           const ratesData = await ratesRes.json()
-          // Smoobu structure: { data: { [smoobuApartmentId]: { [date]: { price, available } } } }
           const apartmentRates = ratesData.data?.[smoobuApartmentId] as Record<string, { price: number }> | undefined
           if (apartmentRates) {
-            let total = 0
-            let count = 0
+            let total = 0, count = 0
             for (const [date, info] of Object.entries(apartmentRates)) {
-              if (date >= checkIn && date < checkOut) {
-                total += info.price ?? 0
-                count++
-              }
+              if (date >= checkIn && date < checkOut) { total += info.price ?? 0; count++ }
             }
-            if (count > 0) {
-              pricePerNight = Math.round(total / count)
-              priceSource = 'smoobu'
-            }
+            if (count > 0) { pricePerNight = Math.round(total / count); priceSource = 'smoobu' }
           }
         }
       } catch (e) {
@@ -97,18 +114,16 @@ serve(async (req) => {
       }
     }
 
-    let totalPrice = pricePerNight * nights
-
-    // Apply discount code
+    // Apply discount
     const codeUpper = (discountCode ?? '').trim().toUpperCase()
     const discountPercent = DISCOUNT_CODES[codeUpper] ?? 0
     const discountApplied = discountPercent > 0
+    let totalPrice = pricePerNight * nights
     if (discountApplied) {
       totalPrice = Math.round(totalPrice * (1 - discountPercent / 100))
     }
 
-    // Create Stripe PaymentIntent
-    const stripeKey = Deno.env.get('STRIPE_SECRET_KEY')
+    const stripeKey = Deno.env.get('STRIPE_SECRET_KEY')?.trim()
     if (!stripeKey) {
       return new Response(
         JSON.stringify({ error: 'STRIPE_SECRET_KEY non configurata' }),
@@ -116,38 +131,34 @@ serve(async (req) => {
       )
     }
 
-    // Deno has native fetch — httpClient option is not needed and causes issues
-    // with the ESM import. Use a stable apiVersion for stripe@14.
-    const stripe = new Stripe(stripeKey, {
-      apiVersion: '2023-10-16',
-    })
+    // Build flat URLSearchParams for Stripe REST API
+    const stripeParams: Record<string, string> = {
+      'amount':                              String(Math.round(totalPrice * 100)),
+      'currency':                            'eur',
+      'automatic_payment_methods[enabled]':  'true',
+      'receipt_email':                       guestEmail,
+      'metadata[apartmentId]':               String(apartmentId),
+      'metadata[checkIn]':                   checkIn,
+      'metadata[checkOut]':                  checkOut,
+      'metadata[adults]':                    String(adults ?? 1),
+      'metadata[children]':                  String(children ?? 0),
+      'metadata[guestName]':                 guestName,
+      'metadata[guestEmail]':                guestEmail,
+      'metadata[nights]':                    String(nights),
+      'metadata[pricePerNight]':             String(pricePerNight),
+      'metadata[discountCode]':              codeUpper,
+      'metadata[discountPercent]':           String(discountPercent),
+      'metadata[priceSource]':               priceSource,
+    }
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(totalPrice * 100), // in centesimi
-      currency: 'eur',
-      receipt_email: guestEmail,
-      metadata: {
-        apartmentId: String(apartmentId),
-        checkIn,
-        checkOut,
-        adults: String(adults ?? 1),
-        children: String(children ?? 0),
-        guestName,
-        guestEmail,
-        nights: String(nights),
-        pricePerNight: String(pricePerNight),
-        discountCode: codeUpper,
-        discountPercent: String(discountPercent),
-        priceSource,
-      },
-    })
+    const paymentIntent = await createPaymentIntent(stripeKey, stripeParams)
 
     return new Response(
       JSON.stringify({
-        clientSecret: paymentIntent.client_secret,
-        paymentIntentId: paymentIntent.id,
-        amount: totalPrice,
-        currency: 'EUR',
+        clientSecret:     paymentIntent.client_secret,
+        paymentIntentId:  paymentIntent.id,
+        amount:           totalPrice,
+        currency:         'EUR',
         nights,
         pricePerNight,
         discountApplied,
@@ -156,6 +167,7 @@ serve(async (req) => {
       }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
+
   } catch (error) {
     console.error('create-payment-intent error:', error)
     return new Response(

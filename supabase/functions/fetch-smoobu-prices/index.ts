@@ -11,8 +11,10 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Parse body once before try — req.json() can only be called once
+  const { apartmentId, checkIn, checkOut } = await req.json().catch(() => ({ apartmentId: '1' }));
+
   try {
-    const { apartmentId, checkIn, checkOut } = await req.json();
     
     const smoobuApiKey = Deno.env.get('SMOOBU_API_KEY');
     if (!smoobuApiKey) {
@@ -209,9 +211,6 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Error fetching Smoobu prices:', error);
-    
-    // Return fallback prices on error
-    const { apartmentId } = await req.json().catch(() => ({ apartmentId: '1' }));
     const fallbackPrices: Record<string, number> = {
       '1': 139,
       '2': 129,

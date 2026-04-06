@@ -4,7 +4,7 @@ import { format, differenceInDays } from "date-fns";
 import { it } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookingCalendar from "@/components/BookingCalendar";
@@ -157,14 +157,15 @@ function StripePaymentForm({
     e.preventDefault();
     if (!stripe || !elements || !elementReady) return;
 
+    const card = elements.getElement(CardElement);
+    if (!card) return;
+
     setProcessing(true);
     try {
-      // Confirm payment with Stripe
-      const { paymentIntent, error: stripeError } = await stripe.confirmPayment({
-        elements,
-        confirmParams: { return_url: window.location.href },
-        redirect: 'if_required',
-      });
+      const { paymentIntent, error: stripeError } = await stripe.confirmCardPayment(
+        paymentData.clientSecret,
+        { payment_method: { card, billing_details: { name: bookingPayload.guestName, email: bookingPayload.guestEmail } } }
+      );
 
       if (stripeError) {
         throw new Error(stripeError.message);
@@ -206,17 +207,33 @@ function StripePaymentForm({
 
   return (
     <form onSubmit={handlePay} className="space-y-6">
-      <div className="rounded-lg border p-4 bg-background">
+      <div className="rounded-lg border p-4 bg-background space-y-4">
         {!elementReady && (
-          <div className="flex items-center justify-center h-20 gap-2 text-muted-foreground text-sm">
+          <div className="flex items-center justify-center h-12 gap-2 text-muted-foreground text-sm">
             <Loader2 className="h-4 w-4 animate-spin" />
             Caricamento modulo di pagamento...
           </div>
         )}
-        <PaymentElement
-          onReady={() => setElementReady(true)}
-          options={{ wallets: { googlePay: 'never', applePay: 'never' } }}
-        />
+        <div className={elementReady ? '' : 'hidden'}>
+          <label className="block text-sm font-medium mb-2">Dati carta</label>
+          <div className="border rounded-md p-3 bg-white dark:bg-zinc-900">
+            <CardElement
+              onReady={() => setElementReady(true)}
+              options={{
+                style: {
+                  base: {
+                    fontSize: '16px',
+                    color: '#1a1a1a',
+                    fontFamily: 'system-ui, sans-serif',
+                    '::placeholder': { color: '#9ca3af' },
+                  },
+                  invalid: { color: '#ef4444' },
+                },
+                hidePostalCode: true,
+              }}
+            />
+          </div>
+        </div>
       </div>
       <Button type="submit" className="w-full" size="lg" disabled={!stripe || !elementReady || processing}>
         {processing ? (
@@ -347,8 +364,6 @@ export default function BookingPage() {
   }), [step]); // freeze once we reach step 3; values are already validated
 
   const elementsOptions = useMemo(() => paymentData ? ({
-    clientSecret: paymentData.clientSecret,
-    appearance: { theme: 'stripe' as const },
     locale: 'it' as const,
   }) : undefined, [paymentData?.clientSecret]);
 
