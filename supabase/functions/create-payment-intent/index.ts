@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -17,12 +18,30 @@ const FALLBACK_PRICE: Record<string, number> = {
   '1': 139, '2': 129, '3': 119, '4': 109,
 }
 
-const DISCOUNT_CODES: Record<string, number> = {
-  'MIMANDADUCCIO': 10,
+// Lookup discount code from Supabase, fallback to hardcoded
+async function resolveDiscount(supabase: ReturnType<typeof createClient>, code: string): Promise<{ type: 'fixed' | 'percent'; value: number } | null> {
+  if (!code) return null
+  try {
+    const { data } = await supabase
+      .from('discount_codes')
+      .select('discount_type, value, active, expires_at')
+      .eq('code', code)
+      .single()
+    if (!data || !data.active) return null
+    if (data.expires_at && new Date(data.expires_at) < new Date()) return null
+    return { type: data.discount_type as 'fixed' | 'percent', value: Number(data.value) }
+  } catch {
+    return null
+  }
 }
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: cors })
+
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL') ?? '',
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+  )
 
   try {
     const {
@@ -70,9 +89,19 @@ serve(async (req) => {
     }
 
     const code = (discountCode ?? '').trim().toUpperCase()
-    const discountPercent = DISCOUNT_CODES[code] ?? 0
+    const discount = await resolveDiscount(supabase, code)
     let total = pricePerNight * nights
-    if (discountPercent > 0) total = Math.round(total * (1 - discountPercent / 100))
+    let discountPercent = 0
+    let discountValue = 0
+    if (discount) {
+      if (discount.type === 'percent') {
+        discountPercent = discount.value
+        total = Math.round(total * (1 - discount.value / 100))
+      } else {
+        discountValue = discount.value
+        total = Math.max(0, total - discount.value)
+      }
+    }
 
     const stripeKey = Deno.env.get('STRIPE_SECRET_KEY')
     if (!stripeKey) return new Response(
@@ -102,6 +131,8 @@ serve(async (req) => {
       'metadata[pricePerNight]': String(pricePerNight),
       'metadata[discountCode]': code,
       'metadata[discountPercent]': String(discountPercent),
+      'metadata[discountValue]': String(discountValue),
+      'metadata[discountType]': discount?.type ?? '',
       'metadata[guestName]': guestName,
       'metadata[guestEmail]': guestEmail,
     })
@@ -133,8 +164,10 @@ serve(async (req) => {
         amount: total,
         nights,
         pricePerNight,
-        discountApplied: discountPercent > 0,
+        discountApplied: discount !== null,
         discountPercent,
+        discountValue,
+        discountType: discount?.type ?? null,
       }),
       { status: 200, headers: { ...cors, 'Content-Type': 'application/json' } }
     )
